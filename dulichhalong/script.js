@@ -408,3 +408,29 @@ function closeSheet() {
     window.openSheetByName = openSheetByName;
 })();
 
+
+
+// pop up menu thực đơn ăn trưa tối
+const menuMap = {
+  'trua-21': '🌤 Trưa · 21/5',
+  'gala-21': '🎉 Gala · Tối 21/5',
+  'trua-22': '🌤 Trưa · 22/5',
+  'toi-22':  '🌙 Tối · 22/5',
+  'trua-23': '🌤 Trưa · 23/5',
+};
+
+function openMenu(id) {
+  const target = document.querySelector(`#menu [data-menu-id="${id}"]`);
+  if (!target) return;
+
+  const content = document.getElementById('menu-modal-content');
+  content.innerHTML = '';
+  content.appendChild(target.cloneNode(true));
+  document.getElementById('menu-modal').classList.add('active');
+}
+
+
+
+function closeMenu() {
+  document.getElementById('menu-modal').classList.remove('active');
+}
