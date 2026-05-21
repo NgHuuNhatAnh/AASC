@@ -411,7 +411,7 @@
 
 @media (max-width: 640px) {
     .table-wrapper {
-        overflow-x: hidden;
+        overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
