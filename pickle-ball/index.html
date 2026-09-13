@@ -1,203 +1,604 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pickleball - Môn thể thao thú vị</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sơ đồ thi đấu Pickleball</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  :root{
+    --navy:#0E2F3C;
+    --navy-deep:#081C24;
+    --teal:#155A50;
+    --teal-soft:#1E7768;
+    --chalk:#F3F6EC;
+    --chalk-dim:rgba(243,246,236,.62);
+    --yellow:#E4FF4D;
+    --coral:#FF6A57;
+    --line:rgba(243,246,236,.16);
+    --line-strong:rgba(243,246,236,.32);
+    --topbar-h:64px;
+    --mono:'Space Mono',ui-monospace,monospace;
+    --sans:'Be Vietnam Pro',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--sans);
+    background:var(--navy-deep);
+    color:var(--chalk);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  input{font-family:inherit;}
+  ::selection{background:var(--yellow);color:var(--navy-deep);}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f4f9f4;
-        }
+  /* ---------- Court-line texture ---------- */
+  .court-bg{
+    background-image:
+      linear-gradient(180deg,var(--teal) 0%,var(--navy) 62%);
+    position:relative;
+  }
+  .court-bg::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:repeating-linear-gradient(90deg, rgba(243,246,236,.05) 0 1px, transparent 1px 64px);
+    pointer-events:none;
+  }
 
-        header {
-            background: linear-gradient(135deg, #1e6f5c, #289672);
-            color: white;
-            text-align: center;
-            padding: 60px 20px;
-        }
+  /* ---------- Topbar ---------- */
+  .topbar{
+    height:var(--topbar-h);
+    display:flex; align-items:center; gap:10px;
+    padding:0 clamp(10px,3vw,24px);
+    background:var(--navy);
+    border-bottom:1px solid var(--line);
+    position:relative; z-index:50;
+  }
+  .brand{
+    display:flex; align-items:center; gap:8px;
+    flex:0 0 auto; white-space:nowrap;
+  }
+  .brand svg{width:30px;height:30px;flex-shrink:0;}
+  .brand-text{font-weight:800; font-size:.95rem; letter-spacing:.01em;}
+  .brand-text small{display:block; font-weight:500; font-size:.66rem; color:var(--chalk-dim); font-family:var(--mono);}
 
-        header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+  .tabs{
+    flex:1 1 auto; display:flex; gap:6px; overflow-x:auto;
+    scrollbar-width:none; -ms-overflow-style:none;
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{
+    appearance:none; border:1px solid var(--line); background:transparent; color:var(--chalk);
+    padding:8px 16px; border-radius:999px; font-weight:600; font-size:.82rem;
+    white-space:nowrap; cursor:pointer; transition:background .25s,color .25s,border-color .25s,transform .15s;
+    font-family:var(--sans);
+  }
+  .tab:hover{border-color:var(--line-strong);}
+  .tab:active{transform:scale(.97);}
+  .tab.active{background:var(--yellow); color:var(--navy-deep); border-color:var(--yellow);}
 
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.95;
-        }
+  .print-btn{
+    flex:0 0 auto; appearance:none; border:none; cursor:pointer;
+    background:var(--coral); color:#241009; font-weight:700; font-size:.82rem;
+    padding:9px 16px; border-radius:999px; font-family:var(--sans);
+    display:flex; align-items:center; gap:6px; transition:filter .2s, transform .15s;
+  }
+  .print-btn:hover{filter:brightness(1.08);}
+  .print-btn:active{transform:scale(.97);}
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+  /* ---------- Slide track ---------- */
+  .viewport{height:calc(100dvh - var(--topbar-h)); overflow:hidden; position:relative;}
+  .track{display:flex; height:100%;}
+  .panel{
+    flex:0 0 100vw; width:100vw; height:100%;
+    overflow-y:auto; -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+  }
 
-        .hero-img {
-            width: 100%;
-            max-height: 450px;
-            object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            margin-bottom: 40px;
-        }
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:clamp(28px,6vw,56px) clamp(18px,6vw,64px) clamp(22px,4vw,32px);
+    border-bottom:4px solid var(--yellow);
+    display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
+  }
+  .hero-title{font-size:clamp(2.1rem,7vw,3.6rem); font-weight:800; margin:0; line-height:1.02;}
+  .hero-sub{margin:10px 0 0; font-family:var(--mono); font-size:.82rem; color:var(--chalk-dim); letter-spacing:.01em;}
+  .hero-icon{width:clamp(64px,10vw,110px); height:clamp(64px,10vw,110px); flex-shrink:0; opacity:.95;}
 
-        section {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
+  /* ---------- Sections ---------- */
+  section.block{padding:clamp(18px,4vw,44px) clamp(18px,6vw,64px);}
+  section.block + section.block{border-top:1px solid var(--line);}
+  .block h2{font-size:1.28rem; font-weight:700; margin:0 0 16px;}
 
-        section h2 {
-            color: #1e6f5c;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            border-left: 5px solid #289672;
-            padding-left: 15px;
-        }
+  .rules-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; max-width:760px;}
+  .rules-list li{display:flex; gap:12px; align-items:flex-start; font-size:.95rem; line-height:1.5;}
+  .rules-list li .dot{width:9px;height:9px;background:var(--yellow); border-radius:2px; margin-top:7px; flex-shrink:0;}
+  .rules-note{margin-top:14px; padding:10px 14px; border-left:3px solid var(--coral); font-size:.86rem; color:var(--chalk-dim); font-style:italic; max-width:760px;}
 
-        section p {
-            margin-bottom: 12px;
-            text-align: justify;
-        }
+  .participants-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:10px;
+  }
+  .p-chip{
+    display:flex; align-items:center; gap:9px;
+    background:rgba(243,246,236,.045); border:1px solid var(--line); border-radius:10px;
+    padding:10px 14px; font-size:.88rem;
+  }
+  .p-chip .ball{width:7px;height:7px;border-radius:50%;background:var(--yellow); flex-shrink:0;}
 
-        .img-row {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
+  .groups-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px;
+  }
+  .group-card{border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(243,246,236,.03);}
+  .group-head{
+    background:var(--teal-soft); padding:10px 14px; font-family:var(--mono); font-weight:700;
+    font-size:.84rem; letter-spacing:.02em;
+  }
+  .group-body{padding:10px; display:flex; flex-direction:column; gap:8px;}
+  .slot-input{
+    width:100%; background:transparent; border:1px dashed var(--line-strong); border-radius:8px;
+    padding:8px 10px; color:var(--chalk); font-size:.88rem; outline:none; transition:border-color .2s, background .2s;
+  }
+  .slot-input::placeholder{color:var(--chalk-dim);}
+  .slot-input:focus{border-color:var(--yellow); background:rgba(228,255,77,.06);}
+  .hint{font-size:.78rem; color:var(--chalk-dim); margin:10px 0 18px;}
 
-        .img-row img {
-            flex: 1;
-            min-width: 250px;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-            transition: transform 0.3s;
-        }
+  /* ---------- Bracket ---------- */
+  .bracket-scroll{overflow-x:auto; padding-bottom:10px;}
+  .bracket-rounds{display:flex; align-items:stretch; gap:clamp(10px,2vw,22px); min-width:max-content; padding:6px 2px 20px;}
+  .round-col{display:flex; flex-direction:column; justify-content:space-around; gap:18px; min-width:198px;}
+  .round-title{text-align:center; font-family:var(--mono); font-size:.76rem; color:var(--yellow); margin-bottom:8px; letter-spacing:.02em;}
+  .round-arrow{display:flex; align-items:center; justify-content:center; color:var(--line-strong); font-size:1.6rem; align-self:center; padding-top:22px;}
+  .match{
+    background:rgba(243,246,236,.045); border:1px solid var(--line); border-radius:12px;
+    padding:10px 12px; display:flex; flex-direction:column; gap:6px;
+  }
+  .team-row{display:flex; align-items:center; gap:8px; font-size:.88rem;}
+  .team-label{padding:5px 2px; flex:1;}
+  .team-input{
+    flex:1; background:transparent; border:1px dashed var(--line-strong); border-radius:6px;
+    padding:6px 8px; color:var(--chalk); font-size:.85rem; outline:none; min-width:0;
+  }
+  .team-input:focus{border-color:var(--yellow); background:rgba(228,255,77,.06);}
+  .score-row{display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:.76rem; color:var(--chalk-dim); margin-top:2px;}
+  .score-input{
+    width:64px; background:transparent; border:1px dashed var(--line-strong); border-radius:6px;
+    padding:5px 6px; color:var(--yellow); text-align:center; font-family:var(--mono); font-size:.82rem; outline:none;
+  }
+  .score-input:focus{border-color:var(--yellow);}
+  .champ-col{display:flex; align-items:center;}
+  .champ-card{
+    background:linear-gradient(135deg,var(--yellow),#FFF7B0); color:var(--navy-deep);
+    border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:10px;
+    font-weight:800; font-size:.92rem; min-width:220px;
+  }
+  .champ-card input{
+    flex:1; background:rgba(8,28,36,.08); border:1px dashed rgba(8,28,36,.35); border-radius:8px;
+    padding:7px 9px; color:var(--navy-deep); font-weight:700; font-size:.88rem; outline:none; min-width:0;
+  }
+  .champ-card input:focus{border-color:var(--navy-deep);}
 
-        .img-row img:hover {
-            transform: scale(1.03);
-        }
+  footer.pad{height:24px;}
 
-        ul {
-            list-style: none;
-            padding-left: 0;
-        }
+  /* ---------- Print sheets (hidden on screen) ---------- */
+  .print-area{display:none;}
 
-        ul li {
-            padding: 10px 0 10px 35px;
-            position: relative;
-            border-bottom: 1px dashed #e0e0e0;
-        }
+  @media (max-width:520px){
+    .brand-text small{display:none;}
+    .tab{padding:7px 12px; font-size:.76rem;}
+    .print-btn span.lbl{display:none;}
+  }
 
-        ul li::before {
-            content: "🏓";
-            position: absolute;
-            left: 0;
-            font-size: 1.1rem;
-        }
+  /* ---------- Print styles ---------- */
+  @page{ size:A4; margin:12mm; }
+  @media print{
+    .app-shell{display:none !important;}
+    .print-area{display:block !important;}
+  }
+  body.is-printing .app-shell{display:none !important;}
+  body.is-printing .print-area{display:block !important;}
 
-        footer {
-            background-color: #1e6f5c;
-            color: white;
-            text-align: center;
-            padding: 25px;
-            margin-top: 40px;
-            font-size: 0.95rem;
-        }
-
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 2rem;
-            }
-
-            section h2 {
-                font-size: 1.4rem;
-            }
-        }
-    </style>
+  .a4-page{
+    width:186mm; min-height:273mm; margin:0 auto; background:#fff; color:#111;
+    font-family:var(--sans); padding:0; page-break-after:always;
+  }
+  .a4-page:last-child{page-break-after:auto;}
+  .a4-head{display:flex; align-items:center; gap:10px; border-bottom:2px solid #111; padding-bottom:8px; margin-bottom:12px;}
+  .a4-head svg{width:26px;height:26px;}
+  .a4-head h1{font-size:1.2rem; margin:0;}
+  .a4-head p{margin:2px 0 0; font-family:var(--mono); font-size:.7rem; color:#555;}
+  .a4-cols{display:flex; gap:16px; margin-bottom:14px;}
+  .a4-cols > div{flex:1;}
+  .a4-sec-title{font-size:.82rem; font-weight:700; text-transform:none; margin:0 0 6px; border-bottom:1px solid #ccc; padding-bottom:3px;}
+  .a4-rules{margin:0; padding:0; list-style:none; font-size:.72rem; line-height:1.5;}
+  .a4-rules li{padding-left:12px; position:relative; margin-bottom:3px;}
+  .a4-rules li::before{content:"–"; position:absolute; left:0;}
+  .a4-note{font-size:.68rem; font-style:italic; color:#555; margin-top:6px;}
+  .a4-participants{columns:2; column-gap:14px; font-size:.68rem; line-height:1.55;}
+  .a4-groups{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;}
+  .a4-group{border:1px solid #999; border-radius:6px; min-width:23%; flex:1;}
+  .a4-group h3{font-family:var(--mono); font-size:.7rem; margin:0; background:#eee; padding:4px 8px; border-bottom:1px solid #999;}
+  .a4-group ul{list-style:none; margin:0; padding:6px 8px; font-size:.72rem; line-height:1.7;}
+  .a4-bracket{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+  .a4-round{display:flex; flex-direction:column; gap:8px;}
+  .a4-round-title{font-family:var(--mono); font-size:.66rem; text-align:center; margin-bottom:2px; color:#444;}
+  .a4-match{border:1px solid #999; border-radius:6px; padding:6px 8px; font-size:.7rem; min-width:150px;}
+  .a4-match .t{display:flex; justify-content:space-between; padding:1px 0;}
+  .a4-match .sc{font-family:var(--mono); font-size:.66rem; color:#555; margin-top:3px; border-top:1px dashed #ccc; padding-top:3px;}
+  .a4-arrow{font-size:1.1rem; color:#bbb;}
+  .a4-champ{margin-top:6px; border:2px solid #111; border-radius:8px; padding:8px 12px; font-weight:700; font-size:.78rem; display:inline-block;}
+  .a4-foot{margin-top:16px; display:flex; justify-content:space-between; font-size:.7rem; color:#555; border-top:1px solid #ccc; padding-top:8px;}
+</style>
 </head>
 <body>
 
-    <header>
-        <h1>Pickleball</h1>
-        <p>Môn thể thao kết hợp thú vị giữa tennis, cầu lông và bóng bàn</p>
-    </header>
+<div class="app-shell">
+  <div class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="26" height="34" rx="13" fill="#145C52" stroke="#F3F6EC" stroke-width="2"/>
+        <circle cx="17" cy="16" r="2" fill="#F3F6EC"/><circle cx="23" cy="16" r="2" fill="#F3F6EC"/>
+        <circle cx="17" cy="24" r="2" fill="#F3F6EC"/><circle cx="23" cy="24" r="2" fill="#F3F6EC"/>
+        <rect x="14" y="36" width="6" height="9" rx="2" fill="#F3F6EC"/>
+        <circle cx="38" cy="34" r="8" fill="#E4FF4D" stroke="#081C24" stroke-width="1.5"/>
+        <circle cx="35" cy="31" r="1.1" fill="#081C24"/><circle cx="41" cy="31" r="1.1" fill="#081C24"/>
+        <circle cx="35" cy="37" r="1.1" fill="#081C24"/><circle cx="41" cy="37" r="1.1" fill="#081C24"/>
+        <circle cx="38" cy="34" r="1.1" fill="#081C24"/>
+      </svg>
+      <div class="brand-text">Giải Pickleball<small>Sơ đồ thi đấu</small></div>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <button class="print-btn" id="printBtn">🖨️ <span class="lbl">In A4</span></button>
+  </div>
 
-    <div class="container">
+  <div class="viewport">
+    <div class="track" id="track"></div>
+  </div>
+</div>
 
-        <!-- Ảnh lớn đầu trang -->
-        <img class="hero-img"
-             src="https://images.unsplash.com/photo-1622163642998-1ea32b0bbc67?auto=format&fit=crop&w=1200&q=80"
-             alt="Sân pickleball">
+<div class="print-area" id="printArea"></div>
 
-        <section>
-            <h2>Pickleball là gì?</h2>
-            <p>
-                Pickleball là một môn thể thao vợt được phát triển vào năm 1965 tại Hoa Kỳ,
-                kết hợp các yếu tố của tennis, cầu lông và bóng bàn. Người chơi sử dụng
-                vợt có mặt phẳng (paddle) và bóng nhựa đục lỗ để đánh qua lưới trên một
-                sân nhỏ hơn sân tennis.
-            </p>
-            <p>
-                Môn này nhanh chóng trở nên phổ biến trên toàn thế giới nhờ luật chơi đơn giản,
-                dễ học nhưng vẫn đầy thử thách, phù hợp với mọi lứa tuổi từ trẻ em đến người cao tuổi.
-            </p>
-        </section>
+<script>
+/* ============ DATA ============ */
+const TOURNAMENTS = [
+  {
+    id:'danam',
+    tab:'Đơn Nam',
+    title:'Đơn nam',
+    subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
+    rules:[
+      'Đánh đến hết chung kết, trao giải cuối buổi',
+      'Vòng bảng: vòng tròn tính điểm, game chạm 9, không cách điểm',
+      'Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 9 không cách điểm',
+      'Bán kết: game chạm 9 không cách điểm',
+      'Chung kết: game chạm 9, tối đa chạm 11'
+    ],
+    note:null,
+    groups:[{name:'A',size:4},{name:'B',size:4},{name:'C',size:4},{name:'D',size:4}],
+    participants:[
+      'Vũ Xuân Trường (FSG)','Nguyễn Duy Khánh (KT7)','Vũ Xuân Tùng (KT8)','Lê Đức Anh (KT5)',
+      'Hà Quang Hưng (KT3)','Nguyễn Tuấn Anh (KT2)','Nguyễn Duy Khánh (KT2)','Lê Long Hải (KT5)',
+      'Triệu Khánh Tùng (Dự án)','Chu Nam Anh (KT5)','Đào Huy Hùng (FSG)','Nguyễn Mạnh Tiến (KT5)',
+      'Văn Tâm (VT)','Phạm Ngọc Sơn (KT7)','Nguyễn Trí Thành (KT2)','Phạm Hồng Quang (FSG)'
+    ],
+    rounds:[
+      {name:'Vòng loại trực tiếp', matches:[{a:'Nhất A',b:'Nhì B'},{a:'Nhất C',b:'Nhì D'},{a:'Nhất B',b:'Nhì A'},{a:'Nhất D',b:'Nhì C'}]},
+      {name:'Bán kết', matches:[{},{}]},
+      {name:'Chung kết', matches:[{}]}
+    ]
+  },
+  {
+    id:'doinu',
+    tab:'Đôi Nữ',
+    title:'Đôi nữ',
+    subtitle:'Vòng bảng · Bán kết (Top 4) · Chung kết',
+    rules:[
+      'Đánh đến hết chung kết, trao giải cuối buổi',
+      'Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      'Bán kết: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
+      'Chung kết: game chạm 11, tối đa chạm 13'
+    ],
+    note:null,
+    groups:[{name:'A',size:3},{name:'B',size:4}],
+    participants:[
+      'Hồ Thị Duyên - Nguyễn Thị Y Bình (KT1)','Nguyễn Thị Dung - Nguyễn Hải Yến (KT5)',
+      'Nguyễn Lan Anh - Đồng Trang (BTK)','Thanh Huyền - Lê Tài (BTK)',
+      'Vũ Huyền Trang - Nguyễn Anh Thư (FSG)','Phan Anh Thi - Đỗ Thị Nhung (KT5)',
+      'Hoàng Thúy Nga - Nguyễn Vũ Quỳnh Chi (KT5)'
+    ],
+    rounds:[
+      {name:'Bán kết', matches:[{a:'Nhất A',b:'Nhì B'},{a:'Nhất B',b:'Nhì A'}]},
+      {name:'Chung kết', matches:[{}]}
+    ]
+  },
+  {
+    id:'doinam',
+    tab:'Đôi Nam',
+    title:'Đôi nam',
+    subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
+    rules:[
+      'Đánh đến hết chung kết, trao giải cuối buổi',
+      'Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      'Vòng loại: lấy 2 đội nhất nhì mỗi bảng + nhì xuất sắc 1 và 2, game chạm 11 không cách điểm',
+      'Bán kết: game chạm 11 không cách điểm',
+      'Chung kết: game chạm 13, tối đa chạm 15'
+    ],
+    note:'Chú ý: tiêu chí xét hiệu số để lấy Nhì xuất sắc (Nhì XS)',
+    groups:[{name:'A',size:3},{name:'B',size:3},{name:'C',size:3},{name:'D',size:3},{name:'E',size:3},{name:'F',size:3}],
+    participants:[
+      'Nguyễn Khánh Duy - Nguyễn Đình Đức (Dự án)','Quang Huy (BTK) - Nguyễn Toàn (TĐG)',
+      'Hoàng Đức Ân - Trần Minh Tiến (KT5)','Tạ Minh Châu - Nguyễn Mạnh Tiến (KT5)',
+      'Lê Văn Hưng - Hà Quang Hưng (KT3)','Nguyễn Tiến Trung - Nguyễn Quốc Dũng (KT1)',
+      'Triệu Khánh Tùng - Lưu Việt Hoàng (Dự án)','Quang Duy (BTK) - Hoàng Đức (TĐG)',
+      'Phạm Xuân Thái - Vũ Xuân Tùng (KT8)','Vũ Xuân Trường - Nguyễn Hữu Hoàng (FSG)',
+      'Nguyễn Đức Hoàng Hà - Trần Lưu Quang (Dự án)','Lê Long Hải - Lô Xuân Cường (KT5)',
+      'Phạm Hùng - Nguyễn Hùng (KT7)','Nguyễn Tuấn Anh - Nguyễn Duy Khánh (KT2)',
+      'Phạm Ngọc Sơn - Nguyễn Duy Khánh (KT7)','Nguyễn Anh Ngọc - Phạm Hồng Quang (FSG)',
+      'Phạm Thiên Phúc - Nguyễn Trí Thành (KT2)','Văn Tâm - Hứa Trường Giang'
+    ],
+    rounds:[
+      {name:'Vòng loại trực tiếp', matches:[{a:'Nhất A',b:'Nhất B'},{a:'Nhất C',b:'Nhất D'},{a:'Nhất E',b:'Nhất F'},{a:'Nhì XS 1',b:'Nhì XS 2'}]},
+      {name:'Bán kết', matches:[{},{}]},
+      {name:'Chung kết', matches:[{}]}
+    ]
+  },
+  {
+    id:'doinamnu',
+    tab:'Đôi Nam Nữ',
+    title:'Đôi nam nữ',
+    subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
+    rules:[
+      'Đánh đến hết chung kết, trao giải cuối buổi',
+      'Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      'Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
+      'Bán kết: game chạm 11 không cách điểm',
+      'Chung kết: game chạm 13, tối đa chạm 15'
+    ],
+    note:'Chú ý: tiêu chí xét hiệu số để lấy Ba xuất sắc (Ba XS)',
+    groups:[{name:'A',size:4},{name:'B',size:4},{name:'C',size:4}],
+    participants:[
+      'Phạm Xuân Thái - Lan Anh (BTK)','Hồ Thị Duyên - Nguyễn Tiến Trung (KT1)',
+      'Hoàng Đức - Đồng Trang (BTK)','Nguyễn Vũ Quỳnh Chi - Lê Đức Anh (KT5)',
+      'Quang Huy - Thanh Huyền (BTK)','Vũ Huyền Trang - Đỗ Mạnh Cường (FSG)',
+      'Lê Văn Hưng - Nguyễn Thị Nhàn (KT3)','Lô Xuân Cường - Nguyễn Thị Dung (KT5)',
+      'Nguyễn Toàn - Lê Tài (BTK)','Nguyễn Thị Huyền Trang - Nguyễn Khánh Duy (Dự án)',
+      'Hoàng Thúy Nga - Chu Nam Anh (KT5)','Nguyễn Thu - Nguyễn Hùng (KT7)'
+    ],
+    rounds:[
+      {name:'Vòng loại trực tiếp', matches:[{a:'Nhất A',b:'Nhì C'},{a:'Nhất B',b:'Ba XS 1'}]},
+      {name:'Bán kết', matches:[{},{}]},
+      {name:'Chung kết', matches:[{}]}
+    ]
+  }
+];
 
-        <section>
-            <h2>Luật chơi cơ bản</h2>
-            <ul>
-                <li>Sân có kích thước tương tự sân cầu lông (khoảng 13,4m x 6,1m).</li>
-                <li>Bóng phải được đánh theo kiểu "underhand" (dưới tay).</li>
-                <li>Có vùng "kitchen" (vùng cấm) gần lưới — không được volley bóng trong vùng này.</li>
-                <li>Đội đạt 11 điểm trước (và cách biệt 2 điểm) sẽ thắng hiệp.</li>
-                <li>Có thể chơi đơn (1v1) hoặc đôi (2v2).</li>
-            </ul>
-        </section>
+const PADDLE_ICON = `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="4" width="26" height="34" rx="13" fill="#145C52" stroke="#F3F6EC" stroke-width="2"/>
+  <circle cx="17" cy="16" r="2" fill="#F3F6EC"/><circle cx="23" cy="16" r="2" fill="#F3F6EC"/>
+  <circle cx="17" cy="24" r="2" fill="#F3F6EC"/><circle cx="23" cy="24" r="2" fill="#F3F6EC"/>
+  <rect x="14" y="36" width="6" height="9" rx="2" fill="#F3F6EC"/>
+  <circle cx="38" cy="34" r="8" fill="#E4FF4D" stroke="#081C24" stroke-width="1.5"/>
+  <circle cx="35" cy="31" r="1.1" fill="#081C24"/><circle cx="41" cy="31" r="1.1" fill="#081C24"/>
+  <circle cx="35" cy="37" r="1.1" fill="#081C24"/><circle cx="41" cy="37" r="1.1" fill="#081C24"/>
+  <circle cx="38" cy="34" r="1.1" fill="#081C24"/>
+</svg>`;
 
-        <section>
-            <h2>Hình ảnh về Pickleball</h2>
-            <div class="img-row">
-                <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80"
-                     alt="Vợt và bóng pickleball">
-                <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?auto=format&fit=crop&w=600&q=80"
-                     alt="Người chơi pickleball">
-                <img src="https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?auto=format&fit=crop&w=600&q=80"
-                     alt="Sân pickleball ngoài trời">
-            </div>
-        </section>
+const HERO_ICON = `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="8" width="58" height="78" rx="29" fill="#1E7768" stroke="#F3F6EC" stroke-width="3"/>
+  <circle cx="30" cy="34" r="4" fill="#F3F6EC"/><circle cx="48" cy="34" r="4" fill="#F3F6EC"/>
+  <circle cx="30" cy="52" r="4" fill="#F3F6EC"/><circle cx="48" cy="52" r="4" fill="#F3F6EC"/>
+  <circle cx="39" cy="43" r="4" fill="#F3F6EC"/>
+  <rect x="31" y="86" width="16" height="22" rx="5" fill="#F3F6EC"/>
+  <circle cx="92" cy="78" r="20" fill="#E4FF4D" stroke="#081C24" stroke-width="2.5"/>
+  <circle cx="85" cy="70" r="2.4" fill="#081C24"/><circle cx="99" cy="70" r="2.4" fill="#081C24"/>
+  <circle cx="85" cy="86" r="2.4" fill="#081C24"/><circle cx="99" cy="86" r="2.4" fill="#081C24"/>
+  <circle cx="92" cy="78" r="2.4" fill="#081C24"/><circle cx="78" cy="78" r="2.4" fill="#081C24"/><circle cx="106" cy="78" r="2.4" fill="#081C24"/>
+</svg>`;
 
-        <section>
-            <h2>Lợi ích khi chơi Pickleball</h2>
-            <ul>
-                <li>Rèn luyện sức khỏe tim mạch và sự dẻo dai.</li>
-                <li>Dễ làm quen, ít chấn thương hơn tennis.</li>
-                <li>Tăng cường giao lưu, kết nối cộng đồng.</li>
-                <li>Phù hợp cho cả gia đình và người lớn tuổi.</li>
-                <li>Chi phí dụng cụ và sân bãi khá hợp lý.</li>
-            </ul>
-        </section>
+/* ============ helpers ============ */
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
+/* ============ build interactive panels ============ */
+const tabsEl = document.getElementById('tabs');
+const trackEl = document.getElementById('track');
+
+TOURNAMENTS.forEach((cat, idx)=>{
+  // tab
+  const tab = document.createElement('button');
+  tab.className = 'tab'+(idx===0?' active':'');
+  tab.textContent = cat.tab;
+  tab.setAttribute('data-index', idx);
+  tab.addEventListener('click', ()=>goTo(idx));
+  tabsEl.appendChild(tab);
+
+  // panel
+  const panel = document.createElement('div');
+  panel.className = 'panel';
+  panel.innerHTML = buildPanelHTML(cat);
+  trackEl.appendChild(panel);
+});
+
+function buildPanelHTML(cat){
+  const rulesHTML = cat.rules.map(r=>`<li><span class="dot"></span><span>${esc(r)}</span></li>`).join('');
+  const noteHTML = cat.note ? `<div class="rules-note">${esc(cat.note)}</div>` : '';
+  const participantsHTML = cat.participants.map(p=>`<div class="p-chip"><span class="ball"></span>${esc(p)}</div>`).join('');
+  const groupsHTML = cat.groups.map(g=>{
+    const slots = Array.from({length:g.size}).map((_,i)=>{
+      const id = `slot__${cat.id}__${g.name}__${i}`;
+      return `<input class="slot-input" id="${id}" type="text" placeholder="${g.name}${i+1}">`;
+    }).join('');
+    return `<div class="group-card"><div class="group-head">Bảng ${esc(g.name)}</div><div class="group-body">${slots}</div></div>`;
+  }).join('');
+
+  const roundsHTML = cat.rounds.map((round, rIdx)=>{
+    const matches = round.matches.map((m, mIdx)=>{
+      const scId = `score__${cat.id}__${rIdx}__${mIdx}`;
+      let teamsHTML;
+      if(m.a){
+        teamsHTML = `<div class="team-row"><span class="team-label">${esc(m.a)}</span></div>
+                     <div class="team-row"><span class="team-label">${esc(m.b)}</span></div>`;
+      } else {
+        const idA = `team__${cat.id}__${rIdx}__${mIdx}__a`;
+        const idB = `team__${cat.id}__${rIdx}__${mIdx}__b`;
+        teamsHTML = `<div class="team-row"><input class="team-input" id="${idA}" type="text" placeholder="Đội thắng trận trước"></div>
+                     <div class="team-row"><input class="team-input" id="${idB}" type="text" placeholder="Đội thắng trận trước"></div>`;
+      }
+      return `<div class="match">${teamsHTML}<div class="score-row"><span>Tỷ số</span><input class="score-input" id="${scId}" type="text" placeholder="—"></div></div>`;
+    }).join('');
+    return `<div class="round-col"><div class="round-title">${esc(round.name)}</div>${matches}</div>
+            <div class="round-arrow">›</div>`;
+  }).join('');
+
+  const champId = `champ__${cat.id}`;
+  const champHTML = `<div class="champ-col"><div class="champ-card">🏆 <span>Vô địch</span><input id="${champId}" type="text" placeholder="Tên đội / VĐV"></div></div>`;
+
+  return `
+    <div class="court-bg hero">
+      <div>
+        <h1 class="hero-title">${esc(cat.title)}</h1>
+        <p class="hero-sub">${esc(cat.subtitle)}</p>
+      </div>
+      <div class="hero-icon">${HERO_ICON}</div>
     </div>
 
-    <footer>
-        <p>© 2025 Trang giới thiệu Pickleball | Hình ảnh từ Unsplash</p>
-    </footer>
+    <section class="block">
+      <h2>Thể thức thi đấu</h2>
+      <ul class="rules-list">${rulesHTML}</ul>
+      ${noteHTML}
+    </section>
 
+    <section class="block">
+      <h2>Danh sách vận động viên</h2>
+      <div class="participants-grid">${participantsHTML}</div>
+    </section>
+
+    <section class="block">
+      <h2>Bảng đấu vòng tròn</h2>
+      <p class="hint">Nhấn vào từng ô để nhập tên VĐV / đội — để trống nếu chưa chốt.</p>
+      <div class="groups-grid">${groupsHTML}</div>
+    </section>
+
+    <section class="block">
+      <h2>Sơ đồ vòng loại trực tiếp</h2>
+      <p class="hint">Nhập tỷ số và đội thắng qua từng vòng. Bấm "In A4" ở trên để in sơ đồ này.</p>
+      <div class="bracket-scroll"><div class="bracket-rounds">${roundsHTML}${champHTML}</div></div>
+    </section>
+    <footer class="pad"></footer>
+  `;
+}
+
+/* ============ GSAP slide navigation ============ */
+let current = 0;
+function goTo(index){
+  if(index===current) return;
+  current = index;
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', i===index));
+  gsap.to(trackEl, {x:`-${index*100}vw`, duration:.65, ease:'power3.inOut'});
+}
+window.addEventListener('resize', ()=>{ gsap.set(trackEl, {x:`-${current*100}vw`}); });
+
+// swipe support
+let touchStartX = null;
+const viewportEl = document.querySelector('.viewport');
+viewportEl.addEventListener('touchstart', e=>{ touchStartX = e.touches[0].clientX; }, {passive:true});
+viewportEl.addEventListener('touchend', e=>{
+  if(touchStartX===null) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if(Math.abs(dx) > 50){
+    if(dx < 0 && current < TOURNAMENTS.length-1) goTo(current+1);
+    else if(dx > 0 && current > 0) goTo(current-1);
+  }
+  touchStartX = null;
+});
+window.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight' && current < TOURNAMENTS.length-1) goTo(current+1);
+  if(e.key==='ArrowLeft' && current > 0) goTo(current-1);
+});
+
+// one orchestrated entrance animation for the first panel
+window.addEventListener('DOMContentLoaded', ()=>{
+  const firstHero = document.querySelector('.panel .hero');
+  if(!firstHero) return;
+  gsap.from(firstHero.querySelector('.hero-title'), {opacity:0, y:24, duration:.7, ease:'power2.out'});
+  gsap.from(firstHero.querySelector('.hero-sub'), {opacity:0, y:16, duration:.7, delay:.1, ease:'power2.out'});
+  gsap.from(firstHero.querySelector('.hero-icon'), {opacity:0, scale:.7, duration:.8, delay:.15, ease:'back.out(1.6)'});
+});
+
+/* ============ Print rendering ============ */
+function val(id){
+  const el = document.getElementById(id);
+  return el && el.value.trim() ? el.value.trim() : '';
+}
+
+function buildPrintPage(cat){
+  const rulesHTML = cat.rules.map(r=>`<li>${esc(r)}</li>`).join('');
+  const noteHTML = cat.note ? `<div class="a4-note">${esc(cat.note)}</div>` : '';
+  const participantsHTML = cat.participants.map(p=>`<div>${esc(p)}</div>`).join('');
+
+  const groupsHTML = cat.groups.map(g=>{
+    const items = Array.from({length:g.size}).map((_,i)=>{
+      const v = val(`slot__${cat.id}__${g.name}__${i}`);
+      return `<li>${g.name}${i+1}. ${v ? esc(v) : '<span style="color:#999">________________</span>'}</li>`;
+    }).join('');
+    return `<div class="a4-group"><h3>Bảng ${esc(g.name)}</h3><ul>${items}</ul></div>`;
+  }).join('');
+
+  const roundsHTML = cat.rounds.map((round, rIdx)=>{
+    const matches = round.matches.map((m, mIdx)=>{
+      const sc = val(`score__${cat.id}__${rIdx}__${mIdx}`);
+      let aText, bText;
+      if(m.a){ aText = esc(m.a); bText = esc(m.b); }
+      else {
+        aText = val(`team__${cat.id}__${rIdx}__${mIdx}__a`) || '________________';
+        bText = val(`team__${cat.id}__${rIdx}__${mIdx}__b`) || '________________';
+        aText = esc(aText); bText = esc(bText);
+      }
+      return `<div class="a4-match"><div class="t"><span>${aText}</span></div><div class="t"><span>${bText}</span></div><div class="sc">Tỷ số: ${sc ? esc(sc) : '____'}</div></div>`;
+    }).join('');
+    return `<div class="a4-round"><div class="a4-round-title">${esc(round.name)}</div>${matches}</div><div class="a4-arrow">›</div>`;
+  }).join('');
+
+  const champ = val(`champ__${cat.id}`);
+  const champHTML = `<div class="a4-champ">🏆 Vô địch: ${champ ? esc(champ) : '____________________'}</div>`;
+
+  return `
+    <div class="a4-page">
+      <div class="a4-head">${PADDLE_ICON}<div><h1>${esc(cat.title)} — Sơ đồ thi đấu Pickleball</h1><p>${esc(cat.subtitle)}</p></div></div>
+      <div class="a4-cols">
+        <div>
+          <div class="a4-sec-title">Thể thức thi đấu</div>
+          <ul class="a4-rules">${rulesHTML}</ul>
+          ${noteHTML}
+        </div>
+        <div>
+          <div class="a4-sec-title">Danh sách vận động viên</div>
+          <div class="a4-participants">${participantsHTML}</div>
+        </div>
+      </div>
+      <div class="a4-sec-title">Bảng đấu vòng tròn</div>
+      <div class="a4-groups">${groupsHTML}</div>
+      <div class="a4-sec-title">Sơ đồ vòng loại trực tiếp</div>
+      <div class="a4-bracket">${roundsHTML}${champHTML}</div>
+      <div class="a4-foot"><span>BTC ký xác nhận: ________________________</span><span>Ngày: __ / __ / 2026</span></div>
+    </div>
+  `;
+}
+
+function preparePrint(){
+  const printArea = document.getElementById('printArea');
+  printArea.innerHTML = TOURNAMENTS.map(buildPrintPage).join('');
+}
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  preparePrint();
+  document.body.classList.add('is-printing');
+  requestAnimationFrame(()=>{ window.print(); });
+});
+window.addEventListener('beforeprint', preparePrint);
+window.addEventListener('afterprint', ()=>{ document.body.classList.remove('is-printing'); });
+</script>
 </body>
 </html>
