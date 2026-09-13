@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickleball - Môn thể thao thú vị</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f9f4;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e6f5c, #289672);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hero-img {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            margin-bottom: 40px;
+        }
+
+        section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        section h2 {
+            color: #1e6f5c;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-left: 5px solid #289672;
+            padding-left: 15px;
+        }
+
+        section p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .img-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .img-row img {
+            flex: 1;
+            min-width: 250px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            transition: transform 0.3s;
+        }
+
+        .img-row img:hover {
+            transform: scale(1.03);
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 10px 0 10px 35px;
+            position: relative;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+
+        ul li::before {
+            content: "🏓";
+            position: absolute;
+            left: 0;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background-color: #1e6f5c;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Pickleball</h1>
+        <p>Môn thể thao kết hợp thú vị giữa tennis, cầu lông và bóng bàn</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Ảnh lớn đầu trang -->
+        <img class="hero-img"
+             src="https://images.unsplash.com/photo-1622163642998-1ea32b0bbc67?auto=format&fit=crop&w=1200&q=80"
+             alt="Sân pickleball">
+
+        <section>
+            <h2>Pickleball là gì?</h2>
+            <p>
+                Pickleball là một môn thể thao vợt được phát triển vào năm 1965 tại Hoa Kỳ,
+                kết hợp các yếu tố của tennis, cầu lông và bóng bàn. Người chơi sử dụng
+                vợt có mặt phẳng (paddle) và bóng nhựa đục lỗ để đánh qua lưới trên một
+                sân nhỏ hơn sân tennis.
+            </p>
+            <p>
+                Môn này nhanh chóng trở nên phổ biến trên toàn thế giới nhờ luật chơi đơn giản,
+                dễ học nhưng vẫn đầy thử thách, phù hợp với mọi lứa tuổi từ trẻ em đến người cao tuổi.
+            </p>
+        </section>
+
+        <section>
+            <h2>Luật chơi cơ bản</h2>
+            <ul>
+                <li>Sân có kích thước tương tự sân cầu lông (khoảng 13,4m x 6,1m).</li>
+                <li>Bóng phải được đánh theo kiểu "underhand" (dưới tay).</li>
+                <li>Có vùng "kitchen" (vùng cấm) gần lưới — không được volley bóng trong vùng này.</li>
+                <li>Đội đạt 11 điểm trước (và cách biệt 2 điểm) sẽ thắng hiệp.</li>
+                <li>Có thể chơi đơn (1v1) hoặc đôi (2v2).</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Hình ảnh về Pickleball</h2>
+            <div class="img-row">
+                <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80"
+                     alt="Vợt và bóng pickleball">
+                <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?auto=format&fit=crop&w=600&q=80"
+                     alt="Người chơi pickleball">
+                <img src="https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?auto=format&fit=crop&w=600&q=80"
+                     alt="Sân pickleball ngoài trời">
+            </div>
+        </section>
+
+        <section>
+            <h2>Lợi ích khi chơi Pickleball</h2>
+            <ul>
+                <li>Rèn luyện sức khỏe tim mạch và sự dẻo dai.</li>
+                <li>Dễ làm quen, ít chấn thương hơn tennis.</li>
+                <li>Tăng cường giao lưu, kết nối cộng đồng.</li>
+                <li>Phù hợp cho cả gia đình và người lớn tuổi.</li>
+                <li>Chi phí dụng cụ và sân bãi khá hợp lý.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>© 2025 Trang giới thiệu Pickleball | Hình ảnh từ Unsplash</p>
+    </footer>
+
+</body>
+</html>
