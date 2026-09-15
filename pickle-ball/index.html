@@ -10,19 +10,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
   :root{
-    --navy:#0E2F3C;
-    --navy-deep:#081C24;
-    --teal:#155A50;
-    --teal-soft:#1E7768;
-    --chalk:#F3F6EC;
-    --chalk-dim:rgba(243,246,236,.62);
-    --yellow:#E4FF4D;
-    --coral:#FF6A57;
-    --line:rgba(243,246,236,.16);
-    --line-strong:rgba(243,246,236,.32);
-    --topbar-h:64px;
-    --mono:'Space Mono',ui-monospace,monospace;
-    --sans:'Be Vietnam Pro',system-ui,sans-serif;
+   
+  --navy:#8F3F0A;
+--teal:#D65F0A;
+
+  --navy-deep:linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #ffffff 60%,
+            #fff7ed 78%,
+            #ffd6a3 100%
+        );;
+
+  
+  --teal-soft:#A84E13;
+
+  --chalk:black;
+
+  --chalk-dim:rgba(255,243,226,.62);
+
+  --yellow:#FFCC66;
+
+  --coral:#FF7A3D;
+
+  --line:black;
+
+  --line-strong:black;
+
+  --topbar-h:64px;
+
+  --mono:'Space Mono',ui-monospace,monospace;
+
+  --sans:'Be Vietnam Pro',system-ui,sans-serif;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -35,7 +54,20 @@
   }
   input{font-family:inherit;}
   ::selection{background:var(--yellow);color:var(--navy-deep);}
+ 
+/*----- cái hình background ----------- */
+  .image-background{
+    position:absolute; 
+    top: 200px;
+    right:5px;
+    width:300px; 
+    height:300px; 
+    object-fit:cover; 
+    object-position:center;
+    z-index:0;
+      /* flex-shrink: 0; */
 
+  }
   /* ---------- Court-line texture ---------- */
   .court-bg{
     background-image:
@@ -63,7 +95,7 @@
     flex:0 0 auto; white-space:nowrap;
   }
   .brand svg{width:30px;height:30px;flex-shrink:0;}
-  .brand-text{font-weight:800; font-size:.95rem; letter-spacing:.01em;}
+  .brand-text{font-weight:800; font-size:.95rem; letter-spacing:.01em;color: white;}
   .brand-text small{display:block; font-weight:500; font-size:.66rem; color:var(--chalk-dim); font-family:var(--mono);}
 
   .tabs{
@@ -72,14 +104,15 @@
   }
   .tabs::-webkit-scrollbar{display:none;}
   .tab{
-    appearance:none; border:1px solid var(--line); background:transparent; color:var(--chalk);
+    appearance:none; border:1px solid var(--line); background:transparent; color:white;
     padding:8px 16px; border-radius:999px; font-weight:600; font-size:.82rem;
     white-space:nowrap; cursor:pointer; transition:background .25s,color .25s,border-color .25s,transform .15s;
     font-family:var(--sans);
   }
   .tab:hover{border-color:var(--line-strong);}
   .tab:active{transform:scale(.97);}
-  .tab.active{background:var(--yellow); color:var(--navy-deep); border-color:var(--yellow);}
+  .tab.active{
+    background:var(--yellow); color:white; border-color:var(--yellow);}
 
   .print-btn{
     flex:0 0 auto; appearance:none; border:none; cursor:pointer;
@@ -91,12 +124,22 @@
   .print-btn:active{transform:scale(.97);}
 
   /* ---------- Slide track ---------- */
-  .viewport{height:calc(100dvh - var(--topbar-h)); overflow:hidden; position:relative;}
-  .track{display:flex; height:100%;}
+  .viewport{
+    height:calc(100dvh - var(--topbar-h));
+    overflow-x: hidden;
+    overflow-y: auto;
+    position:relative;
+  }
+  .track{
+    display:flex; 
+    height:auto;
+  min-height: 100%;
+}
   .panel{
-    flex:0 0 100vw; width:100vw; height:100%;
-    overflow-y:auto; -webkit-overflow-scrolling:touch;
-    scrollbar-width:thin;
+    flex:0 0 100vw; 
+    width:100vw; 
+    height:auto;
+     overflow: visible;
   }
 
   /* ---------- Hero ---------- */
@@ -105,12 +148,16 @@
     border-bottom:4px solid var(--yellow);
     display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
   }
-  .hero-title{font-size:clamp(2.1rem,7vw,3.6rem); font-weight:800; margin:0; line-height:1.02;}
+  .hero-title{font-size:clamp(2.1rem,7vw,3.6rem); font-weight:800; margin:0; line-height:1.02;
+  color:white}
   .hero-sub{margin:10px 0 0; font-family:var(--mono); font-size:.82rem; color:var(--chalk-dim); letter-spacing:.01em;}
   .hero-icon{width:clamp(64px,10vw,110px); height:clamp(64px,10vw,110px); flex-shrink:0; opacity:.95;}
 
   /* ---------- Sections ---------- */
-  section.block{padding:clamp(18px,4vw,44px) clamp(18px,6vw,64px);}
+  section.block{
+    padding:clamp(18px,4vw,44px) clamp(18px,6vw,64px);
+    z-index:10; position:relative;
+    }
   section.block + section.block{border-top:1px solid var(--line);}
   .block h2{font-size:1.28rem; font-weight:700; margin:0 0 16px;}
 
@@ -147,7 +194,7 @@
   .hint{font-size:.78rem; color:var(--chalk-dim); margin:10px 0 18px;}
 
   /* ---------- Bracket ---------- */
-  .bracket-scroll{overflow-x:auto; padding-bottom:10px;}
+  .bracket-scroll{ padding-bottom:10px;}
   .bracket-rounds{display:flex; align-items:stretch; gap:clamp(10px,2vw,22px); min-width:max-content; padding:6px 2px 20px;}
   .round-col{display:flex; flex-direction:column; justify-content:space-around; gap:18px; min-width:198px;}
   .round-title{text-align:center; font-family:var(--mono); font-size:.76rem; color:var(--yellow); margin-bottom:8px; letter-spacing:.02em;}
@@ -255,7 +302,10 @@
   </div>
 
   <div class="viewport">
-    <div class="track" id="track"></div>
+    
+    <div class="track" id="track">
+      <img class="image-background" src="https://pickleball.vn/assets/joola/kol/huynh-anh.webp">
+    </div>
   </div>
 </div>
 
