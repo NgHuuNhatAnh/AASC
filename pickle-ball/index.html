@@ -21,7 +21,8 @@
   :root{
     --text1:white;
     --text3:black;
-   
+   --fontSize4:clamp(.95rem, 1vw, 1.1rem);
+   --fontSize3:clamp(1.1rem, 1vw, 1.3rem);
   --navy:#8F3F0A;
 --teal:#D65F0A;
 
@@ -203,11 +204,13 @@
 
   .groups-grid{
     display:grid; 
-    grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); 
+    grid-template-columns:repeat(4,1fr); 
     gap:16px;
     align-items: start;
   }
-  .group-card{border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(243,246,236,.03);}
+  .group-card{
+    border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(243,246,236,.03);
+  }
 
   .group-head{
     color: var(--text1);
@@ -215,17 +218,23 @@
     padding:10px 14px; 
     font-family:var(--mono);
      font-weight:700;
-    font-size:.84rem; 
+    font-size:var(--fontSize3); 
     letter-spacing:.02em;
-    text-align: center;
+     display: flex;
+    align-items: center; 
+    justify-content: center;
   }
 
   .slot-group{
     width:100%; background:transparent; border-top:1px solid var(--line-strong);
     padding: 15px 14px;
     color:var(--chalk); 
-    font-size:.88rem;
+    font-size:var(--fontSize4);
      outline:none;
+      height: clamp(45px, 4vw, 70px);
+    box-sizing: border-box;
+     display: flex;
+    align-items: center; 
   }
   
 
@@ -449,8 +458,8 @@
     <img src="./img/7.jpg" alt="ảnh pickleball AASC">
       <img src="./img/8.jpg" alt="ảnh pickleball AASC">
       <img src="./img/1.jpg" alt="ảnh pickleball AASC">
-      <img src="./img/2.jpg" alt="ảnh pickleball AASC">
-      <img src="./img/3.jpg" alt="ảnh pickleball AASC">
+      <!-- <img src="./img/2.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/3.jpg" alt="ảnh pickleball AASC"> -->
       <img src="./img/4.jpg" alt="ảnh pickleball AASC">
       <!-- <img src="./img/5.jpg" alt="ảnh pickleball AASC"> -->
       <img src="./img/6.jpg" alt="ảnh pickleball AASC">
@@ -553,7 +562,7 @@ const TOURNAMENTS = [
 
     groups:[
       {name:'A',size:3},
-      {name:'B',size:4}
+      {name:'B',size:3}
     ],
 
     participants:[
