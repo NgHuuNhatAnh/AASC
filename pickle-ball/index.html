@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sơ đồ thi đấu Pickleball</title>
+<title>FIANL Sơ đồ thi đấu Pickleball</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
   :root{
+    --text1:white;
+    --text3:black;
    
   --navy:#8F3F0A;
 --teal:#D65F0A;
@@ -94,7 +96,7 @@
     display:flex; align-items:center; gap:8px;
     flex:0 0 auto; white-space:nowrap;
   }
-  .brand svg{width:30px;height:30px;flex-shrink:0;}
+ 
   .brand-text{font-weight:800; font-size:.95rem; letter-spacing:.01em;color: white;}
   .brand-text small{display:block; font-weight:500; font-size:.66rem; color:var(--chalk-dim); font-family:var(--mono);}
 
@@ -149,7 +151,7 @@
     display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
   }
   .hero-title{font-size:clamp(2.1rem,7vw,3.6rem); font-weight:800; margin:0; line-height:1.02;
-  color:white}
+  color:var(--text1)}
   .hero-sub{margin:10px 0 0; font-family:var(--mono); font-size:.82rem; color:var(--chalk-dim); letter-spacing:.01em;}
   .hero-icon{width:clamp(64px,10vw,110px); height:clamp(64px,10vw,110px); flex-shrink:0; opacity:.95;}
 
@@ -174,30 +176,44 @@
     background:rgba(243,246,236,.045); border:1px solid var(--line); border-radius:10px;
     padding:10px 14px; font-size:.88rem;
   }
-  .p-chip .ball{width:7px;height:7px;border-radius:50%;background:var(--yellow); flex-shrink:0;}
+
 
   .groups-grid{
     display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px;
   }
   .group-card{border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(243,246,236,.03);}
+
   .group-head{
-    background:var(--teal-soft); padding:10px 14px; font-family:var(--mono); font-weight:700;
-    font-size:.84rem; letter-spacing:.02em;
+    color: var(--text1);
+    background:var(--teal-soft); 
+    padding:10px 14px; 
+    font-family:var(--mono);
+     font-weight:700;
+    font-size:.84rem; 
+    letter-spacing:.02em;
+    text-align: center;
   }
-  .group-body{padding:10px; display:flex; flex-direction:column; gap:8px;}
-  .slot-input{
-    width:100%; background:transparent; border:1px dashed var(--line-strong); border-radius:8px;
-    padding:8px 10px; color:var(--chalk); font-size:.88rem; outline:none; transition:border-color .2s, background .2s;
+
+  .slot-group{
+    width:100%; background:transparent; border-top:1px solid var(--line-strong);
+    padding: 15px 14px;
+    color:var(--chalk); 
+    font-size:.88rem;
+     outline:none;
   }
-  .slot-input::placeholder{color:var(--chalk-dim);}
-  .slot-input:focus{border-color:var(--yellow); background:rgba(228,255,77,.06);}
-  .hint{font-size:.78rem; color:var(--chalk-dim); margin:10px 0 18px;}
+  
 
   /* ---------- Bracket ---------- */
   .bracket-scroll{ padding-bottom:10px;}
   .bracket-rounds{display:flex; align-items:stretch; gap:clamp(10px,2vw,22px); min-width:max-content; padding:6px 2px 20px;}
   .round-col{display:flex; flex-direction:column; justify-content:space-around; gap:18px; min-width:198px;}
-  .round-title{text-align:center; font-family:var(--mono); font-size:.76rem; color:var(--yellow); margin-bottom:8px; letter-spacing:.02em;}
+
+  .round-title{
+    text-align:center; 
+    font-family:var(--mono); 
+    font-size:1.8rem; 
+    color:var(--text3); }
+
   .round-arrow{display:flex; align-items:center; justify-content:center; color:var(--line-strong); font-size:1.6rem; align-self:center; padding-top:22px;}
   .match{
     background:rgba(243,246,236,.045); border:1px solid var(--line); border-radius:12px;
@@ -230,89 +246,105 @@
 
   footer.pad{height:24px;}
 
-  /* ---------- Print sheets (hidden on screen) ---------- */
-  .print-area{display:none;}
-
-  @media (max-width:520px){
-    .brand-text small{display:none;}
-    .tab{padding:7px 12px; font-size:.76rem;}
-    .print-btn span.lbl{display:none;}
+  /* CSS thêm */
+  .logo{
+    height: 90%;
+    width:auto;
+    background-color: white;
+    border-radius: 30px;
   }
 
-  /* ---------- Print styles ---------- */
-  @page{ size:A4; margin:12mm; }
-  @media print{
-    .app-shell{display:none !important;}
-    .print-area{display:block !important;}
-  }
-  body.is-printing .app-shell{display:none !important;}
-  body.is-printing .print-area{display:block !important;}
+/* cái tournament bracket  */
+.tourament-bracket {
+    display: flex;
+    /* gap: 100px; */
+    align-items: flex-start;
+        position: relative;
+}
 
-  .a4-page{
-    width:186mm; min-height:273mm; margin:0 auto; background:#fff; color:#111;
-    font-family:var(--sans); padding:0; page-break-after:always;
-  }
-  .a4-page:last-child{page-break-after:auto;}
-  .a4-head{display:flex; align-items:center; gap:10px; border-bottom:2px solid #111; padding-bottom:8px; margin-bottom:12px;}
-  .a4-head svg{width:26px;height:26px;}
-  .a4-head h1{font-size:1.2rem; margin:0;}
-  .a4-head p{margin:2px 0 0; font-family:var(--mono); font-size:.7rem; color:#555;}
-  .a4-cols{display:flex; gap:16px; margin-bottom:14px;}
-  .a4-cols > div{flex:1;}
-  .a4-sec-title{font-size:.82rem; font-weight:700; text-transform:none; margin:0 0 6px; border-bottom:1px solid #ccc; padding-bottom:3px;}
-  .a4-rules{margin:0; padding:0; list-style:none; font-size:.72rem; line-height:1.5;}
-  .a4-rules li{padding-left:12px; position:relative; margin-bottom:3px;}
-  .a4-rules li::before{content:"–"; position:absolute; left:0;}
-  .a4-note{font-size:.68rem; font-style:italic; color:#555; margin-top:6px;}
-  .a4-participants{columns:2; column-gap:14px; font-size:.68rem; line-height:1.55;}
-  .a4-groups{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;}
-  .a4-group{border:1px solid #999; border-radius:6px; min-width:23%; flex:1;}
-  .a4-group h3{font-family:var(--mono); font-size:.7rem; margin:0; background:#eee; padding:4px 8px; border-bottom:1px solid #999;}
-  .a4-group ul{list-style:none; margin:0; padding:6px 8px; font-size:.72rem; line-height:1.7;}
-  .a4-bracket{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
-  .a4-round{display:flex; flex-direction:column; gap:8px;}
-  .a4-round-title{font-family:var(--mono); font-size:.66rem; text-align:center; margin-bottom:2px; color:#444;}
-  .a4-match{border:1px solid #999; border-radius:6px; padding:6px 8px; font-size:.7rem; min-width:150px;}
-  .a4-match .t{display:flex; justify-content:space-between; padding:1px 0;}
-  .a4-match .sc{font-family:var(--mono); font-size:.66rem; color:#555; margin-top:3px; border-top:1px dashed #ccc; padding-top:3px;}
-  .a4-arrow{font-size:1.1rem; color:#bbb;}
-  .a4-champ{margin-top:6px; border:2px solid #111; border-radius:8px; padding:8px 12px; font-weight:700; font-size:.78rem; display:inline-block;}
-  .a4-foot{margin-top:16px; display:flex; justify-content:space-between; font-size:.7rem; color:#555; border-top:1px solid #ccc; padding-top:8px;}
+
+
+.bracket-match {
+    display: grid;
+    grid-template-columns: 1fr 45px;
+    grid-template-rows: 1fr 1fr;
+
+    box-sizing: border-box;
+
+    border: 1px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.connector-1{
+     
+     border-top:1px red solid;
+    border-right:1px red solid;
+}
+
+.connector-2{
+     border-right:1px red solid;
+      border-bottom:1px red solid;
+}
+
+.connector-line{
+    border-top:1px red solid;
+}
+
+/* đội trong bảng */
+.bracket-match > div {
+    display: contents;
+}
+
+.bracket-match span {
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+}
+
+.bracket-match span:nth-child(even) {
+    justify-content: center;
+    padding-left: 0;
+
+    border-left: 1px solid #333;
+}
+
+.bracket-match .team-row:nth-child(2) span {
+    border-top: 1px solid #333;
+}
+
+
 </style>
 </head>
 <body>
 
 <div class="app-shell">
   <div class="topbar">
+    <img class="logo" src="https://aasc.com.vn/web/images/logoAASC.png">
     <div class="brand">
-      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="4" y="4" width="26" height="34" rx="13" fill="#145C52" stroke="#F3F6EC" stroke-width="2"/>
-        <circle cx="17" cy="16" r="2" fill="#F3F6EC"/><circle cx="23" cy="16" r="2" fill="#F3F6EC"/>
-        <circle cx="17" cy="24" r="2" fill="#F3F6EC"/><circle cx="23" cy="24" r="2" fill="#F3F6EC"/>
-        <rect x="14" y="36" width="6" height="9" rx="2" fill="#F3F6EC"/>
-        <circle cx="38" cy="34" r="8" fill="#E4FF4D" stroke="#081C24" stroke-width="1.5"/>
-        <circle cx="35" cy="31" r="1.1" fill="#081C24"/><circle cx="41" cy="31" r="1.1" fill="#081C24"/>
-        <circle cx="35" cy="37" r="1.1" fill="#081C24"/><circle cx="41" cy="37" r="1.1" fill="#081C24"/>
-        <circle cx="38" cy="34" r="1.1" fill="#081C24"/>
-      </svg>
+      
       <div class="brand-text">Giải Pickleball<small>Sơ đồ thi đấu</small></div>
     </div>
     <div class="tabs" id="tabs"></div>
-    <button class="print-btn" id="printBtn">🖨️ <span class="lbl">In A4</span></button>
+    
+  </div>
+
+  <div id="image-slider">
+
   </div>
 
   <div class="viewport">
     
     <div class="track" id="track">
-      <img class="image-background" src="https://pickleball.vn/assets/joola/kol/huynh-anh.webp">
+    
     </div>
   </div>
 </div>
 
-<div class="print-area" id="printArea"></div>
 
 <script>
 /* ============ DATA ============ */
+
 const TOURNAMENTS = [
   {
     id:'danam',
@@ -320,121 +352,254 @@ const TOURNAMENTS = [
     title:'Đơn nam',
     subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
     rules:[
-      'Đánh đến hết chung kết, trao giải cuối buổi',
-      'Vòng bảng: vòng tròn tính điểm, game chạm 9, không cách điểm',
-      'Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 9 không cách điểm',
-      'Bán kết: game chạm 9 không cách điểm',
-      'Chung kết: game chạm 9, tối đa chạm 11'
+      '🏆 Đánh đến hết chung kết, trao giải cuối buổi',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 9, không cách điểm',
+      '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 9 không cách điểm',
+      '🔜 Bán kết: game chạm 9 không cách điểm',
+      '👑 Chung kết: game chạm 9, tối đa chạm 11'
     ],
     note:null,
-    groups:[{name:'A',size:4},{name:'B',size:4},{name:'C',size:4},{name:'D',size:4}],
-    participants:[
-      'Vũ Xuân Trường (FSG)','Nguyễn Duy Khánh (KT7)','Vũ Xuân Tùng (KT8)','Lê Đức Anh (KT5)',
-      'Hà Quang Hưng (KT3)','Nguyễn Tuấn Anh (KT2)','Nguyễn Duy Khánh (KT2)','Lê Long Hải (KT5)',
-      'Triệu Khánh Tùng (Dự án)','Chu Nam Anh (KT5)','Đào Huy Hùng (FSG)','Nguyễn Mạnh Tiến (KT5)',
-      'Văn Tâm (VT)','Phạm Ngọc Sơn (KT7)','Nguyễn Trí Thành (KT2)','Phạm Hồng Quang (FSG)'
+    groups:[
+      {name:'A',size:4},
+      {name:'B',size:4},
+      {name:'C',size:4},
+      {name:'D',size:4}
     ],
-    rounds:[
-      {name:'Vòng loại trực tiếp', matches:[{a:'Nhất A',b:'Nhì B'},{a:'Nhất C',b:'Nhì D'},{a:'Nhất B',b:'Nhì A'},{a:'Nhất D',b:'Nhì C'}]},
-      {name:'Bán kết', matches:[{},{}]},
-      {name:'Chung kết', matches:[{}]}
-    ]
+    participants:[
+      ['Vũ Xuân Trường (FSG)'],
+      ['Nguyễn Duy Khánh (KT7)'],
+      ['Vũ Xuân Tùng (KT8)'],
+      ['Lê Đức Anh (KT5)'],
+      ['Hà Quang Hưng (KT3)'],
+      ['Nguyễn Tuấn Anh (KT2)'],
+      ['Nguyễn Duy Khánh (KT2)'],
+      ['Lê Long Hải (KT5)'],
+      ['Triệu Khánh Tùng (Dự án)'],
+      ['Chu Nam Anh (KT5)'],
+      ['Đào Huy Hùng (FSG)'],
+      ['Nguyễn Mạnh Tiến (KT5)'],
+      ['Văn Tâm (VT)'],
+      ['Phạm Ngọc Sơn (KT7)'],
+      ['Nguyễn Trí Thành (KT2)'],
+      ['Phạm Hồng Quang (FSG)']
+    ],
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Tứ kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhì B'],
+            ['Nhất C'],
+            ['Nhì D'],
+            ['Nhất B'],
+            ['Nhì A'],
+            ['Nhất D'],
+            ['Nhì C']
+          ]
+        },
+
+        {
+          name:'Bán kết',
+          participants:[]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        }
+      ]
+    }
   },
+
   {
     id:'doinu',
     tab:'Đôi Nữ',
     title:'Đôi nữ',
     subtitle:'Vòng bảng · Bán kết (Top 4) · Chung kết',
     rules:[
-      'Đánh đến hết chung kết, trao giải cuối buổi',
-      'Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
-      'Bán kết: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
-      'Chung kết: game chạm 11, tối đa chạm 13'
+      '🏆 Đánh đến hết chung kết, trao giải cuối buổi',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      '🔜 Bán kết: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
+      '👑 Chung kết: game chạm 11, tối đa chạm 13'
     ],
     note:null,
-    groups:[{name:'A',size:3},{name:'B',size:4}],
-    participants:[
-      'Hồ Thị Duyên - Nguyễn Thị Y Bình (KT1)','Nguyễn Thị Dung - Nguyễn Hải Yến (KT5)',
-      'Nguyễn Lan Anh - Đồng Trang (BTK)','Thanh Huyền - Lê Tài (BTK)',
-      'Vũ Huyền Trang - Nguyễn Anh Thư (FSG)','Phan Anh Thi - Đỗ Thị Nhung (KT5)',
-      'Hoàng Thúy Nga - Nguyễn Vũ Quỳnh Chi (KT5)'
+
+    groups:[
+      {name:'A',size:3},
+      {name:'B',size:4}
     ],
-    rounds:[
-      {name:'Bán kết', matches:[{a:'Nhất A',b:'Nhì B'},{a:'Nhất B',b:'Nhì A'}]},
-      {name:'Chung kết', matches:[{}]}
-    ]
+
+    participants:[
+      ['Hồ Thị Duyên - Nguyễn Thị Y Bình (KT1)'],
+      ['Nguyễn Thị Dung - Nguyễn Hải Yến (KT5)'],
+      ['Nguyễn Lan Anh - Đồng Trang (BTK)'],
+      ['Thanh Huyền - Lê Tài (BTK)'],
+      ['Vũ Huyền Trang - Nguyễn Anh Thư (FSG)'],
+      ['Phan Anh Thi - Đỗ Thị Nhung (KT5)'],
+      ['Hoàng Thúy Nga - Nguyễn Vũ Quỳnh Chi (KT5)']
+    ],
+
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Bán kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhì B'],
+            ['Nhất B'],
+            ['Nhì A']
+          ]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        }
+      ]
+    }
   },
+
   {
     id:'doinam',
     tab:'Đôi Nam',
     title:'Đôi nam',
     subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
     rules:[
-      'Đánh đến hết chung kết, trao giải cuối buổi',
-      'Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
-      'Vòng loại: lấy 2 đội nhất nhì mỗi bảng + nhì xuất sắc 1 và 2, game chạm 11 không cách điểm',
-      'Bán kết: game chạm 11 không cách điểm',
-      'Chung kết: game chạm 13, tối đa chạm 15'
+      '🏆 Đánh đến hết chung kết, trao giải cuối buổi',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng + nhì xuất sắc 1 và 2, game chạm 11 không cách điểm',
+      '🔜 Bán kết: game chạm 11 không cách điểm',
+      '👑 Chung kết: game chạm 13, tối đa chạm 15'
     ],
-    note:'Chú ý: tiêu chí xét hiệu số để lấy Nhì xuất sắc (Nhì XS)',
-    groups:[{name:'A',size:3},{name:'B',size:3},{name:'C',size:3},{name:'D',size:3},{name:'E',size:3},{name:'F',size:3}],
+    note:'',
+
+    groups:[
+      {name:'A',size:3},
+      {name:'B',size:3},
+      {name:'C',size:3},
+      {name:'D',size:3},
+      {name:'E',size:3},
+      {name:'F',size:3}
+    ],
+
     participants:[
-      'Nguyễn Khánh Duy - Nguyễn Đình Đức (Dự án)','Quang Huy (BTK) - Nguyễn Toàn (TĐG)',
-      'Hoàng Đức Ân - Trần Minh Tiến (KT5)','Tạ Minh Châu - Nguyễn Mạnh Tiến (KT5)',
-      'Lê Văn Hưng - Hà Quang Hưng (KT3)','Nguyễn Tiến Trung - Nguyễn Quốc Dũng (KT1)',
-      'Triệu Khánh Tùng - Lưu Việt Hoàng (Dự án)','Quang Duy (BTK) - Hoàng Đức (TĐG)',
-      'Phạm Xuân Thái - Vũ Xuân Tùng (KT8)','Vũ Xuân Trường - Nguyễn Hữu Hoàng (FSG)',
-      'Nguyễn Đức Hoàng Hà - Trần Lưu Quang (Dự án)','Lê Long Hải - Lô Xuân Cường (KT5)',
-      'Phạm Hùng - Nguyễn Hùng (KT7)','Nguyễn Tuấn Anh - Nguyễn Duy Khánh (KT2)',
-      'Phạm Ngọc Sơn - Nguyễn Duy Khánh (KT7)','Nguyễn Anh Ngọc - Phạm Hồng Quang (FSG)',
-      'Phạm Thiên Phúc - Nguyễn Trí Thành (KT2)','Văn Tâm - Hứa Trường Giang'
+      ['Nguyễn Khánh Duy - Nguyễn Đình Đức (Dự án)'],
+      ['Quang Huy (BTK) - Nguyễn Toàn (TĐG)'],
+      ['Hoàng Đức Ân - Trần Minh Tiến (KT5)'],
+      ['Tạ Minh Châu - Nguyễn Mạnh Tiến (KT5)'],
+      ['Lê Văn Hưng - Hà Quang Hưng (KT3)'],
+      ['Nguyễn Tiến Trung - Nguyễn Quốc Dũng (KT1)'],
+      ['Triệu Khánh Tùng - Lưu Việt Hoàng (Dự án)'],
+      ['Quang Duy (BTK) - Hoàng Đức (TĐG)'],
+      ['Phạm Xuân Thái - Vũ Xuân Tùng (KT8)'],
+      ['Vũ Xuân Trường - Nguyễn Hữu Hoàng (FSG)'],
+      ['Nguyễn Đức Hoàng Hà - Trần Lưu Quang (Dự án)'],
+      ['Lê Long Hải - Lô Xuân Cường (KT5)'],
+      ['Phạm Hùng - Nguyễn Hùng (KT7)'],
+      ['Nguyễn Tuấn Anh - Nguyễn Duy Khánh (KT2)'],
+      ['Phạm Ngọc Sơn - Nguyễn Duy Khánh (KT7)'],
+      ['Nguyễn Anh Ngọc - Phạm Hồng Quang (FSG)'],
+      ['Phạm Thiên Phúc - Nguyễn Trí Thành (KT2)'],
+      ['Văn Tâm - Hứa Trường Giang']
     ],
-    rounds:[
-      {name:'Vòng loại trực tiếp', matches:[{a:'Nhất A',b:'Nhất B'},{a:'Nhất C',b:'Nhất D'},{a:'Nhất E',b:'Nhất F'},{a:'Nhì XS 1',b:'Nhì XS 2'}]},
-      {name:'Bán kết', matches:[{},{}]},
-      {name:'Chung kết', matches:[{}]}
-    ]
+
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Tứ kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhất B'],
+            ['Nhất C'],
+            ['Nhất D'],
+            ['Nhất E'],
+            ['Nhất F'],
+            ['Nhì XS 1'],
+            ['Nhì XS 2']
+          ]
+        },
+
+        {
+          name:'Bán kết',
+          participants:[]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        }
+      ]
+    }
   },
+
   {
     id:'doinamnu',
     tab:'Đôi Nam Nữ',
     title:'Đôi nam nữ',
     subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
     rules:[
-      'Đánh đến hết chung kết, trao giải cuối buổi',
-      'Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
-      'Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
-      'Bán kết: game chạm 11 không cách điểm',
-      'Chung kết: game chạm 13, tối đa chạm 15'
+      '🏆 Đánh đến hết chung kết, trao giải cuối buổi',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm và 2 đội hạng 3 thành tích tốt nhất',
+      '🔜 Bán kết: game chạm 11 không cách điểm',
+      '👑 Chung kết: game chạm 13, tối đa chạm 15',
+
     ],
-    note:'Chú ý: tiêu chí xét hiệu số để lấy Ba xuất sắc (Ba XS)',
-    groups:[{name:'A',size:4},{name:'B',size:4},{name:'C',size:4}],
+    note:'',
+
+    groups:[
+      {name:'A',size:4},
+      {name:'B',size:4},
+      {name:'C',size:4}
+    ],
+
     participants:[
-      'Phạm Xuân Thái - Lan Anh (BTK)','Hồ Thị Duyên - Nguyễn Tiến Trung (KT1)',
-      'Hoàng Đức - Đồng Trang (BTK)','Nguyễn Vũ Quỳnh Chi - Lê Đức Anh (KT5)',
-      'Quang Huy - Thanh Huyền (BTK)','Vũ Huyền Trang - Đỗ Mạnh Cường (FSG)',
-      'Lê Văn Hưng - Nguyễn Thị Nhàn (KT3)','Lô Xuân Cường - Nguyễn Thị Dung (KT5)',
-      'Nguyễn Toàn - Lê Tài (BTK)','Nguyễn Thị Huyền Trang - Nguyễn Khánh Duy (Dự án)',
-      'Hoàng Thúy Nga - Chu Nam Anh (KT5)','Nguyễn Thu - Nguyễn Hùng (KT7)'
+      ['Phạm Xuân Thái - Lan Anh (BTK)'],
+      ['Hồ Thị Duyên - Nguyễn Tiến Trung (KT1)'],
+      ['Hoàng Đức - Đồng Trang (BTK)'],
+      ['Nguyễn Vũ Quỳnh Chi - Lê Đức Anh (KT5)'],
+      ['Quang Huy - Thanh Huyền (BTK)'],
+      ['Vũ Huyền Trang - Đỗ Mạnh Cường (FSG)'],
+      ['Lê Văn Hưng - Nguyễn Thị Nhàn (KT3)'],
+      ['Lô Xuân Cường - Nguyễn Thị Dung (KT5)'],
+      ['Nguyễn Toàn - Lê Tài (BTK)'],
+      ['Nguyễn Thị Huyền Trang - Nguyễn Khánh Duy (Dự án)'],
+      ['Hoàng Thúy Nga - Chu Nam Anh (KT5)'],
+      ['Nguyễn Thu - Nguyễn Hùng (KT7)']
     ],
-    rounds:[
-      {name:'Vòng loại trực tiếp', matches:[{a:'Nhất A',b:'Nhì C'},{a:'Nhất B',b:'Ba XS 1'}]},
-      {name:'Bán kết', matches:[{},{}]},
-      {name:'Chung kết', matches:[{}]}
-    ]
+
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Bán kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhì C'],
+            ['Nhất B'],
+            ['Ba XS 1']
+          ]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        },
+
+        
+      ]
+    }
   }
 ];
 
-const PADDLE_ICON = `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="4" y="4" width="26" height="34" rx="13" fill="#145C52" stroke="#F3F6EC" stroke-width="2"/>
-  <circle cx="17" cy="16" r="2" fill="#F3F6EC"/><circle cx="23" cy="16" r="2" fill="#F3F6EC"/>
-  <circle cx="17" cy="24" r="2" fill="#F3F6EC"/><circle cx="23" cy="24" r="2" fill="#F3F6EC"/>
-  <rect x="14" y="36" width="6" height="9" rx="2" fill="#F3F6EC"/>
-  <circle cx="38" cy="34" r="8" fill="#E4FF4D" stroke="#081C24" stroke-width="1.5"/>
-  <circle cx="35" cy="31" r="1.1" fill="#081C24"/><circle cx="41" cy="31" r="1.1" fill="#081C24"/>
-  <circle cx="35" cy="37" r="1.1" fill="#081C24"/><circle cx="41" cy="37" r="1.1" fill="#081C24"/>
-  <circle cx="38" cy="34" r="1.1" fill="#081C24"/>
-</svg>`;
 
 const HERO_ICON = `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect x="10" y="8" width="58" height="78" rx="29" fill="#1E7768" stroke="#F3F6EC" stroke-width="3"/>
@@ -472,38 +637,28 @@ TOURNAMENTS.forEach((cat, idx)=>{
 });
 
 function buildPanelHTML(cat){
-  const rulesHTML = cat.rules.map(r=>`<li><span class="dot"></span><span>${esc(r)}</span></li>`).join('');
+  const rulesHTML = cat.rules.map(r=>`<li><span>${esc(r)}</span></li>`).join('');
   const noteHTML = cat.note ? `<div class="rules-note">${esc(cat.note)}</div>` : '';
-  const participantsHTML = cat.participants.map(p=>`<div class="p-chip"><span class="ball"></span>${esc(p)}</div>`).join('');
-  const groupsHTML = cat.groups.map(g=>{
+  
+  const participantsHTML = cat.participants.map(p=>`<div class="p-chip"><span class="ball">🏓</span>${esc(p[0])}</div>`).join('');
+  
+     const groupsHTML = cat.groups.map(g=>{
+
     const slots = Array.from({length:g.size}).map((_,i)=>{
       const id = `slot__${cat.id}__${g.name}__${i}`;
-      return `<input class="slot-input" id="${id}" type="text" placeholder="${g.name}${i+1}">`;
+      return `<div class="slot-group" id="${id}"></div> `;
     }).join('');
-    return `<div class="group-card"><div class="group-head">Bảng ${esc(g.name)}</div><div class="group-body">${slots}</div></div>`;
+    return `<div class="group-card"><div class="group-head">Bảng ${esc(g.name)}</div>${slots}</div>`;
   }).join('');
 
-  const roundsHTML = cat.rounds.map((round, rIdx)=>{
-    const matches = round.matches.map((m, mIdx)=>{
-      const scId = `score__${cat.id}__${rIdx}__${mIdx}`;
-      let teamsHTML;
-      if(m.a){
-        teamsHTML = `<div class="team-row"><span class="team-label">${esc(m.a)}</span></div>
-                     <div class="team-row"><span class="team-label">${esc(m.b)}</span></div>`;
-      } else {
-        const idA = `team__${cat.id}__${rIdx}__${mIdx}__a`;
-        const idB = `team__${cat.id}__${rIdx}__${mIdx}__b`;
-        teamsHTML = `<div class="team-row"><input class="team-input" id="${idA}" type="text" placeholder="Đội thắng trận trước"></div>
-                     <div class="team-row"><input class="team-input" id="${idB}" type="text" placeholder="Đội thắng trận trước"></div>`;
-      }
-      return `<div class="match">${teamsHTML}<div class="score-row"><span>Tỷ số</span><input class="score-input" id="${scId}" type="text" placeholder="—"></div></div>`;
-    }).join('');
-    return `<div class="round-col"><div class="round-title">${esc(round.name)}</div>${matches}</div>
-            <div class="round-arrow">›</div>`;
-  }).join('');
+  
+
+
+const roundsHTML = createTournamentBracket(cat.rounds);
+
 
   const champId = `champ__${cat.id}`;
-  const champHTML = `<div class="champ-col"><div class="champ-card">🏆 <span>Vô địch</span><input id="${champId}" type="text" placeholder="Tên đội / VĐV"></div></div>`;
+  const champHTML = `<div class="champ-col"><div class="champ-card">🏆 <span>Vô địch</span></div></div>`;
 
   return `
     <div class="court-bg hero">
@@ -515,7 +670,7 @@ function buildPanelHTML(cat){
     </div>
 
     <section class="block">
-      <h2>Thể thức thi đấu</h2>
+      <h2>📋 Thể thức thi đấu</h2>
       <ul class="rules-list">${rulesHTML}</ul>
       ${noteHTML}
     </section>
@@ -527,18 +682,170 @@ function buildPanelHTML(cat){
 
     <section class="block">
       <h2>Bảng đấu vòng tròn</h2>
-      <p class="hint">Nhấn vào từng ô để nhập tên VĐV / đội — để trống nếu chưa chốt.</p>
       <div class="groups-grid">${groupsHTML}</div>
     </section>
 
     <section class="block">
       <h2>Sơ đồ vòng loại trực tiếp</h2>
-      <p class="hint">Nhập tỷ số và đội thắng qua từng vòng. Bấm "In A4" ở trên để in sơ đồ này.</p>
-      <div class="bracket-scroll"><div class="bracket-rounds">${roundsHTML}${champHTML}</div></div>
+      <div id="tourament-bracket-${cat.id}" class="tourament-bracket">
+          ${roundsHTML}
+        </div>
     </section>
-    <footer class="pad"></footer>
+    
   `;
 }
+
+function createTournamentBracket(arrayParticipants) {
+
+    
+
+    let numberOfMatches = 4;
+     numberOfMatches = arrayParticipants.matches[0].participants.length/2;
+
+    //  console.log('number of matches: ',numberOfMatches)
+    let participants = arrayParticipants.matches[0].participants;
+    let stt = 0;
+
+    const gapRows = 15;
+    const gapColumns = 70;
+    const connectorConnerRadius = 10;
+    const boxTeamHeight = 80;   
+    const boxTeamWidth = 220;  
+
+    const roundTitleHeight = 40;
+    const marginBotRoundTitle = 20;
+    // const bracket = document.getElementById('tourament-bracket');
+
+    // Kiểm tra số đội có phải lũy thừa của 2
+    if (
+        numberOfMatches <= 0 ||
+        Math.log2(numberOfMatches) % 1 !== 0
+    ) {
+        throw new Error(
+            'Số đội phải là lũy thừa của 2'
+        );
+    }
+    // Xóa bracket cũ nếu có
+    let bracketHTML = '';
+
+    // Tổng số round
+    const totalRounds = Math.log2(numberOfMatches)+1;
+
+    // Khoảng cách hiện tại giữa các box
+    let currentGapRows = gapRows;
+  
+    // Số box của round hiện tại
+    let currentNumberOfMatches = numberOfMatches;
+    let translateYvalue= 0;
+    let currentRoundTop=roundTitleHeight + marginBotRoundTitle;;
+    let oldgapRows=0;
+
+
+    // Vòng lặp từng round (nhưng để tạo match, k cần tạo round)
+    for (
+        let roundIndex = 0;
+        roundIndex < totalRounds;
+        roundIndex++
+    ) {
+
+        for (
+            let matchIndex = 0;
+            matchIndex < currentNumberOfMatches;
+            matchIndex++
+        ) {
+
+           const matchLeft = (boxTeamWidth + gapColumns) * roundIndex;
+
+          if (matchIndex ==0) {
+              bracketHTML += `<div class="round-title"
+              style="
+              position: absolute;
+              height: ${roundTitleHeight}px;
+              width:${boxTeamWidth}px;
+             transform: translateX(${matchLeft}px);
+              margin-bottom:${marginBotRoundTitle}px;">
+              ${arrayParticipants.matches[roundIndex].name}
+              </div>`;
+              
+          }
+
+           
+
+            // match.style.transform = `translate(${matchLeft}px,${translateYvalue}px)`;
+
+            bracketHTML += `<div class="bracket-match" style="
+            position : absolute;
+            top: ${currentRoundTop}px;
+            height: ${boxTeamHeight}px;
+            width : ${boxTeamWidth}px;
+            transform: translate(${matchLeft}px,${translateYvalue}px)">
+            <div class="team-row">
+              <span>${participants[stt]?.[0] ?? '-'}</span><span>${participants[stt]?.[1] ?? '-'}</span>
+            </div>
+            <div class="team-row">
+              <span>${participants[stt+1]?.[0] ?? '-'}</span><span>${participants[stt+1]?.[1] ?? '-'}</span>
+            </div>
+            </div>`;
+
+            stt += 2;
+
+            if (roundIndex!= 0){
+
+            // const rect = match.getBoundingClientRect();
+
+            // const currentMatchLeft = rect.left;
+            const middlteOfMatch = currentRoundTop + translateYvalue + boxTeamHeight/2;
+
+            bracketHTML += `<div class="connector-1" style="
+            position : absolute;
+            top: ${middlteOfMatch}px;
+            left: ${(matchLeft - gapColumns)}px;
+            height: ${(oldgapRows+ boxTeamHeight)/2}px;
+            width : ${gapColumns/2}px;
+            border-top-right-radius: ${connectorConnerRadius}px;
+            transform: translateY(-100%)"></div>
+
+            <div class="connector-2" style="
+            position : absolute;
+            top: ${middlteOfMatch}px;
+            left: ${(matchLeft  - gapColumns)}px;
+            height: ${(oldgapRows+ boxTeamHeight)/2}px;
+            width : ${gapColumns/2}px;
+            border-bottom-right-radius: ${connectorConnerRadius}px;">
+            </div>
+
+            <div class="connector-line" style="
+            position : absolute;
+            top: ${middlteOfMatch}px;
+            left: ${matchLeft - gapColumns/2}px;
+            height: 0px;
+            width : ${gapColumns/2}px;"></div>`
+
+            }
+
+            if (matchIndex < currentNumberOfMatches - 1) {
+                translateYvalue = (currentGapRows + boxTeamHeight) * (matchIndex + 1);
+                // console.log(translateYvalue)
+            } else {
+                oldgapRows = currentGapRows;
+                currentRoundTop += currentGapRows / 2 + boxTeamHeight / 2;
+                translateYvalue = 0;
+                currentGapRows = currentGapRows * 2 + boxTeamHeight;
+            }
+
+            
+
+        }
+
+         
+        // Round tiếp theo giảm một nửa số match
+        currentNumberOfMatches /= 2;
+    }
+return bracketHTML;
+
+}
+
+
 
 /* ============ GSAP slide navigation ============ */
 let current = 0;
@@ -577,78 +884,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
   gsap.from(firstHero.querySelector('.hero-icon'), {opacity:0, scale:.7, duration:.8, delay:.15, ease:'back.out(1.6)'});
 });
 
-/* ============ Print rendering ============ */
-function val(id){
-  const el = document.getElementById(id);
-  return el && el.value.trim() ? el.value.trim() : '';
-}
 
-function buildPrintPage(cat){
-  const rulesHTML = cat.rules.map(r=>`<li>${esc(r)}</li>`).join('');
-  const noteHTML = cat.note ? `<div class="a4-note">${esc(cat.note)}</div>` : '';
-  const participantsHTML = cat.participants.map(p=>`<div>${esc(p)}</div>`).join('');
-
-  const groupsHTML = cat.groups.map(g=>{
-    const items = Array.from({length:g.size}).map((_,i)=>{
-      const v = val(`slot__${cat.id}__${g.name}__${i}`);
-      return `<li>${g.name}${i+1}. ${v ? esc(v) : '<span style="color:#999">________________</span>'}</li>`;
-    }).join('');
-    return `<div class="a4-group"><h3>Bảng ${esc(g.name)}</h3><ul>${items}</ul></div>`;
-  }).join('');
-
-  const roundsHTML = cat.rounds.map((round, rIdx)=>{
-    const matches = round.matches.map((m, mIdx)=>{
-      const sc = val(`score__${cat.id}__${rIdx}__${mIdx}`);
-      let aText, bText;
-      if(m.a){ aText = esc(m.a); bText = esc(m.b); }
-      else {
-        aText = val(`team__${cat.id}__${rIdx}__${mIdx}__a`) || '________________';
-        bText = val(`team__${cat.id}__${rIdx}__${mIdx}__b`) || '________________';
-        aText = esc(aText); bText = esc(bText);
-      }
-      return `<div class="a4-match"><div class="t"><span>${aText}</span></div><div class="t"><span>${bText}</span></div><div class="sc">Tỷ số: ${sc ? esc(sc) : '____'}</div></div>`;
-    }).join('');
-    return `<div class="a4-round"><div class="a4-round-title">${esc(round.name)}</div>${matches}</div><div class="a4-arrow">›</div>`;
-  }).join('');
-
-  const champ = val(`champ__${cat.id}`);
-  const champHTML = `<div class="a4-champ">🏆 Vô địch: ${champ ? esc(champ) : '____________________'}</div>`;
-
-  return `
-    <div class="a4-page">
-      <div class="a4-head">${PADDLE_ICON}<div><h1>${esc(cat.title)} — Sơ đồ thi đấu Pickleball</h1><p>${esc(cat.subtitle)}</p></div></div>
-      <div class="a4-cols">
-        <div>
-          <div class="a4-sec-title">Thể thức thi đấu</div>
-          <ul class="a4-rules">${rulesHTML}</ul>
-          ${noteHTML}
-        </div>
-        <div>
-          <div class="a4-sec-title">Danh sách vận động viên</div>
-          <div class="a4-participants">${participantsHTML}</div>
-        </div>
-      </div>
-      <div class="a4-sec-title">Bảng đấu vòng tròn</div>
-      <div class="a4-groups">${groupsHTML}</div>
-      <div class="a4-sec-title">Sơ đồ vòng loại trực tiếp</div>
-      <div class="a4-bracket">${roundsHTML}${champHTML}</div>
-      <div class="a4-foot"><span>BTC ký xác nhận: ________________________</span><span>Ngày: __ / __ / 2026</span></div>
-    </div>
-  `;
-}
-
-function preparePrint(){
-  const printArea = document.getElementById('printArea');
-  printArea.innerHTML = TOURNAMENTS.map(buildPrintPage).join('');
-}
-
-document.getElementById('printBtn').addEventListener('click', ()=>{
-  preparePrint();
-  document.body.classList.add('is-printing');
-  requestAnimationFrame(()=>{ window.print(); });
-});
-window.addEventListener('beforeprint', preparePrint);
-window.addEventListener('afterprint', ()=>{ document.body.classList.remove('is-printing'); });
 </script>
 </body>
 </html>
