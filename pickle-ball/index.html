@@ -143,6 +143,7 @@
     height:auto;
      overflow: visible;
   }
+  
 
   /* ---------- Hero ---------- */
   .hero{
@@ -314,6 +315,82 @@
 }
 
 
+/* slider  */
+#image-slider {
+     position: relative;
+
+    width: 100%;
+    height: 700px !important;
+
+    overflow: hidden;
+
+    background: red;
+
+    z-index: 9999;
+}
+
+/* Tất cả ảnh nằm chồng lên nhau */
+#image-slider img {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center 40%;
+    opacity: 0;
+}
+
+/* Ảnh đầu tiên */
+#image-slider img:first-of-type {
+    opacity: 1;
+}
+
+/* Nút */
+.slider-btn {
+    position: absolute;
+
+    top: 50%;
+    z-index: 10;
+
+    transform: translateY(-50%);
+
+    width: 50px;
+    height: 80px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: rgba(0, 0, 0, 0.35);
+    color: white;
+
+    font-size: 50px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background 0.2s;
+}
+
+.slider-btn:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.slider-prev {
+    left: 20px;
+}
+
+.slider-next {
+    right: 20px;
+}
+
+
 </style>
 </head>
 <body>
@@ -329,11 +406,29 @@
     
   </div>
 
-  <div id="image-slider">
 
-  </div>
 
   <div class="viewport">
+
+      <div id="image-slider">
+    <button class="slider-btn slider-prev" id="slider-prev">
+        ‹
+    </button>
+      <button class="slider-btn slider-next" id="slider-next">
+        ›
+    </button>
+    <img src="./img/7.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/8.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/1.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/2.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/3.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/4.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/5.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/6.jpg" alt="ảnh pickleball AASC">
+      
+      <img src="./img/9.jpg" alt="ảnh pickleball AASC">
+
+  </div>
     
     <div class="track" id="track">
     
@@ -883,6 +978,150 @@ window.addEventListener('DOMContentLoaded', ()=>{
   gsap.from(firstHero.querySelector('.hero-sub'), {opacity:0, y:16, duration:.7, delay:.1, ease:'power2.out'});
   gsap.from(firstHero.querySelector('.hero-icon'), {opacity:0, scale:.7, duration:.8, delay:.15, ease:'back.out(1.6)'});
 });
+
+// đoạn dưới cho slider 
+document.addEventListener('DOMContentLoaded', () => {
+
+    const slider = document.querySelector('#image-slider');
+
+    if (!slider) return;
+
+    const images = slider.querySelectorAll('img');
+
+    const prevBtn = slider.querySelector('#slider-prev');
+    const nextBtn = slider.querySelector('#slider-next');
+
+    let currentIndex = 0;
+    let autoSlide;
+
+
+    // =========================
+    // Khởi tạo
+    // =========================
+
+    gsap.set(images, {
+        xPercent: 0,
+        opacity: 0
+    });
+
+    gsap.set(images[0], {
+        xPercent: 0,
+        opacity: 1
+    });
+
+
+    // =========================
+    // Chuyển ảnh
+    // =========================
+
+    function showSlide(newIndex, direction = 1) {
+
+        // vòng lại
+        if (newIndex >= images.length) {
+            newIndex = 0;
+        }
+
+        if (newIndex < 0) {
+            newIndex = images.length - 1;
+        }
+
+        if (newIndex === currentIndex) return;
+
+
+        const currentImage = images[currentIndex];
+        const nextImage = images[newIndex];
+
+
+        // Dừng animation đang chạy nếu người dùng bấm liên tục
+        gsap.killTweensOf([currentImage, nextImage]);
+
+
+        // Ảnh mới nằm ngoài màn hình
+        gsap.set(nextImage, {
+            xPercent: direction > 0 ? 100 : -100,
+            opacity: 1
+        });
+
+
+        // Ảnh hiện tại trượt ra
+        gsap.to(currentImage, {
+            xPercent: direction > 0 ? -100 : 100,
+            duration: 0.8,
+            ease: "power2.inOut"
+        });
+
+
+        // Ảnh mới trượt vào
+        gsap.to(nextImage, {
+            xPercent: 0,
+            duration: 0.8,
+            ease: "power2.inOut"
+        });
+
+
+        currentIndex = newIndex;
+    }
+
+
+    // =========================
+    // Next
+    // =========================
+
+    function nextSlide() {
+
+        showSlide(currentIndex + 1, 1);
+
+        resetAutoSlide();
+    }
+
+
+    // =========================
+    // Previous
+    // =========================
+
+    function prevSlide() {
+
+        showSlide(currentIndex - 1, -1);
+
+        resetAutoSlide();
+    }
+
+
+    // =========================
+    // Auto 5 giây
+    // =========================
+
+    function resetAutoSlide() {
+
+        clearTimeout(autoSlide);
+
+        autoSlide = setTimeout(() => {
+
+            showSlide(currentIndex + 1, 1);
+
+            resetAutoSlide();
+
+        }, 5000);
+    }
+
+
+    // =========================
+    // Button
+    // =========================
+
+    nextBtn.addEventListener('click', nextSlide);
+
+    prevBtn.addEventListener('click', prevSlide);
+
+
+    // =========================
+    // Start
+    // =========================
+
+    resetAutoSlide();
+
+});
+
 
 
 </script>
