@@ -202,7 +202,10 @@
 
 
   .groups-grid{
-    display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px;
+    display:grid; 
+    grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); 
+    gap:16px;
+    align-items: start;
   }
   .group-card{border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(243,246,236,.03);}
 
@@ -449,7 +452,7 @@
       <img src="./img/2.jpg" alt="ảnh pickleball AASC">
       <img src="./img/3.jpg" alt="ảnh pickleball AASC">
       <img src="./img/4.jpg" alt="ảnh pickleball AASC">
-      <img src="./img/5.jpg" alt="ảnh pickleball AASC">
+      <!-- <img src="./img/5.jpg" alt="ảnh pickleball AASC"> -->
       <img src="./img/6.jpg" alt="ảnh pickleball AASC">
       
       <img src="./img/9.jpg" alt="ảnh pickleball AASC">
@@ -477,7 +480,7 @@ const TOURNAMENTS = [
       '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 9, không cách điểm',
       '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 9 không cách điểm',
       '🔜 Bán kết: game chạm 9 không cách điểm',
-      '👑 Chung kết: game chạm 9, tối đa chạm 11'
+      '👑 Chung kết: game chạm 15, cách 2 điểm'
     ],
     note:null,
     groups:[
@@ -487,22 +490,22 @@ const TOURNAMENTS = [
       {name:'D',size:4}
     ],
     participants:[
-      ['Vũ Xuân Trường (FSG)'],
-      ['Nguyễn Duy Khánh (KT7)'],
-      ['Vũ Xuân Tùng (KT8)'],
-      ['Lê Đức Anh (KT5)'],
-      ['Hà Quang Hưng (KT3)'],
-      ['Nguyễn Tuấn Anh (KT2)'],
-      ['Nguyễn Duy Khánh (KT2)'],
-      ['Lê Long Hải (KT5)'],
-      ['Triệu Khánh Tùng (Dự án)'],
-      ['Chu Nam Anh (KT5)'],
-      ['Đào Huy Hùng (FSG)'],
-      ['Nguyễn Mạnh Tiến (KT5)'],
-      ['Văn Tâm (VT)'],
-      ['Phạm Ngọc Sơn (KT7)'],
-      ['Nguyễn Trí Thành (KT2)'],
-      ['Phạm Hồng Quang (FSG)']
+      ['Vũ Xuân Trường (FSG)','A'],
+      ['Nguyễn Duy Khánh (KT7)','B'],
+      ['Vũ Xuân Tùng (KT8)','A'],
+      ['Lê Đức Anh (KT5)','A'],
+      ['Hà Quang Hưng (KT3)','B'],
+      ['Nguyễn Tuấn Anh (KT2)','D'],
+      ['Nguyễn Duy Khánh (KT2)','A'],
+      ['Lê Long Hải (KT5)','B'],
+      ['Triệu Khánh Tùng (Dự án)','C'],
+      ['Chu Nam Anh (KT5)','C'],
+      ['Đào Huy Hùng (FSG)','D'],
+      ['Nguyễn Mạnh Tiến (KT5)','D'],
+      ['Văn Tâm (VT)','D'],
+      ['Phạm Ngọc Sơn (KT7)','C'],
+      ['Nguyễn Trí Thành (KT2)','B'],
+      ['Phạm Hồng Quang (FSG)','C']
     ],
     rounds:{
       paneTitle:'Vòng loại trực tiếp',
@@ -544,7 +547,7 @@ const TOURNAMENTS = [
       '🏆 Đánh đến hết chung kết, trao giải cuối buổi',
       '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
       '🔜 Bán kết: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
-      '👑 Chung kết: game chạm 11, tối đa chạm 13'
+      '👑 Chung kết: game chạm 15, cách 2 điểm'
     ],
     note:null,
 
@@ -554,13 +557,12 @@ const TOURNAMENTS = [
     ],
 
     participants:[
-      ['Hồ Thị Duyên - Nguyễn Thị Y Bình (KT1)'],
-      ['Nguyễn Thị Dung - Nguyễn Hải Yến (KT5)'],
-      ['Nguyễn Lan Anh - Đồng Trang (BTK)'],
-      ['Thanh Huyền - Lê Tài (BTK)'],
-      ['Vũ Huyền Trang - Nguyễn Anh Thư (FSG)'],
-      ['Phan Anh Thi - Đỗ Thị Nhung (KT5)'],
-      ['Hoàng Thúy Nga - Nguyễn Vũ Quỳnh Chi (KT5)']
+      ['Hồ Thị Duyên - Nguyễn Thị Y Bình (KT1)','A'],
+      ['Nguyễn Thị Dung - Nguyễn Hải Yến (KT5)','B'],
+      ['Thanh Huyền - Lê Tài (BTK)','A'],
+      ['Vũ Huyền Trang - Đồng Trang (FSG)','B'],
+      ['Phan Anh Thi - Đỗ Thị Nhung (KT5)','A'],
+      ['Hoàng Thúy Nga - Nguyễn Vũ Quỳnh Chi (KT5)','B']
     ],
 
     rounds:{
@@ -593,9 +595,9 @@ const TOURNAMENTS = [
     rules:[
       '🏆 Đánh đến hết chung kết, trao giải cuối buổi',
       '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
-      '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng + nhì xuất sắc 1 và 2, game chạm 11 không cách điểm',
+      '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng + nhì xuất sắc 1, game chạm 11 không cách điểm',
       '🔜 Bán kết: game chạm 11 không cách điểm',
-      '👑 Chung kết: game chạm 13, tối đa chạm 15'
+      '👑 Chung kết: game chạm 15, cách 2 điểm'
     ],
     note:'',
 
@@ -609,24 +611,25 @@ const TOURNAMENTS = [
     ],
 
     participants:[
-      ['Nguyễn Khánh Duy - Nguyễn Đình Đức (Dự án)'],
-      ['Quang Huy (BTK) - Nguyễn Toàn (TĐG)'],
-      ['Hoàng Đức Ân - Trần Minh Tiến (KT5)'],
-      ['Tạ Minh Châu - Nguyễn Mạnh Tiến (KT5)'],
-      ['Lê Văn Hưng - Hà Quang Hưng (KT3)'],
-      ['Nguyễn Tiến Trung - Nguyễn Quốc Dũng (KT1)'],
-      ['Triệu Khánh Tùng - Lưu Việt Hoàng (Dự án)'],
-      ['Quang Duy (BTK) - Hoàng Đức (TĐG)'],
-      ['Phạm Xuân Thái - Vũ Xuân Tùng (KT8)'],
-      ['Vũ Xuân Trường - Nguyễn Hữu Hoàng (FSG)'],
-      ['Nguyễn Đức Hoàng Hà - Trần Lưu Quang (Dự án)'],
-      ['Lê Long Hải - Lô Xuân Cường (KT5)'],
-      ['Phạm Hùng - Nguyễn Hùng (KT7)'],
-      ['Nguyễn Tuấn Anh - Nguyễn Duy Khánh (KT2)'],
-      ['Phạm Ngọc Sơn - Nguyễn Duy Khánh (KT7)'],
-      ['Nguyễn Anh Ngọc - Phạm Hồng Quang (FSG)'],
-      ['Phạm Thiên Phúc - Nguyễn Trí Thành (KT2)'],
-      ['Văn Tâm - Hứa Trường Giang']
+      ['Đỗ Mạnh Cường - Vũ Xuân Biển (Ban Tổng Giám đốc)'],
+      ['Nguyễn Khánh Duy - Nguyễn Đình Đức (Dự án)','C'],
+      ['Quang Huy (BTK) - Nguyễn Toàn (TĐG)','D'],
+      ['Hoàng Đức Ân - Trần Minh Tiến (KT5)','B'],
+      ['Tạ Minh Châu - Nguyễn Mạnh Tiến (KT5)','E'],
+      ['Lê Văn Hưng - Hà Quang Hưng (KT3)','A'],
+      ['Nguyễn Tiến Trung - Nguyễn Quốc Dũng (KT1)','D'],
+      ['Triệu Khánh Tùng - Lưu Việt Hoàng (Dự án)','E'],
+      ['Quang Duy (BTK) - Hoàng Đức (TĐG)','B'],
+      ['Phạm Xuân Thái - Vũ Xuân Tùng (KT8)','B'],
+      ['Vũ Xuân Trường - Nguyễn Hữu Hoàng (FSG)','F'],
+      ['Nguyễn Đức Hoàng Hà - Trần Lưu Quang (Dự án)','A'],
+      ['Lê Long Hải - Lô Xuân Cường (KT5)','A'],
+      ['Phạm Hùng - Nguyễn Hùng (KT7)','C'],
+      ['Nguyễn Tuấn Anh - Nguyễn Duy Khánh (KT2)','F'],
+      ['Phạm Ngọc Sơn - Nguyễn Duy Khánh (KT7)','F'],
+      ['Nguyễn Anh Ngọc - Huy Hùng (FSG)','C'],
+      ['Phạm Thiên Phúc - Nguyễn Trí Thành (KT2)','D'],
+      ['Văn Tâm - Hứa Trường Giang','E']
     ],
 
     rounds:{
@@ -643,7 +646,7 @@ const TOURNAMENTS = [
             ['Nhất E'],
             ['Nhất F'],
             ['Nhì XS 1'],
-            ['Nhì XS 2']
+            ['Đỗ Mạnh Cường - Vũ Xuân Biển']
           ]
         },
 
@@ -668,7 +671,7 @@ const TOURNAMENTS = [
     rules:[
       '🏆 Đánh đến hết chung kết, trao giải cuối buổi',
       '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
-      '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm và 2 đội hạng 3 thành tích tốt nhất',
+      '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
       '🔜 Bán kết: game chạm 11 không cách điểm',
       '👑 Chung kết: game chạm 13, tối đa chạm 15',
 
@@ -676,24 +679,26 @@ const TOURNAMENTS = [
     note:'',
 
     groups:[
-      {name:'A',size:4},
-      {name:'B',size:4},
-      {name:'C',size:4}
+      {name:'A',size:3},
+      {name:'B',size:3},
+      {name:'C',size:3},
+      {name:'D',size:4}
     ],
 
     participants:[
-      ['Phạm Xuân Thái - Lan Anh (BTK)'],
-      ['Hồ Thị Duyên - Nguyễn Tiến Trung (KT1)'],
-      ['Hoàng Đức - Đồng Trang (BTK)'],
-      ['Nguyễn Vũ Quỳnh Chi - Lê Đức Anh (KT5)'],
-      ['Quang Huy - Thanh Huyền (BTK)'],
-      ['Vũ Huyền Trang - Đỗ Mạnh Cường (FSG)'],
-      ['Lê Văn Hưng - Nguyễn Thị Nhàn (KT3)'],
-      ['Lô Xuân Cường - Nguyễn Thị Dung (KT5)'],
-      ['Nguyễn Toàn - Lê Tài (BTK)'],
-      ['Nguyễn Thị Huyền Trang - Nguyễn Khánh Duy (Dự án)'],
-      ['Hoàng Thúy Nga - Chu Nam Anh (KT5)'],
-      ['Nguyễn Thu - Nguyễn Hùng (KT7)']
+      ['Phạm Xuân Thái - Lan Anh (BTK)','D'],
+      ['Hồ Thị Duyên - Nguyễn Tiến Trung (KT1)','C'],
+      ['Hoàng Đức - Đồng Trang','B'],
+      ['Nguyễn Vũ Quỳnh Chi - Lê Đức Anh (KT5)','A'],
+      ['Quang Huy - Thanh Huyền (BTK)','C'],
+      ['Vũ Huyền Trang - Đỗ Mạnh Cường (FSG)','C'],
+      ['Lê Văn Hưng - Nguyễn Thị Nhàn (KT3)','A'],
+      ['Lô Xuân Cường - Nguyễn Thị Dung (KT5)','B'],
+      ['Nguyễn Toàn - Lê Tài (BTK)','D'],
+      ['Nguyễn Thị Huyền Trang - Nguyễn Khánh Duy (Dự án)','A'],
+      ['Hoàng Thúy Nga - Chu Nam Anh (KT5)','D'],
+      ['Nguyễn Thu - Nguyễn Hùng (KT7)','D'],
+      ['Quốc Dũng - Y Bình (KT1)','B']
     ],
 
     rounds:{
@@ -701,12 +706,23 @@ const TOURNAMENTS = [
 
       matches:[
         {
-          name:'Bán kết',
+          name:'Tứ kết',
           participants:[
             ['Nhất A'],
-            ['Nhì C'],
+            ['Nhì B'],
+            ['Nhất C'],
+            ['Nhì D'],
             ['Nhất B'],
-            ['Ba XS 1']
+            ['Nhì A'],
+            ['Nhất D'],
+            ['Nhì C']
+          ]
+        },
+
+          {
+          name:'Bán kết',
+          participants:[
+          
           ]
         },
 
@@ -775,9 +791,23 @@ function buildPanelHTML(cat){
   
      const groupsHTML = cat.groups.map(g=>{
 
+      const playersInGroup = cat.participants.filter(
+          p => p[1] === g.name
+        );
+
     const slots = Array.from({length:g.size}).map((_,i)=>{
       const id = `slot__${cat.id}__${g.name}__${i}`;
-      return `<div class="slot-group" id="${id}"></div> `;
+
+      const player = playersInGroup[i];
+
+    // Nếu có người thì lấy tên, không có thì để trống
+    const playerName = player
+      ? player[0]
+      : '';
+
+      return `  <div class="slot-group" id="${id}">
+        👥 ${esc(playerName)}
+      </div>`;
     }).join('');
     return `<div class="group-card"><div class="group-head">Bảng ${esc(g.name)}</div>${slots}</div>`;
   }).join('');
