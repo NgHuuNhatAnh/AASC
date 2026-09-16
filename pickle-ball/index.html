@@ -9,10 +9,14 @@
     type="image/svg+xml"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='10' y='8' width='58' height='78' rx='29' fill='%231E7768' stroke='%23F3F6EC' stroke-width='3'/%3E%3Ccircle cx='30' cy='34' r='4' fill='%23F3F6EC'/%3E%3Ccircle cx='48' cy='34' r='4' fill='%23F3F6EC'/%3E%3Ccircle cx='30' cy='52' r='4' fill='%23F3F6EC'/%3E%3Ccircle cx='48' cy='52' r='4' fill='%23F3F6EC'/%3E%3Ccircle cx='39' cy='43' r='4' fill='%23F3F6EC'/%3E%3Crect x='31' y='86' width='16' height='22' rx='5' fill='%23F3F6EC'/%3E%3Ccircle cx='92' cy='78' r='20' fill='%23E4FF4D' stroke='%23081C24' stroke-width='2.5'/%3E%3Ccircle cx='85' cy='70' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='99' cy='70' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='85' cy='86' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='99' cy='86' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='92' cy='78' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='78' cy='78' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='106' cy='78' r='2.4' fill='%23081C24'/%3E%3C/svg%3E"
 />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/GSDevTools.min.js"></script>
+
 <style>
   :root{
     --text1:white;
@@ -140,26 +144,39 @@
   .track{
     display:flex; 
     height:auto;
+
   min-height: 100%;
 }
   .panel{
     flex:0 0 100vw; 
     width:100vw; 
     height:auto;
-     overflow: visible;
+     overflow-y: auto;
+     overflow-x: hidden ;
   }
   
+  .tournament-block{
+    /* min-height: 50vw; */
+    overflow-x: auto;
+    /* overflow-y: auto; */
+  }
 
   /* ---------- Hero ---------- */
   .hero{
     padding:clamp(28px,6vw,56px) clamp(18px,6vw,64px) clamp(22px,4vw,32px);
     border-bottom:4px solid var(--yellow);
-    display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
+    display:flex; justify-content:flex-start; 
+    align-items:center; gap:20px; flex-wrap:wrap;
   }
   .hero-title{font-size:clamp(2.1rem,7vw,3.6rem); font-weight:800; margin:0; line-height:1.02;
   color:var(--text1)}
   .hero-sub{margin:10px 0 0; font-family:var(--mono); font-size:.82rem; color:var(--chalk-dim); letter-spacing:.01em;}
-  .hero-icon{width:clamp(64px,10vw,110px); height:clamp(64px,10vw,110px); flex-shrink:0; opacity:.95;}
+  .hero-icon {
+    width: min(250px, 20vw);
+    height: min(250px, 20vw);
+    flex-shrink: 0;
+    opacity: 1;
+}
 
   /* ---------- Sections ---------- */
   section.block{
@@ -238,7 +255,7 @@
     padding:5px 6px; color:var(--yellow); text-align:center; font-family:var(--mono); font-size:.82rem; outline:none;
   }
   .score-input:focus{border-color:var(--yellow);}
-  .champ-col{display:flex; align-items:center;}
+  .champ-container{display:flex; align-items:center;}
   .champ-card{
     background:linear-gradient(135deg,var(--yellow),#FFF7B0); color:var(--navy-deep);
     border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:10px;
@@ -395,6 +412,10 @@
     right: 20px;
 }
 
+/* cho icon vot bong pickle ball  */
+.vot-bong-pickleball{
+  height: min(200px,20vw);
+}
 
 </style>
 </head>
@@ -701,16 +722,26 @@ const TOURNAMENTS = [
 ];
 
 
-const HERO_ICON = `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="10" y="8" width="58" height="78" rx="29" fill="#1E7768" stroke="#F3F6EC" stroke-width="3"/>
-  <circle cx="30" cy="34" r="4" fill="#F3F6EC"/><circle cx="48" cy="34" r="4" fill="#F3F6EC"/>
-  <circle cx="30" cy="52" r="4" fill="#F3F6EC"/><circle cx="48" cy="52" r="4" fill="#F3F6EC"/>
-  <circle cx="39" cy="43" r="4" fill="#F3F6EC"/>
-  <rect x="31" y="86" width="16" height="22" rx="5" fill="#F3F6EC"/>
-  <circle cx="92" cy="78" r="20" fill="#E4FF4D" stroke="#081C24" stroke-width="2.5"/>
-  <circle cx="85" cy="70" r="2.4" fill="#081C24"/><circle cx="99" cy="70" r="2.4" fill="#081C24"/>
-  <circle cx="85" cy="86" r="2.4" fill="#081C24"/><circle cx="99" cy="86" r="2.4" fill="#081C24"/>
-  <circle cx="92" cy="78" r="2.4" fill="#081C24"/><circle cx="78" cy="78" r="2.4" fill="#081C24"/><circle cx="106" cy="78" r="2.4" fill="#081C24"/>
+const HERO_ICON = `<svg xmlns="http://www.w3.org/2000/svg" class="vot-bong-pickleball" viewBox="-99.326 -14.26 640.829 489.381">
+  <g class="tay-vot" transform="matrix(3.655244, 0, 0, 3.655244, -1515.459595, -675.53717)" style="">
+    <rect x="424.77" y="201.215" width="58" height="78" rx="29" fill="#1E7768" stroke="#F3F6EC" stroke-width="3" style="stroke-width: 3;"></rect>
+    <circle cx="444.77" cy="227.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <circle cx="462.77" cy="227.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <circle cx="444.77" cy="245.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <circle cx="462.77" cy="245.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <circle cx="453.77" cy="236.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <rect x="445.77" y="279.215" width="16" height="22" rx="5" fill="#F3F6EC" style="stroke-width: 1;"></rect>
+  </g>
+  <g class="bong-pick" transform="matrix(3.655244, 0, 0, 3.655244, -1515.459595, -675.53717)" style="">
+    <circle cx="506.77" cy="271.215" r="20" fill="#E4FF4D" stroke="#081C24" stroke-width="2.5" style="stroke-width: 2.5;"></circle>
+    <circle cx="499.77" cy="263.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="513.77" cy="263.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="499.77" cy="279.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="513.77" cy="279.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="506.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="492.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="520.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+  </g>
 </svg>`;
 
 /* ============ helpers ============ */
@@ -757,8 +788,7 @@ function buildPanelHTML(cat){
 const roundsHTML = createTournamentBracket(cat.rounds);
 
 
-  const champId = `champ__${cat.id}`;
-  const champHTML = `<div class="champ-col"><div class="champ-card">🏆 <span>Vô địch</span></div></div>`;
+  
 
   return `
     <div class="court-bg hero">
@@ -785,10 +815,12 @@ const roundsHTML = createTournamentBracket(cat.rounds);
       <div class="groups-grid">${groupsHTML}</div>
     </section>
 
-    <section class="block">
+    <section class="block tournament-block">
       <h2>Sơ đồ vòng loại trực tiếp</h2>
-      <div id="tourament-bracket-${cat.id}" class="tourament-bracket">
-          ${roundsHTML}
+      <div id="tourament-bracket-${cat.id}" class="tourament-bracket" 
+      style="height: ${roundsHTML[1]}px;
+      width: ${roundsHTML[2]}px;">
+          ${roundsHTML[0]}
         </div>
     </section>
     
@@ -798,7 +830,8 @@ const roundsHTML = createTournamentBracket(cat.rounds);
 function createTournamentBracket(arrayParticipants) {
 
     
-
+    let heigtOfContainer = 0;
+    let widthOfContainer = 0;
     let numberOfMatches = 4;
      numberOfMatches = arrayParticipants.matches[0].participants.length/2;
 
@@ -927,10 +960,31 @@ function createTournamentBracket(arrayParticipants) {
                 translateYvalue = (currentGapRows + boxTeamHeight) * (matchIndex + 1);
                 // console.log(translateYvalue)
             } else {
+
+                 if (roundIndex == 0) {
+                  heigtOfContainer = currentRoundTop + translateYvalue + boxTeamHeight;
+                } 
+
+                 if (roundIndex == totalRounds-1) {
+                   widthOfContainer = matchLeft + boxTeamWidth*2 + gapColumns ;
+
+                   bracketHTML += 
+                   `<div class="champ-container" style="
+                   position: absolute;
+                    top: ${currentRoundTop}px;
+                    height: ${boxTeamHeight}px;
+                    width : ${boxTeamWidth}px;
+                    transform: translate(${matchLeft+gapColumns+boxTeamWidth}px,${translateYvalue}px)"><div class="champ-card">🏆 <span>Vô địch</span>
+                    </div></div>`;
+                  
+                } 
+               
+
                 oldgapRows = currentGapRows;
                 currentRoundTop += currentGapRows / 2 + boxTeamHeight / 2;
                 translateYvalue = 0;
                 currentGapRows = currentGapRows * 2 + boxTeamHeight;
+               
             }
 
             
@@ -941,7 +995,7 @@ function createTournamentBracket(arrayParticipants) {
         // Round tiếp theo giảm một nửa số match
         currentNumberOfMatches /= 2;
     }
-return bracketHTML;
+return [bracketHTML, heigtOfContainer, widthOfContainer];
 
 }
 
@@ -975,13 +1029,15 @@ window.addEventListener('keydown', e=>{
   if(e.key==='ArrowLeft' && current > 0) goTo(current-1);
 });
 
+
 // one orchestrated entrance animation for the first panel
 window.addEventListener('DOMContentLoaded', ()=>{
+  const tl1 = gsap.timeline();
   const firstHero = document.querySelector('.panel .hero');
   if(!firstHero) return;
-  gsap.from(firstHero.querySelector('.hero-title'), {opacity:0, y:24, duration:.7, ease:'power2.out'});
-  gsap.from(firstHero.querySelector('.hero-sub'), {opacity:0, y:16, duration:.7, delay:.1, ease:'power2.out'});
-  gsap.from(firstHero.querySelector('.hero-icon'), {opacity:0, scale:.7, duration:.8, delay:.15, ease:'back.out(1.6)'});
+  tl1.from(firstHero.querySelector('.hero-title'), {opacity:0, y:24, duration:.7, ease:'power2.out'});
+  tl1.from(firstHero.querySelector('.hero-sub'), {opacity:0, y:16, duration:.7, delay:.1, ease:'power2.out'}, "<");
+  tl1.from(firstHero.querySelector('.hero-icon'), {opacity:0, scale:.7, duration:.8, delay:.15, ease:'back.out(1.6)'}, "<");
 });
 
 // đoạn dưới cho slider 
@@ -1127,7 +1183,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+// đoạn cho icon 
+document.addEventListener('DOMContentLoaded', () => {
 
+    const ball = document.querySelectorAll(".bong-pick");
+    const vot = document.querySelectorAll(".tay-vot");
+
+   const tl2 = gsap.timeline();
+
+  
+tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.out"},"1")
+  .fromTo(vot,{rotation:-30,transformOrigin:"50% 100%",},{ rotation:30,duration: 1,yoyo:true,repeat:-1,ease: "power2.inOut" },"1")
+;
+
+    // GSDevTools.create({ timeline: tl });
+
+});
 
 </script>
 </body>
