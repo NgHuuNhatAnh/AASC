@@ -23,6 +23,8 @@
     --text3:black;
    --fontSize4:clamp(.95rem, 1vw, 1.1rem);
    --fontSize3:clamp(1.1rem, 1vw, 1.3rem);
+   --fontSize2:clamp(1.3rem, 1vw, 2rem);
+
   --navy:#8F3F0A;
 --teal:#D65F0A;
 
@@ -49,7 +51,7 @@
 
   --line-strong:black;
 
-  --topbar-h:64px;
+  --topbar-h: 100px;
 
   --mono:'Space Mono',ui-monospace,monospace;
 
@@ -94,46 +96,77 @@
   }
 
   /* ---------- Topbar ---------- */
-  .topbar{
-    height:var(--topbar-h);
-    display:flex; align-items:center; gap:10px;
-    padding:0 clamp(10px,3vw,24px);
-    background:var(--navy);
-    border-bottom:1px solid var(--line);
-    position:relative; z-index:50;
-  }
-  .brand{
-    display:flex; align-items:center; gap:8px;
-    flex:0 0 auto; white-space:nowrap;
-  }
- 
-  .brand-text{font-weight:800; font-size:.95rem; letter-spacing:.01em;color: white;}
-  .brand-text small{display:block; font-weight:500; font-size:.66rem; color:var(--chalk-dim); font-family:var(--mono);}
+ .topbar {
+    min-height: var(--topbar-h);
+    height: auto;
 
-  .tabs{
-    flex:1 1 auto; display:flex; gap:6px; overflow-x:auto;
-    scrollbar-width:none; -ms-overflow-style:none;
-  }
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+    padding: 10px clamp(10px, 3vw, 24px);
+
+    background: var(--navy);
+    border-bottom: 1px solid var(--line);
+
+    position: relative;
+    z-index: 50;
+}
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.tabs {
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    overflow: visible;
+}
+
+.tab {
+    flex: 0 0 auto;       /* KHÔNG cho tab co lại */
+
+    appearance: none;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: white;
+
+    padding: 16px 20px;
+    border-radius: 999px;
+
+    font-weight: 600;
+    font-size: var(--fontSize4);
+
+    white-space: nowrap;
+    cursor: pointer;
+
+    font-family: var(--sans);
+}
+ 
+  .brand-text{font-weight:800; 
+    font-size:var(--fontSize3); 
+    letter-spacing:.01em;color: white;}
+
+  .brand-text small{display:block; font-weight:500; font-size:var(--fontSize4); color:var(--chalk-dim); font-family:var(--mono);}
+
+  
   .tabs::-webkit-scrollbar{display:none;}
-  .tab{
-    appearance:none; border:1px solid var(--line); background:transparent; color:white;
-    padding:8px 16px; border-radius:999px; font-weight:600; font-size:.82rem;
-    white-space:nowrap; cursor:pointer; transition:background .25s,color .25s,border-color .25s,transform .15s;
-    font-family:var(--sans);
-  }
+  
+ 
   .tab:hover{border-color:var(--line-strong);}
   .tab:active{transform:scale(.97);}
   .tab.active{
-    background:var(--yellow); color:white; border-color:var(--yellow);}
+    background:var(--yellow); color:black; border-color:var(--yellow);}
 
-  .print-btn{
-    flex:0 0 auto; appearance:none; border:none; cursor:pointer;
-    background:var(--coral); color:#241009; font-weight:700; font-size:.82rem;
-    padding:9px 16px; border-radius:999px; font-family:var(--sans);
-    display:flex; align-items:center; gap:6px; transition:filter .2s, transform .15s;
-  }
-  .print-btn:hover{filter:brightness(1.08);}
-  .print-btn:active{transform:scale(.97);}
 
   /* ---------- Slide track ---------- */
   .viewport{
@@ -185,26 +218,39 @@
     z-index:10; position:relative;
     }
   section.block + section.block{border-top:1px solid var(--line);}
-  .block h2{font-size:1.28rem; font-weight:700; margin:0 0 16px;}
+  .block h2{
+    font-size:var(--fontSize2); 
+    font-weight:700;
+     margin:0 0 16px;}
 
   .rules-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; max-width:760px;}
-  .rules-list li{display:flex; gap:12px; align-items:flex-start; font-size:.95rem; line-height:1.5;}
+  .rules-list li{
+    display:flex; 
+    gap:12px; 
+    align-items:flex-start; 
+    font-size: var(--fontSize3); 
+    line-height:1.5;}
   .rules-list li .dot{width:9px;height:9px;background:var(--yellow); border-radius:2px; margin-top:7px; flex-shrink:0;}
   .rules-note{margin-top:14px; padding:10px 14px; border-left:3px solid var(--coral); font-size:.86rem; color:var(--chalk-dim); font-style:italic; max-width:760px;}
 
+
+  /* đoạn participants */
+
   .participants-grid{
-    display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:10px;
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(350px,1fr)); gap:10px;
   }
   .p-chip{
     display:flex; align-items:center; gap:9px;
-    background:rgba(243,246,236,.045); border:1px solid var(--line); border-radius:10px;
-    padding:10px 14px; font-size:.88rem;
+   
+    border:1px solid var(--line); border-radius:10px;
+    padding:10px 14px; font-size:var(--fontSize4);
+     height: clamp(45px, 4vw, 70px);
   }
 
 
   .groups-grid{
     display:grid; 
-    grid-template-columns:repeat(4,1fr); 
+     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap:16px;
     align-items: start;
   }
@@ -282,12 +328,27 @@
   footer.pad{height:24px;}
 
   /* CSS thêm */
-  .logo{
-    height: 90%;
-    width:auto;
-    background-color: white;
-    border-radius: 30px;
-  }
+ .logo-wrap {
+    height: clamp(50px, 5vw, 70px);
+
+    min-width: 100px;
+
+    overflow: hidden;
+    border-radius: 34px;
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+}
+
+.logo {
+    height: 150%;
+    width: auto;
+    display: block;
+}
 
 /* cái tournament bracket  */
 .tourament-bracket {
@@ -435,7 +496,9 @@
 
 <div class="app-shell">
   <div class="topbar">
+    <div class="logo-wrap">
     <img class="logo" src="https://aasc.com.vn/web/images/logoAASC.png">
+    </div>
     <div class="brand">
       
       <div class="brand-text">Giải Pickleball<small>Sơ đồ thi đấu</small></div>
