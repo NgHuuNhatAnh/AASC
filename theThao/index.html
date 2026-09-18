@@ -1,2 +1,1907 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AASC Pickleball</title>
+<link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect x='10' y='8' width='58' height='78' rx='29' fill='%231E7768' stroke='%23F3F6EC' stroke-width='3'/%3E%3Ccircle cx='30' cy='34' r='4' fill='%23F3F6EC'/%3E%3Ccircle cx='48' cy='34' r='4' fill='%23F3F6EC'/%3E%3Ccircle cx='30' cy='52' r='4' fill='%23F3F6EC'/%3E%3Ccircle cx='48' cy='52' r='4' fill='%23F3F6EC'/%3E%3Ccircle cx='39' cy='43' r='4' fill='%23F3F6EC'/%3E%3Crect x='31' y='86' width='16' height='22' rx='5' fill='%23F3F6EC'/%3E%3Ccircle cx='92' cy='78' r='20' fill='%23E4FF4D' stroke='%23081C24' stroke-width='2.5'/%3E%3Ccircle cx='85' cy='70' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='99' cy='70' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='85' cy='86' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='99' cy='86' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='92' cy='78' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='78' cy='78' r='2.4' fill='%23081C24'/%3E%3Ccircle cx='106' cy='78' r='2.4' fill='%23081C24'/%3E%3C/svg%3E"
+/>
 
-test
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Noto+Serif:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+
+<style>
+  :root{
+    --text1:white;
+    --text3:black;
+   --fontSize4:clamp(.95rem, 1vw, 1.1rem);
+   --fontSize3:clamp(1.1rem, 1vw, 1.3rem);
+   --fontSize2:clamp(1.3rem, 1vw, 2rem);
+    --font-serif: 'Noto Serif', serif;
+
+  --navy:#8F3F0A;
+--teal:#D65F0A;
+
+  --navy-deep:linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #ffffff 60%,
+            #fff7ed 78%,
+            #ffd6a3 100%
+        );;
+
+  
+  --teal-soft:#A84E13;
+
+  --chalk:black;
+
+  --chalk-dim:rgba(255,243,226,.62);
+
+  --yellow:#FFCC66;
+
+  --coral:#FF7A3D;
+
+  --line:black;
+
+  --line-strong:black;
+
+  --topbar-h: 100px;
+
+  --mono:'Space Mono',ui-monospace,monospace;
+
+  --sans:'Be Vietnam Pro',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--sans);
+    background:var(--navy-deep);
+    color:var(--chalk);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  input{font-family:inherit;}
+  ::selection{background:var(--yellow);color:var(--navy-deep);}
+ 
+/*----- cái hình background ----------- */
+  .image-background{
+    position:absolute; 
+    top: 200px;
+    right:5px;
+    width:300px; 
+    height:300px; 
+    object-fit:cover; 
+    object-position:center;
+    z-index:0;
+      /* flex-shrink: 0; */
+
+  }
+  /* ---------- Court-line texture ---------- */
+  .court-bg{
+    background-image:
+      linear-gradient(180deg,var(--teal) 0%,var(--navy) 62%);
+    position:relative;
+  }
+  .court-bg::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:repeating-linear-gradient(90deg, rgba(243,246,236,.05) 0 1px, transparent 1px 64px);
+    pointer-events:none;
+  }
+
+  /* ---------- Topbar ---------- */
+ .topbar {
+    min-height: var(--topbar-h);
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+    padding: 10px clamp(10px, 3vw, 24px);
+
+    background: var(--navy);
+    border-bottom: 1px solid var(--line);
+
+    position: relative;
+    z-index: 50;
+}
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.tabs {
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    overflow: visible;
+}
+
+.tab {
+    flex: 0 0 auto;       /* KHÔNG cho tab co lại */
+
+    appearance: none;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: white;
+
+    padding: 16px 20px;
+    border-radius: 999px;
+
+    font-weight: 600;
+    font-size: var(--fontSize4);
+
+    white-space: nowrap;
+    cursor: pointer;
+
+    font-family: var(--sans);
+}
+ 
+  .brand-text{font-weight:800; 
+    font-size:var(--fontSize3); 
+    letter-spacing:.01em;color: white;}
+
+  .brand-text small{display:block; font-weight:500; font-size:var(--fontSize4); color:var(--chalk-dim); font-family:var(--mono);}
+
+  
+  .tabs::-webkit-scrollbar{display:none;}
+  
+ 
+  .tab:hover{border-color:var(--line-strong);}
+  .tab:active{transform:scale(.97);}
+  .tab.active{
+    background:var(--yellow); color:black; border-color:var(--yellow);}
+
+
+  /* ---------- Slide track ---------- */
+  .viewport{
+    height:calc(100dvh - var(--topbar-h));
+    overflow-x: hidden;
+    overflow-y: auto;
+    position:relative;
+  }
+  .track{
+    display:flex; 
+    height:auto;
+
+  min-height: 100%;
+}
+  .panel{
+    flex:0 0 100vw; 
+    width:100vw; 
+    height:auto;
+     overflow-y: auto;
+     overflow-x: hidden ;
+  }
+  
+  .tournament-block{
+    /* min-height: 50vw; */
+    overflow-x: auto;
+    /* overflow-y: auto; */
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:10px clamp(22px,4vw,32px);
+    border-bottom:4px solid var(--yellow);
+    display:flex; justify-content:flex-start; 
+    align-items:center; gap:20px; flex-wrap:wrap;
+  }
+  .hero-title{font-size:clamp(2.1rem,7vw,3.6rem); font-weight:800; margin:0; line-height:1.02;
+  color:var(--text1)}
+  .hero-sub{margin:10px 0 0; font-family:var(--mono); font-size:.82rem; color:var(--chalk-dim); letter-spacing:.01em;}
+  .hero-icon {
+    width: min(250px, 20vw);
+    height: min(250px, 20vw);
+    flex-shrink: 0;
+    opacity: 1;
+}
+
+  /* ---------- Sections ---------- */
+  section.block{
+    padding:clamp(18px,4vw,44px) clamp(18px,6vw,64px);
+    z-index:10; position:relative;
+    }
+  section.block + section.block{border-top:1px solid var(--line);}
+  .block h2{
+    font-size:var(--fontSize2); 
+    font-weight:700;
+     margin:0 0 16px;}
+
+  .rules-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; max-width:760px;}
+  .rules-list li{
+    display:flex; 
+    gap:12px; 
+    align-items:flex-start; 
+    font-size: var(--fontSize3); 
+    line-height:1.5;}
+  .rules-list li .dot{width:9px;height:9px;background:var(--yellow); border-radius:2px; margin-top:7px; flex-shrink:0;}
+  .rules-note{margin-top:14px; padding:10px 14px; border-left:3px solid var(--coral); font-size:.86rem; color:var(--chalk-dim); font-style:italic; max-width:760px;}
+
+
+  /* đoạn participants */
+
+  .participants-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(350px,1fr)); gap:10px;
+     align-items: start;
+  }
+.p-chip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: var(--fontSize4);
+
+  min-height: clamp(45px, 4vw, 70px);
+  height: auto;
+  box-sizing: border-box;
+}
+
+
+  .groups-grid{
+    display:grid; 
+     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap:16px;
+    align-items: start;
+  }
+  .group-card{
+    border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(243,246,236,.03);
+  }
+
+  .group-head{
+    color: var(--text1);
+    background:var(--teal-soft); 
+    padding:10px 14px; 
+    font-family:var(--mono);
+     font-weight:700;
+    font-size:var(--fontSize3); 
+    letter-spacing:.02em;
+     display: flex;
+    align-items: center; 
+    justify-content: center;
+  }
+
+  .slot-group{
+    width:100%; background:transparent; border-top:1px solid var(--line-strong);
+    padding: 15px 14px;
+    color:var(--chalk); 
+    font-size:var(--fontSize4);
+     outline:none;
+      height: clamp(45px, 4vw, 70px);
+    box-sizing: border-box;
+     display: flex;
+    align-items: center; 
+  }
+  
+  /* bảng bóng đá */
+
+  
+  .group-schedule-wrap{overflow-x:auto;}
+  .group-schedule{
+    width:100%; min-width:900px; border-collapse:collapse;
+    background:rgba(243,246,236,.06); font-size:.88rem;
+  }
+  .group-schedule th,
+  .group-schedule td{
+    border:1px solid var(--line); padding:8px 10px; text-align:center;
+  }
+  .group-schedule thead th{background:var(--yellow); color:var(--text3); font-weight:700;}
+  .group-schedule td:first-child,
+  .group-schedule td:nth-child(2){white-space:nowrap; font-family:var(--mono); font-size:.78rem;}
+  .schedule-team{min-width:92px; font-weight:600;}
+  .schedule-court,
+
+  .schedule-score{width:72px; min-width:72px;}
+
+  .schedule-court input,
+  .schedule-score input{
+    width:100%; min-width:0; padding:5px 4px; text-align:center;
+    border:1px dashed var(--line-strong); border-radius:4px;
+    background:transparent; color:var(--chalk); font: .78rem var(--mono);
+  }
+.schedule-score-pair {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+
+  
+/* Icon bong da */
+.football-icon{
+  height: min(140px,14vw);
+  overflow: visible;
+}
+
+.football-bouncing{
+  transform-box: fill-box;
+  transform-origin: center center;
+  animation: football-roll 3.2s ease-in-out infinite alternate;
+}
+
+@media (max-width: 700px){
+  .groups-grid{
+    grid-template-columns: minmax(0, 280px);
+  }
+}
+
+@keyframes football-roll{
+  0% { transform: translateX(-160px) rotate(0deg); }
+  100% { transform: translateX(160px) rotate(360deg); }
+}
+
+
+
+  /* ---------- Bracket ---------- */
+  .bracket-scroll{ padding-bottom:10px;}
+  .bracket-rounds{display:flex; align-items:stretch; gap:clamp(10px,2vw,22px); min-width:max-content; padding:6px 2px 20px;}
+  .round-col{display:flex; flex-direction:column; justify-content:space-around; gap:18px; min-width:198px;}
+
+  .round-title{
+    text-align:center; 
+    font-family:var(--font-serif); 
+    font-size:1.8rem; 
+    color:var(--text3); }
+
+  .round-arrow{display:flex; align-items:center; justify-content:center; color:var(--line-strong); font-size:1.6rem; align-self:center; padding-top:22px;}
+  .match{
+    background:rgba(243,246,236,.045); border:1px solid var(--line); border-radius:12px;
+    padding:10px 12px; display:flex; flex-direction:column; gap:6px;
+  }
+  .team-row{display:flex; align-items:center; gap:8px; font-size:.88rem;}
+  .team-label{padding:5px 2px; flex:1;}
+  .team-input{
+    flex:1; background:transparent; border:1px dashed var(--line-strong); border-radius:6px;
+    padding:6px 8px; color:var(--chalk); font-size:.85rem; outline:none; min-width:0;
+  }
+  .team-input:focus{border-color:var(--yellow); background:rgba(228,255,77,.06);}
+  .score-row{display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:.76rem; color:var(--chalk-dim); margin-top:2px;}
+  .score-input{
+    width:64px; background:transparent; border:1px dashed var(--line-strong); border-radius:6px;
+    padding:5px 6px; color:var(--yellow); text-align:center; font-family:var(--mono); font-size:.82rem; outline:none;
+  }
+  .score-input:focus{border-color:var(--yellow);}
+  .champ-container{display:flex; align-items:center;}
+  .champ-card{
+    background:linear-gradient(135deg,var(--yellow),#FFF7B0); color:var(--navy-deep);
+    border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:10px;
+    font-weight:800; font-size:.92rem; min-width:220px;
+  }
+  .champ-card input{
+    flex:1; background:rgba(8,28,36,.08); border:1px dashed rgba(8,28,36,.35); border-radius:8px;
+    padding:7px 9px; color:var(--navy-deep); font-weight:700; font-size:.88rem; outline:none; min-width:0;
+  }
+  .champ-card input:focus{border-color:var(--navy-deep);}
+
+  footer.pad{height:24px;}
+
+  /* CSS thêm */
+ .logo-wrap {
+    height: clamp(50px, 5vw, 70px);
+
+    min-width: 100px;
+
+    overflow: hidden;
+    border-radius: 34px;
+    /* background: white; */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+}
+
+.logo {
+    height: 150%;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+}
+
+/* cái tournament bracket  */
+.tourament-bracket {
+    display: flex;
+    /* gap: 100px; */
+    align-items: flex-start;
+        position: relative;
+}
+
+
+
+.bracket-match {
+    display: grid;
+    grid-template-columns: 1fr 45px;
+    grid-template-rows: 1fr 1fr;
+
+    box-sizing: border-box;
+
+    border: 1px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.connector-1{
+     
+     border-top:1px red solid;
+    border-right:1px red solid;
+}
+
+.connector-2{
+     border-right:1px red solid;
+      border-bottom:1px red solid;
+}
+
+.connector-line{
+    border-top:1px red solid;
+}
+
+/* đội trong bảng */
+.bracket-match > div {
+    display: contents;
+}
+
+.bracket-match span {
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+}
+
+.bracket-match span:nth-child(even) {
+    justify-content: center;
+    padding-left: 0;
+
+    border-left: 1px solid #333;
+}
+
+.bracket-match .team-row:nth-child(2) span {
+    border-top: 1px solid #333;
+}
+
+
+/* slider  */
+#image-slider {
+     position: relative;
+
+    width: 100%;
+    height: 700px !important;
+
+    overflow: hidden;
+
+    background: red;
+
+    z-index: 9999;
+}
+
+@media (max-width: 450px) {
+    #image-slider {
+        height: 300px !important;
+    }
+}
+
+/* Tất cả ảnh nằm chồng lên nhau */
+#image-slider img {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center 40%;
+    opacity: 0;
+}
+
+/* Ảnh đầu tiên */
+#image-slider img:first-of-type {
+    opacity: 1;
+}
+
+/* Nút */
+.slider-btn {
+    position: absolute;
+
+    top: 50%;
+    z-index: 10;
+
+    transform: translateY(-50%);
+
+    width: 50px;
+    height: 80px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: rgba(0, 0, 0, 0.35);
+    color: white;
+
+    font-size: 50px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background 0.2s;
+}
+
+.slider-btn:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.slider-prev {
+    left: 20px;
+}
+
+.slider-next {
+    right: 20px;
+}
+
+/* cho icon vot bong pickle ball  */
+.vot-bong-pickleball{
+  height: min(200px,20vw);
+}
+
+/* start up screen  */
+
+/* .startup-screen {
+    position: absolute;
+    top:0;
+    left:0;
+    width: auto;
+    height: 100vw;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.startup-screen svg {
+    position: absolute;
+
+     top:0;
+    left:0;
+    width: auto;
+    height: 100vw;
+    transform: translateX(-50%);
+
+    width: 100%;
+    height: auto;
+
+    z-index: 0;
+}
+
+.startup-screen > div {
+    position: relative;
+
+    z-index: 5;
+
+    height: 100px;
+    width: 200px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 16px;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+#button-bong-da {
+    background: rgb(84, 248, 27);
+    color: #000;
+}
+
+#button-pickle-ball {
+    background: rgb(255, 22, 22);
+    color: #fff;
+}
+
+.startup-screen > div:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .3);
+} */
+
+/* style của cái cửa mở  */
+ /* Container chính */
+        .scene {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Không gian phòng bên trong */
+        .room-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0.3s;
+        }
+
+        .room-content.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Các cánh cửa trượt ngang */
+        .door {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10;
+            transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+            pointer-events: auto; /* Chặn click xuyên qua cửa khi đang đóng */
+        }
+
+        .door-left {
+            /* Clip path zig-zag cho nửa bên trái */
+            clip-path: polygon(
+                0% 0%, 50% 0%, 
+                calc(50% - 40px) 10%, calc(50% + 40px) 20%, 
+                calc(50% - 40px) 30%, calc(50% + 40px) 40%, 
+                calc(50% - 40px) 50%, calc(50% + 40px) 60%, 
+                calc(50% - 40px) 70%, calc(50% + 40px) 80%, 
+                calc(50% - 40px) 90%, 50% 100%, 
+                0% 100%
+            );
+            background: linear-gradient(135deg, #f7931e 0%, #c1272d 100%);
+            /* Thêm bóng để tách biệt hai cánh cửa khi xếp chồng lên nhau */
+            filter: drop-shadow(5px 0 15px rgba(0,0,0,0.7));
+            z-index: 11; /* Đặt cao hơn cửa phải 1 chút để bóng đè lên */
+        }
+
+        .door-right {
+            /* Clip path zig-zag khớp vừa khít cho nửa bên phải */
+            clip-path: polygon(
+                100% 0%, 50% 0%, 
+                calc(50% - 40px) 10%, calc(50% + 40px) 20%, 
+                calc(50% - 40px) 30%, calc(50% + 40px) 40%, 
+                calc(50% - 40px) 50%, calc(50% + 40px) 60%, 
+                calc(50% - 40px) 70%, calc(50% + 40px) 80%, 
+                calc(50% - 40px) 90%, 50% 100%, 
+                100% 100%
+            );
+            background: linear-gradient(135deg, #f7931e 0%, #9e1f24 100%);
+            z-index: 10;
+        }
+
+        /* Trạng thái mở cửa */
+        .door-left.open {
+            transform: translateX(-100vw);
+        }
+
+        .door-right.open {
+            transform: translateX(100vw);
+        }
+
+        /* Lớp giao diện chứa nút bấm ban đầu */
+        .ui-layer {
+            position: absolute;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .ui-layer.hidden-ui {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        /* Hiệu ứng trôi nổi */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Hiệu ứng nền thay đổi linh hoạt */
+        .bg-football {
+            background: radial-gradient(circle at center, #dcfce7 0%, #22c55e 100%);
+        }
+        
+        .bg-pickleball {
+            background: radial-gradient(circle at center, #fce7f3 0%, #db2777 100%);
+        }
+
+</style>
+</head>
+<body>
+
+<!-- <div class="startup-screen">
+  <div id="button-bong-da">Bóng đá</div>
+  <div id="button-pickle-ball">Pickle ball</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <rect x="229.526" y="0.238" width="350.908" height="517.715" style="stroke: rgb(0, 0, 0); fill: rgb(255, 22, 22);" id="pickleball"></rect>
+    <rect x="-90.214" y="-4.793" width="350.908" height="517.715" style="stroke: rgb(0, 0, 0); fill: rgb(84, 248, 27);" id="football"></rect>
+  </svg>
+</div> -->
+
+<!-- đoạn mở cửa -->
+<div class="scene" id="main-scene">
+        
+        <!-- Không gian bên trong (Sau khi mở cửa) -->
+        <div class="room-content bg-gray-100" id="room-content">
+            <div id="sport-icon" class="text-9xl mb-8 floating-icon drop-shadow-2xl">🏆</div>
+            <h1 id="sport-title" class="text-5xl md:text-7xl font-extrabold text-white text-center px-4 tracking-tight drop-shadow-lg mb-4">
+                Sẵn sàng!
+            </h1>
+            
+            <button onclick="resetScene()" class="mt-8 px-8 py-3 bg-white/20 backdrop-blur-md text-white border border-white/50 rounded-full shadow-lg hover:bg-white/30 hover:scale-105 transition-all duration-300 font-semibold text-lg flex items-center gap-2">
+                <span>Đóng cửa</span> 
+                <span class="text-xl">✖</span>
+            </button>
+        </div>
+
+        <!-- Cánh cửa Zig-Zag -->
+        <div class="door door-left" id="door-left"></div>
+        <div class="door door-right" id="door-right"></div>
+
+        <!-- Khu vực hiển thị 2 nút bấm chọn môn -->
+        <div class="ui-layer" id="ui-layer">
+            <img src="https://aasc.com.vn/web/images/logoAASC.png" alt="AASC Logo" class="max-w-[280px] md:max-w-[400px] mb-8 object-contain brightness-0 invert">
+            <div class="flex flex-col sm:flex-row gap-6">
+                <!-- Nút Bóng đá -->
+                <button onclick="openDoors('football')" class="group relative px-10 py-5 bg-gradient-to-br from-green-400 to-emerald-700 rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-transform hover:scale-105 active:scale-95 border border-emerald-300/30">
+                    <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
+                    <div class="flex items-center gap-3 relative z-10">
+                        <span class="text-4xl">⚽</span>
+                        <span class="text-white text-xl font-bold tracking-wide uppercase">Đá bóng</span>
+                    </div>
+                </button>
+
+                <!-- Nút Pickleball -->
+                <button onclick="openDoors('pickleball')" class="group relative px-10 py-5 bg-gradient-to-br from-pink-500 to-rose-700 rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(236,72,153,0.4)] transition-transform hover:scale-105 active:scale-95 border border-pink-300/30">
+                    <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
+                    <div class="flex items-center gap-3 relative z-10">
+                        <span class="text-4xl">🏓</span>
+                        <span class="text-white text-xl font-bold tracking-wide uppercase">Pickleball</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- đoạn dưới là nội dung ở trong  -->
+
+
+
+<div class="app-shell">
+  <div class="topbar">
+    <div class="logo-wrap">
+    <img class="logo" src="https://aasc.com.vn/web/images/logoAASC.png">
+    </div>
+    <div class="brand">
+      
+      <div class="brand-text">Giải Pickleball<small>Sơ đồ thi đấu</small></div>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    
+  </div>
+
+
+
+  <div class="viewport">
+
+      <!-- <div id="image-slider">
+    <button class="slider-btn slider-prev" id="slider-prev">
+        ‹
+    </button>
+      <button class="slider-btn slider-next" id="slider-next">
+        ›
+    </button>
+    <img src="./img/7.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/8.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/1.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/2.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/3.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/4.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/5.jpg" alt="ảnh pickleball AASC">
+      <img src="./img/6.jpg" alt="ảnh pickleball AASC">
+      
+      <img src="./img/9.jpg" alt="ảnh pickleball AASC">
+
+  </div> -->
+    
+    <div class="track" id="track">
+    
+    </div>
+
+    
+  </div>
+</div>
+
+
+<script>
+/* ============ DATA ============ */
+
+const TOURNAMENTS = [
+  {
+    id:'danam',
+    bomon:'pickleball',
+    tab:'Đơn Nam',
+    title:'Đơn nam',
+    subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
+    rules:[
+      '🏆 Đánh đến hết chung kết',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 9, không cách điểm',
+      '⚔️ Vòng loại: Lấy 2 đội nhất nhì mỗi bảng, game chạm 9 không cách điểm',
+      '🔜 Bán kết: Game chạm 9 không cách điểm',
+      '👑 Chung kết: Game chạm 9, tối đa chạm 11 '
+    ],
+    note:null,
+    groups:[
+      {name:'A',size:4},
+      {name:'B',size:4},
+      {name:'C',size:4},
+      {name:'D',size:4}
+    ],
+    participants:[
+      ['Xuân Trường (FSG)','A'],
+      ['Duy Khánh (KT7)','B'],
+      ['Xuân Tùng (KT8)','A'],
+      ['Đức Anh (KT5)','A'],
+      ['Quang Hưng (KT3)','B'],
+      ['Tuấn Anh (KT2)','D'],
+      ['Duy Khánh (KT2)','A'],
+      ['Long Hải (KT5)','B'],
+      ['Khánh Tùng (Dự án)','C'],
+      ['Nam Anh (KT5)','C'],
+      ['Huy Hùng (FSG)','D'],
+      ['Mạnh Tiến (KT5)','D'],
+      ['Văn Tâm (TH)','D'],
+      ['Ngọc Sơn (KT7)','C'],
+      ['Trí Thành (KT2)','B'],
+      ['Hồng Quang (FSG)','C']
+    ],
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Tứ kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhì B'],
+            ['Nhất C'],
+            ['Nhì D'],
+            ['Nhất B'],
+            ['Nhì A'],
+            ['Nhất D'],
+            ['Nhì C']
+          ]
+        },
+
+        {
+          name:'Bán kết',
+          participants:[]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        }
+      ]
+    }
+  },
+
+  {
+    id:'doinu',
+    bomon:'pickleball',
+    tab:'Đôi Nữ',
+    title:'Đôi nữ',
+    subtitle:'Vòng bảng · Bán kết (Top 4) · Chung kết',
+    rules:[
+      '🏆 Đánh đến hết chung kết',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      '🔜 Bán kết: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
+      '👑 Chung kết: game chạm 11, tối đa chạm 13'
+    ],
+    note:null,
+
+    groups:[
+      {name:'A',size:3},
+      {name:'B',size:3}
+    ],
+
+    participants:[
+      ['Hồ Duyên - Y Bình (KT1)','A'],
+      ['Nguyễn Dung - Hải Yến (KT5)','B'],
+      ['Thanh Huyền - Lê Tài (BTK)','A'],
+      ['Huyền Trang - Đồng Trang (FSG)','B'],
+      ['Anh Thi - Đỗ Nhung (KT5)','A'],
+      ['Thúy Nga - Quỳnh Chi (KT5)','B']
+    ],
+
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Bán kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhì B'],
+            ['Nhất B'],
+            ['Nhì A']
+          ]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        }
+      ]
+    }
+  },
+
+  {
+    id:'doinam',
+    bomon:'pickleball',
+    tab:'Đôi Nam',
+    title:'Đôi nam',
+    subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
+    rules:[
+      '🏆 Đánh đến hết chung kết',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng + nhì xuất sắc 1, game chạm 11 không cách điểm',
+      '🔜 Bán kết: game chạm 11 không cách điểm',
+      '👑 Chung kết: game chạm 13, tối đa chạm 15'
+    ],
+    note:'',
+
+    groups:[
+      {name:'A',size:3},
+      {name:'B',size:3},
+      {name:'C',size:3},
+      {name:'D',size:3},
+      {name:'E',size:3},
+      {name:'F',size:3}
+    ],
+
+    participants:[
+      ['Cường Đỗ - Xuân Biển (B.TGĐ)'],
+      ['Khánh Duy - Đình Đức (Dự án)','C'],
+      ['Quang Huy (BTK) - Nguyễn Toàn (TĐG)','D'],
+      ['Đức Ân - Minh Tiến (KT5)','B'],
+      ['Minh Châu - Mạnh Tiến (KT5)','E'],
+      ['Văn Hưng - Quang Hưng (KT3)','A'],
+      ['Tiến Trung - Quốc Dũng (KT1)','D'],
+      ['Khánh Tùng - Việt Hoàng (Dự án)','E'],
+      ['Quang Duy (BTK) - Hoàng Đức (TĐG)','B'],
+      ['Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)','B'],
+      ['Xuân Trường - Hữu Hoàng (FSG)','F'],
+      ['Hoàng Hà - Lưu Quang (Dự án)','A'],
+      ['Long Hải - Xuân Cường (KT5)','A'],
+      ['Phạm Hùng - Nguyễn Hùng (KT7)','C'],
+      ['Tuấn Anh - Duy Khánh (KT2)','F'],
+      ['Ngọc Sơn - Duy Khánh (KT7)','F'],
+      ['Anh Ngọc - Huy Hùng (FSG)','C'],
+      ['Thiên Phúc - Trí Thành (KT2)','D'],
+      ['Văn Tâm - Trường Giang (TH)','E']
+    ],
+
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Tứ kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhất B'],
+            ['Nhất C'],
+            ['Nhất D'],
+            ['Nhất E'],
+            ['Nhất F'],
+            ['Nhì XS 1'],
+            ['Cường Đỗ - Xuân Biển']
+          ]
+        },
+
+        {
+          name:'Bán kết',
+          participants:[]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        }
+      ]
+    }
+  },
+
+  {
+    id:'doinamnu',
+    bomon:'pickleball',
+    tab:'Đôi Nam Nữ',
+    title:'Đôi nam nữ',
+    subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
+    rules:[
+      '🏆 Đánh đến hết chung kết',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      '⚔️ Vòng loại: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
+      '🔜 Bán kết: game chạm 11 không cách điểm',
+      '👑 Chung kết: game chạm 13, tối đa chạm 15',
+
+    ],
+    note:'',
+
+    groups:[
+      {name:'A',size:3},
+      {name:'B',size:3},
+      {name:'C',size:3},
+      {name:'D',size:4}
+    ],
+
+    participants:[
+      ['Xuân Thái (B.TGĐ) - Lan Anh (BTK)','D'],
+      ['Hồ Duyên - Tiến Trung (KT1)','C'],
+      ['Hoàng Đức - Đồng Trang','B'],
+      ['Quỳnh Chi - Đức Anh (KT5)','A'],
+      ['Quang Huy - Thanh Huyền (BTK)','C'],
+      ['Huyền Trang - Mạnh Cường (FSG)','C'],
+      ['Văn Hưng - Nguyễn Nhàn (KT3)','A'],
+      ['Xuân Cường - Nguyễn Dung (KT5)','B'],
+      ['Nguyễn Toàn - Lê Tài (BTK)','D'],
+      ['Huyền Trang - Khánh Duy (Dự án)','A'],
+      ['Thúy Nga - Nam Anh (KT5)','D'],
+      ['Nguyễn Thu - Nguyễn Hùng (KT7)','D'],
+      ['Quốc Dũng - Y Bình (KT1)','B']
+    ],
+
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Tứ kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhì B'],
+            ['Nhất C'],
+            ['Nhì D'],
+            ['Nhất B'],
+            ['Nhì A'],
+            ['Nhất D'],
+            ['Nhì C']
+          ]
+        },
+
+          {
+          name:'Bán kết',
+          participants:[
+          
+          ]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        },
+
+        
+      ]
+    }
+  },
+  {
+    id:'bongdanam',
+    bomon:'bongda',
+    tab:'Bóng Đá Nam',
+    title:'Bóng đá nam',
+    subtitle:'Vòng bảng · Bán kết · Chung kết',
+    rules:[
+      '🏆 Đánh đến hết chung kết',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 9, không cách điểm',
+      '⚔️ Vòng loại: Lấy 2 đội nhất nhì mỗi bảng, game chạm 9 không cách điểm',
+      '🔜 Bán kết: Game chạm 9 không cách điểm',
+      '👑 Chung kết: Game chạm 9, tối đa chạm 11 '
+    ],
+    note:null,
+    groups:[
+      {name:'A',size:4},
+      {name:'B',size:3},
+
+    ],
+    participants:[
+      ['KT5','A'],
+      ['KT1','B'],
+      ['Liên Quân','A'],
+      ['KT7','A'],
+      ['KT2+3','B'],
+      ['FSG','B'],
+      ['Dự Án','A'],
+
+    ],
+    groupSchedule:[
+      {date:'05/10/2026', time:'17h20', a:{court:'', teams:['KT5','Liên Quân']}, b:{court:'', teams:['KT1','KT2+3']}},
+      {date:'05/10/2026', time:'17h20', a:{court:'', teams:['KT7','Dự Án']}},
+      {date:'08/10/2026', time:'17h20', a:{court:'', teams:['KT5','KT7']}, b:{court:'', teams:['KT1','FSG']}},
+      {date:'08/10/2026', time:'17h20', a:{court:'', teams:['Liên Quân','Dự Án']}},
+      {date:'12/10/2026', time:'17h20', a:{court:'', teams:['KT5','Dự Án']}, b:{court:'', teams:['KT2+3','FSG']}},
+      {date:'12/10/2026', time:'17h20', a:{court:'', teams:['Liên Quân','KT7']}}
+    ],
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Bán kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhì B'],
+            ['Nhất B'],
+            ['Nhì A']
+          ]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        }
+      ]
+    }
+  },
+
+  {
+    id:'bongdanu',
+    bomon:'bongda',
+    tab:'Bóng Đá Nữ',
+    title:'Bóng đá nữ',
+    subtitle:'Vòng bảng · Bán kết · Chung kết',
+    rules:[
+      '🏆 Đánh đến hết chung kết',
+      '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
+      '🔜 Bán kết: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
+      '👑 Chung kết: game chạm 11, tối đa chạm 13'
+    ],
+    note:null,
+
+    groups:[
+      {name:'A',size:4},
+      {name:'B',size:3}
+    ],
+
+    participants:[
+      ['KT1','A'],
+      ['Liên Quân','A'],
+      ['FSG','A'],
+      ['KT7','A'],
+      ['KT5','B'],
+      ['KT3','B'],
+      ['KT2','B']
+    ],
+    groupSchedule:[
+      {date:'05/10/2026', time:'18h30', a:{court:'', teams:['KT1','Liên Quân'],score:null}, b:{court:'', teams:['KT5','KT3'],score:null}},
+      {date:'05/10/2026', time:'18h30', a:{court:'', teams:['FSG','KT7'],score:null}},
+      {date:'08/10/2026', time:'18h30', a:{court:'', teams:['KT1','FSG'],score:null}, b:{court:'', teams:['KT5','KT2'],score:null}},
+      {date:'08/10/2026', time:'18h30', a:{court:'', teams:['Liên Quân','KT7'],score:null}},
+      {date:'12/10/2026', time:'18h30', a:{court:'', teams:['KT1','KT7']}, b:{court:'', teams:['KT3','KT2'],score:null}},
+      {date:'12/10/2026', time:'18h30', a:{court:'', teams:['Liên Quân','FSG'],score:null}}
+    ],
+    rounds:{
+      paneTitle:'Vòng loại trực tiếp',
+
+      matches:[
+        {
+          name:'Bán kết',
+          participants:[
+            ['Nhất A'],
+            ['Nhì B'],
+            ['Nhất B'],
+            ['Nhì A']
+          ]
+        },
+
+        {
+          name:'Chung kết',
+          participants:[]
+        }
+      ]
+    }
+  }
+];
+
+
+const HERO_ICON = [`<svg xmlns="http://www.w3.org/2000/svg" class="vot-bong-pickleball" viewBox="-99.326 -14.26 640.829 489.381">
+  <g class="tay-vot" transform="matrix(3.655244, 0, 0, 3.655244, -1515.459595, -675.53717)" style="">
+    <rect x="424.77" y="201.215" width="58" height="78" rx="29" fill="#1E7768" stroke="#F3F6EC" stroke-width="3" style="stroke-width: 3;"></rect>
+    <circle cx="444.77" cy="227.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <circle cx="462.77" cy="227.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <circle cx="444.77" cy="245.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <circle cx="462.77" cy="245.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <circle cx="453.77" cy="236.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+    <rect x="445.77" y="279.215" width="16" height="22" rx="5" fill="#F3F6EC" style="stroke-width: 1;"></rect>
+  </g>
+  <g class="bong-pick" transform="matrix(3.655244, 0, 0, 3.655244, -1515.459595, -675.53717)" style="">
+    <circle cx="506.77" cy="271.215" r="20" fill="#E4FF4D" stroke="#081C24" stroke-width="2.5" style="stroke-width: 2.5;"></circle>
+    <circle cx="499.77" cy="263.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="513.77" cy="263.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="499.77" cy="279.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="513.77" cy="279.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="506.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="492.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+    <circle cx="520.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+  </g>
+</svg>`,`<img class="football-icon football-bouncing" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg?utm_source=vi.wikipedia.org&utm_campaign=index&utm_content=original" alt="Quả bóng đá">`];
+
+/* ============ helpers ============ */
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ============ build interactive panels ============ */
+const tabsEl = document.getElementById('tabs');
+const trackEl = document.getElementById('track');
+
+TOURNAMENTS.forEach((cat, idx)=>{
+  // tab
+  const tab = document.createElement('button');
+  tab.className = 'tab'+(idx===0?' active':'') +` ${cat.bomon}`;
+  tab.textContent = cat.tab;
+  tab.setAttribute('data-index', idx);
+  tab.addEventListener('click', ()=>goTo(idx));
+  tabsEl.appendChild(tab);
+
+  // panel
+  const panel = document.createElement('div');
+  panel.className = 'panel'+ ` ${cat.bomon}`;
+  panel.innerHTML = buildPanelHTML(cat);
+  trackEl.appendChild(panel);
+});
+
+function buildPanelHTML(cat){
+  const rulesHTML = cat.rules.map(r=>`<li><span>${esc(r)}</span></li>`).join('');
+  const noteHTML = cat.note ? `<div class="rules-note">${esc(cat.note)}</div>` : '';
+  
+  const participantsHTML = cat.participants.map(p=>`<div class="p-chip"><span class="ball">
+     ${cat.bomon === 'pickleball' ? '🏓' : '⚽'}</span>${esc(p[0])}</div>`).join('');
+  
+     const groupsHTML = cat.groups.map(g=>{
+
+      const playersInGroup = cat.participants.filter(
+          p => p[1] === g.name
+        );
+
+    const slots = Array.from({length:g.size}).map((_,i)=>{
+      const id = `slot__${cat.id}__${g.name}__${i}`;
+
+      const player = playersInGroup[i];
+
+    // Nếu có người thì lấy tên, không có thì để trống
+    const playerName = player
+      ? player[0]
+      : '';
+
+      return `  <div class="slot-group" id="${id}">
+       ${cat.bomon === 'pickleball' ? (cat.id === 'danam' ? '👤' : '👥') : '⚽'} ${esc(playerName)}
+      </div>`;
+    }).join('');
+    return `<div class="group-card"><div class="group-head">Bảng ${esc(g.name)}</div>${slots}</div>`;
+  }).join('');
+
+  
+
+
+const roundsHTML = createTournamentBracket(cat.rounds);
+
+
+  
+
+  return `
+  ${cat.bomon === 'pickleball' ?`
+    <div class="court-bg hero">
+      <div>
+        <h1 class="hero-title">${esc(cat.title)}</h1>
+        <p class="hero-sub">${esc(cat.subtitle)}</p>
+      </div>
+      <div class="hero-icon">${HERO_ICON[0]}</div>
+    </div>
+
+    <section class="block">
+      <h2>📋 Thể thức thi đấu</h2>
+      <ul class="rules-list">${rulesHTML}</ul>
+      ${noteHTML}
+    </section>
+
+    <section class="block">
+      <h2>Danh sách vận động viên</h2>
+      <div class="participants-grid">${participantsHTML}</div>
+    </section>
+
+    <section class="block">
+      <h2>Bảng đấu vòng tròn</h2>
+      <div class="groups-grid">${groupsHTML}</div>
+    </section>
+
+    <section class="block tournament-block">
+      <h2>Sơ đồ vòng loại trực tiếp</h2>
+      <div id="tourament-bracket-${cat.id}" class="tourament-bracket" 
+      style="height: ${roundsHTML[1]}px;
+      width: ${roundsHTML[2]}px;">
+          ${roundsHTML[0]}
+        </div>
+    </section>`
+
+    
+  :`<div class="court-bg hero">
+      <div>
+        <h1 class="hero-title">${esc(cat.title)}</h1>
+        <p class="hero-sub">${esc(cat.subtitle)}</p>
+      </div>
+      <div class="hero-icon">${HERO_ICON[1]}</div>
+    </div>
+
+    <section class="block">
+      <h2>Bảng đấu vòng tròn</h2>
+      <div class="groups-grid">${groupsHTML}</div>
+    </section>
+
+    ${cat.groupSchedule ? `
+    <section class="block tournament-block">
+      <h2>Lịch thi đấu vòng bảng</h2>
+      <div class="group-schedule-wrap">${createGroupScheduleTable(cat.groupSchedule)}</div>
+    </section>` : ''}
+
+    <section class="block tournament-block">
+      <h2>Sơ đồ các vòng thi đấu</h2>
+      <div id="tourament-bracket-${cat.id}" class="tourament-bracket" 
+      style="height: ${roundsHTML[1]}px;
+      width: ${roundsHTML[2]}px;">
+          ${roundsHTML[0]}
+        </div>
+    </section>`}`
+  ;
+}
+
+function createGroupScheduleTable(schedule){
+  const renderMatch = (match, groupName, rowIndex) => {
+    if (!match) return '<td></td><td></td><td></td><td></td>';
+
+    return `<td class="schedule-court">${esc(match.court)}</td>
+      <td class="schedule-team">${esc(match.teams[0])}</td>
+      <td class="schedule-team">${esc(match.teams[1])}</td>
+      <td class="schedule-score"><div class="schedule-score-pair">
+       ${match.score==null?' - ': match.score }
+      </div></td>`;
+  };
+
+
+  const rows = schedule.map((round, index) => `<tr>
+    <td>${esc(round.date)}</td>
+    <td>${esc(round.time)}</td>
+    ${renderMatch(round.a, 'A', index)}
+    ${renderMatch(round.b, 'B', index)}
+  </tr>`).join('');
+
+  return `<table class="group-schedule">
+    <thead>
+      <tr>
+        <th rowspan="2">Ngày</th>
+        <th rowspan="2">Giờ</th>
+        <th colspan="4">Bảng A</th>
+        <th colspan="4">Bảng B</th>
+      </tr>
+      <tr>
+        <th>Sân</th><th>Đội</th><th>Đội</th><th>Tỉ số</th>
+        <th>Sân</th><th>Đội</th><th>Đội</th><th>Tỉ số</th>
+      </tr>
+    </thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function createTournamentBracket(arrayParticipants) {
+
+    
+    let heigtOfContainer = 0;
+    let widthOfContainer = 0;
+    let numberOfMatches = 4;
+     numberOfMatches = arrayParticipants.matches[0].participants.length/2;
+
+    //  console.log('number of matches: ',numberOfMatches)
+    let participants = arrayParticipants.matches[0].participants;
+    let stt = 0;
+
+    const gapRows = 15;
+    const gapColumns = 70;
+    const connectorConnerRadius = 10;
+    const boxTeamHeight = 80;   
+    const boxTeamWidth = 220;  
+
+    const roundTitleHeight = 40;
+    const marginBotRoundTitle = 20;
+    // const bracket = document.getElementById('tourament-bracket');
+
+    // Kiểm tra số đội có phải lũy thừa của 2
+    if (
+        numberOfMatches <= 0 ||
+        Math.log2(numberOfMatches) % 1 !== 0
+    ) {
+        throw new Error(
+            'Số đội phải là lũy thừa của 2'
+        );
+    }
+    // Xóa bracket cũ nếu có
+    let bracketHTML = '';
+
+    // Tổng số round
+    const totalRounds = Math.log2(numberOfMatches)+1;
+
+    // Khoảng cách hiện tại giữa các box
+    let currentGapRows = gapRows;
+  
+    // Số box của round hiện tại
+    let currentNumberOfMatches = numberOfMatches;
+    let translateYvalue= 0;
+    let currentRoundTop=roundTitleHeight + marginBotRoundTitle;;
+    let oldgapRows=0;
+
+
+    // Vòng lặp từng round (nhưng để tạo match, k cần tạo round)
+    for (
+        let roundIndex = 0;
+        roundIndex < totalRounds;
+        roundIndex++
+    ) {
+
+        for (
+            let matchIndex = 0;
+            matchIndex < currentNumberOfMatches;
+            matchIndex++
+        ) {
+
+           const matchLeft = (boxTeamWidth + gapColumns) * roundIndex;
+
+          if (matchIndex ==0) {
+              bracketHTML += `<div class="round-title"
+              style="
+              position: absolute;
+              height: ${roundTitleHeight}px;
+              width:${boxTeamWidth}px;
+             transform: translateX(${matchLeft}px);
+              margin-bottom:${marginBotRoundTitle}px;">
+              ${arrayParticipants.matches[roundIndex].name}
+              </div>`;
+              
+          }
+
+           
+
+            // match.style.transform = `translate(${matchLeft}px,${translateYvalue}px)`;
+
+            bracketHTML += `<div class="bracket-match" style="
+            position : absolute;
+            top: ${currentRoundTop}px;
+            height: ${boxTeamHeight}px;
+            width : ${boxTeamWidth}px;
+            transform: translate(${matchLeft}px,${translateYvalue}px)">
+            <div class="team-row">
+              <span>${participants[stt]?.[0] ?? '-'}</span><span>${participants[stt]?.[1] ?? '-'}</span>
+            </div>
+            <div class="team-row">
+              <span>${participants[stt+1]?.[0] ?? '-'}</span><span>${participants[stt+1]?.[1] ?? '-'}</span>
+            </div>
+            </div>`;
+
+            stt += 2;
+
+            if (roundIndex!= 0){
+
+            // const rect = match.getBoundingClientRect();
+
+            // const currentMatchLeft = rect.left;
+            const middlteOfMatch = currentRoundTop + translateYvalue + boxTeamHeight/2;
+
+            bracketHTML += `<div class="connector-1" style="
+            position : absolute;
+            top: ${middlteOfMatch}px;
+            left: ${(matchLeft - gapColumns)}px;
+            height: ${(oldgapRows+ boxTeamHeight)/2}px;
+            width : ${gapColumns/2}px;
+            border-top-right-radius: ${connectorConnerRadius}px;
+            transform: translateY(-100%)"></div>
+
+            <div class="connector-2" style="
+            position : absolute;
+            top: ${middlteOfMatch}px;
+            left: ${(matchLeft  - gapColumns)}px;
+            height: ${(oldgapRows+ boxTeamHeight)/2}px;
+            width : ${gapColumns/2}px;
+            border-bottom-right-radius: ${connectorConnerRadius}px;">
+            </div>
+
+            <div class="connector-line" style="
+            position : absolute;
+            top: ${middlteOfMatch}px;
+            left: ${matchLeft - gapColumns/2}px;
+            height: 0px;
+            width : ${gapColumns/2}px;"></div>`
+
+            }
+
+            if (matchIndex < currentNumberOfMatches - 1) {
+                translateYvalue = (currentGapRows + boxTeamHeight) * (matchIndex + 1);
+                // console.log(translateYvalue)
+            } else {
+
+                 if (roundIndex == 0) {
+                  heigtOfContainer = currentRoundTop + translateYvalue + boxTeamHeight;
+                } 
+
+                 if (roundIndex == totalRounds-1) {
+                   widthOfContainer = matchLeft + boxTeamWidth*2 + gapColumns ;
+
+                   bracketHTML += 
+                   `<div class="champ-container" style="
+                   position: absolute;
+                    top: ${currentRoundTop}px;
+                    height: ${boxTeamHeight}px;
+                    width : ${boxTeamWidth}px;
+                    transform: translate(${matchLeft+gapColumns+boxTeamWidth}px,${translateYvalue}px)"><div class="champ-card">🏆 <span>Vô địch</span>
+                    </div></div>`;
+                  
+                } 
+               
+
+                oldgapRows = currentGapRows;
+                currentRoundTop += currentGapRows / 2 + boxTeamHeight / 2;
+                translateYvalue = 0;
+                currentGapRows = currentGapRows * 2 + boxTeamHeight;
+               
+            }
+
+            
+
+        }
+
+         
+        // Round tiếp theo giảm một nửa số match
+        currentNumberOfMatches /= 2;
+    }
+return [bracketHTML, heigtOfContainer, widthOfContainer];
+
+}
+
+
+
+/* ============ GSAP slide navigation ============ */
+let current = 0;
+function goTo(index){
+  if(index===current) return;
+  current = index;
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', i===index));
+  gsap.to(trackEl, {x:`-${index*100}vw`, duration:.65, ease:'power3.inOut'});
+}
+window.addEventListener('resize', ()=>{ gsap.set(trackEl, {x:`-${current*100}vw`}); });
+
+// swipe support
+// let touchStartX = null;
+// const viewportEl = document.querySelector('.viewport');
+// viewportEl.addEventListener('touchstart', e=>{ touchStartX = e.touches[0].clientX; }, {passive:true});
+// viewportEl.addEventListener('touchend', e=>{
+//   if(touchStartX===null) return;
+//   const dx = e.changedTouches[0].clientX - touchStartX;
+//   if(Math.abs(dx) > 50){
+//     if(dx < 0 && current < TOURNAMENTS.length-1) goTo(current+1);
+//     else if(dx > 0 && current > 0) goTo(current-1);
+//   }
+//   touchStartX = null;
+// });
+window.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight' && current < TOURNAMENTS.length-1) goTo(current+1);
+  if(e.key==='ArrowLeft' && current > 0) goTo(current-1);
+});
+
+
+// one orchestrated entrance animation for the first panel
+window.addEventListener('DOMContentLoaded', ()=>{
+  const tl1 = gsap.timeline();
+  const firstHero = document.querySelector('.panel .hero');
+  if(!firstHero) return;
+  tl1.from(firstHero.querySelector('.hero-title'), {opacity:0, y:24, duration:.7, ease:'power2.out'});
+  tl1.from(firstHero.querySelector('.hero-sub'), {opacity:0, y:16, duration:.7, delay:.1, ease:'power2.out'}, "<");
+  tl1.from(firstHero.querySelector('.hero-icon'), {opacity:0, scale:.7, duration:.8, delay:.15, ease:'back.out(1.6)'}, "<");
+});
+
+// đoạn dưới cho image slider 
+document.addEventListener('DOMContentLoaded', () => {
+
+    const slider = document.querySelector('#image-slider');
+
+    if (!slider) return;
+
+    const images = slider.querySelectorAll('img');
+
+    const prevBtn = slider.querySelector('#slider-prev');
+    const nextBtn = slider.querySelector('#slider-next');
+
+    let currentIndex = 0;
+    let autoSlide;
+
+
+    // =========================
+    // Khởi tạo
+    // =========================
+
+    gsap.set(images, {
+        xPercent: 0,
+        opacity: 0
+    });
+
+    gsap.set(images[0], {
+        xPercent: 0,
+        opacity: 1
+    });
+
+
+    // =========================
+    // Chuyển ảnh
+    // =========================
+
+    function showSlide(newIndex, direction = 1) {
+
+        // vòng lại
+        if (newIndex >= images.length) {
+            newIndex = 0;
+        }
+
+        if (newIndex < 0) {
+            newIndex = images.length - 1;
+        }
+
+        if (newIndex === currentIndex) return;
+
+
+        const currentImage = images[currentIndex];
+        const nextImage = images[newIndex];
+
+
+        // Dừng animation đang chạy nếu người dùng bấm liên tục
+        gsap.killTweensOf([currentImage, nextImage]);
+
+
+        // Ảnh mới nằm ngoài màn hình
+        gsap.set(nextImage, {
+            xPercent: direction > 0 ? 100 : -100,
+            opacity: 1
+        });
+
+
+        // Ảnh hiện tại trượt ra
+        gsap.to(currentImage, {
+            xPercent: direction > 0 ? -100 : 100,
+            duration: 0.8,
+            ease: "power2.inOut"
+        });
+
+
+        // Ảnh mới trượt vào
+        gsap.to(nextImage, {
+            xPercent: 0,
+            duration: 0.8,
+            ease: "power2.inOut"
+        });
+
+
+        currentIndex = newIndex;
+    }
+
+
+    // =========================
+    // Next
+    // =========================
+
+    function nextSlide() {
+
+        showSlide(currentIndex + 1, 1);
+
+        resetAutoSlide();
+    }
+
+
+    // =========================
+    // Previous
+    // =========================
+
+    function prevSlide() {
+
+        showSlide(currentIndex - 1, -1);
+
+        resetAutoSlide();
+    }
+
+
+    // =========================
+    // Auto 5 giây
+    // =========================
+
+    function resetAutoSlide() {
+
+        clearTimeout(autoSlide);
+
+        autoSlide = setTimeout(() => {
+
+            showSlide(currentIndex + 1, 1);
+
+            resetAutoSlide();
+
+        }, 5000);
+    }
+
+
+    // =========================
+    // Button
+    // =========================
+
+    nextBtn.addEventListener('click', nextSlide);
+
+    prevBtn.addEventListener('click', prevSlide);
+
+
+    // =========================
+    // Start
+    // =========================
+
+    resetAutoSlide();
+
+});
+
+// đoạn cho icon 
+document.addEventListener('DOMContentLoaded', () => {
+
+    const ball = document.querySelectorAll(".bong-pick");
+    const vot = document.querySelectorAll(".tay-vot");
+
+   const tl2 = gsap.timeline();
+
+  
+tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.out"},"1")
+  .fromTo(vot,{rotation:-30,transformOrigin:"50% 100%",},{ rotation:30,duration: 1,yoyo:true,repeat:-1,ease: "power2.inOut" },"1")
+;
+
+    // GSDevTools.create({ timeline: tl });
+
+});
+
+</script>
+
+
+ <script>
+  // script cửa mở 
+        function openDoors(sportType) {
+            // 1. Mờ dần UI
+             const appShell = document.getElementById('app-shell');
+    const bongDa = document.querySelectorAll('.bongda');
+    const pickleball = document.querySelectorAll('.pickleball');
+
+
+
+     bongDa.style.display = 'none';
+    pickleball.style.display = 'none';
+
+    // Hiện nội dung được chọn
+    if (sportType === 'football') {
+      appShell.style.display = '';
+      pickleball.style.display = 'none';
+        bongDa.style.display = 'visible';
+    }
+
+    if (sportType === 'pickleball') {
+        appShell.style.display = 'visible';
+      pickleball.style.display = 'visible';
+        bongDa.style.display = 'none';
+    }
+
+
+            // // 2. Chuẩn bị nội dung phòng tương ứng
+            // const icon = document.getElementById('sport-icon');
+            // const title = document.getElementById('sport-title');
+            // const roomContent = document.getElementById('room-content');
+            
+            // // Xóa các class nền cũ
+            // roomContent.classList.remove('bg-football', 'bg-pickleball', 'bg-gray-100');
+
+            // if (sportType === 'football') {
+            //     icon.textContent = '⚽';
+            //     title.textContent = 'Chào mừng đến với Sân Bóng đá';
+            //     roomContent.classList.add('bg-football');
+            // } else if (sportType === 'pickleball') {
+            //     icon.textContent = '🏓';
+            //     title.textContent = 'Chào mừng đến với Sân Pickleball';
+            //     roomContent.classList.add('bg-pickleball');
+            // }
+
+            // 3. Kích hoạt hiệu ứng trượt cửa Zig-Zag
+            setTimeout(() => {
+                document.getElementById('door-left').classList.add('open');
+                document.getElementById('door-right').classList.add('open');
+                
+                // Hiển thị nội dung bên trong phòng với hiệu ứng scale in
+                roomContent.classList.add('revealed');
+            }, 300); // Chờ 300ms sau khi UI ẩn đi mới mở cửa
+        }
+
+        function resetScene() {
+            // Trượt cửa đóng lại
+            document.getElementById('door-left').classList.remove('open');
+            document.getElementById('door-right').classList.remove('open');
+            
+            // Ẩn nội dung phòng
+            document.getElementById('room-content').classList.remove('revealed');
+
+            // Đợi cửa đóng xong thì hiển thị lại các nút bấm ban đầu
+            setTimeout(() => {
+                document.getElementById('ui-layer').classList.remove('hidden-ui');
+            }, 1200); 
+        }
+    </script>
+
+
+
+</body>
+</html>
