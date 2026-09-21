@@ -826,7 +826,7 @@
     </div>
     <div class="brand">
       
-      <div class="brand-text">Giải Pickleball<small>Sơ đồ thi đấu</small></div>
+      <div class="brand-text">AASC cup<small></small></div>
     </div>
     <div class="tabs" id="tabs"></div>
     
@@ -1846,7 +1846,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
     const bongDa = document.querySelectorAll('.tab.bongda');
     const pickleball = document.querySelectorAll('.tab.pickleball');
 
-    
+    const brandTextSmall = document.querySelector('.brand-text > small')
 
     bongDa.forEach(el => {
         el.style.display = 'none';
@@ -1862,6 +1862,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
     // Hiện nội dung được chọn
     if (sportType === 'football') {
       // appShell.style.display = '';
+      brandTextSmall.textContent = 'Giải Bóng đá';
        bongDa.forEach(el => {
         el.style.display = '';
         });
@@ -1877,6 +1878,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
 
     if (sportType === 'pickleball') {
         // appShell.style.display = '';
+        brandTextSmall.textContent = 'Giải Pickle ball';
        bongDa.forEach(el => {
         el.style.display = 'none';
         });
