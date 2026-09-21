@@ -216,7 +216,17 @@
     display:flex; justify-content:flex-start; 
     align-items:center; gap:20px; flex-wrap:wrap;
   }
-  .hero-title{font-size:clamp(2.1rem,7vw,3.6rem); font-weight:800; margin:0; line-height:1.02;
+
+  .court-bg >div {
+    z-index: 5;
+  }
+
+ /* .court-bg > .hero-icon {
+    z-index: 3;
+} */
+
+  .hero-title{
+    font-size:clamp(2.1rem,7vw,3.6rem); font-weight:800; margin:0; line-height:1.02;
   color:var(--text1)}
   .hero-sub{margin:10px 0 0; font-family:var(--mono); font-size:.82rem; color:var(--chalk-dim); letter-spacing:.01em;}
   .hero-icon {
@@ -348,6 +358,7 @@
 .football-bouncing{
   transform-box: fill-box;
   transform-origin: center center;
+  
   /* animation: football-roll 3.2s ease-in-out infinite alternate; */
 }
 
@@ -1818,7 +1829,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
 tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.out"},"1")
   .fromTo(vot,{rotation:-30,transformOrigin:"50% 100%",},{ rotation:30,duration: 1,yoyo:true,repeat:-1,ease: "power2.inOut" },"1")
-  .fromTo('.football',{x: -160,rotation: 0},{x: 160,rotation: 360,duration: 2,ease: "none",repeat: -1,yoyo: true},"1");
+  .fromTo(football,{x: -160,rotation: 0},{x: 160,rotation: 360,duration: 2,ease: "none",repeat: -1,yoyo: true},"1");
 ;
 
     // GSDevTools.create({ timeline: tl });
