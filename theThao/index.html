@@ -21,6 +21,7 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Draggable.min.js"></script>
 
 
 <style>
@@ -205,7 +206,7 @@
   
   .tournament-block{
     /* min-height: 50vw; */
-    overflow-x: auto;
+    /* overflow-x: auto;  */
     /* overflow-y: auto; */
   }
 
@@ -317,7 +318,7 @@
   /* bảng bóng đá */
 
   
-  .group-schedule-wrap{overflow-x:auto;}
+  /* .group-schedule-wrap{overflow-x:auto;} */
   .group-schedule{
     width:100%; min-width:900px; border-collapse:collapse;
     background:rgba(243,246,236,.06); font-size:.88rem;
@@ -325,6 +326,7 @@
   .group-schedule th,
   .group-schedule td{
     border:1px solid var(--line); padding:8px 10px; text-align:center;
+    font-size: var(--fontSize4);
   }
   .group-schedule thead th{background:var(--yellow); color:var(--text3); font-weight:700;}
   .group-schedule td:first-child,
@@ -769,6 +771,28 @@
             background: radial-gradient(circle at center, #fce7f3 0%, #db2777 100%);
         }
 
+/* scroll bar  */
+.my-scroll-bar{
+  margin-top: 30px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: #333;
+  width: 90vw;
+  display: none;
+}
+
+/* .my-scroll-bar {
+    position: relative;
+    overflow: hidden;
+}
+
+.my-scroll-bar > * {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+} */
+
 </style>
 </head>
 <body>
@@ -786,7 +810,7 @@
 
 
 <!-- đoạn mở cửa -->
-<div class="scene" id="main-scene">
+<div class="scene" id="main-scene" >
         
         <!-- Không gian bên trong (Sau khi mở cửa) -->
        
@@ -817,7 +841,29 @@
                 <button onclick="openDoors('pickleball')" class="group relative px-10 py-5 bg-gradient-to-br from-pink-500 to-rose-700 rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(236,72,153,0.4)] transition-transform hover:scale-105 active:scale-95 border border-pink-300/30">
                     <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
                     <div class="flex items-center gap-3 relative z-10">
-                        <span class="text-4xl">🏓</span>
+                        <span class="text-4xl">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="94.958 63.01 307.885 359.357" height="50px" width="auto">
+                        <g transform="matrix(3.099823, 1.936984, -1.936984, 3.099823, -236.268723, -6.1363)" style="transform-origin: 453.77px 251.215px;">
+                          <rect x="424.77" y="201.215" width="58" height="78" rx="29" fill="#1E7768" stroke="#F3F6EC" stroke-width="3" style="stroke-width: 3;"></rect>
+                          <circle cx="444.77" cy="227.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+                          <circle cx="462.77" cy="227.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+                          <circle cx="444.77" cy="245.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+                          <circle cx="462.77" cy="245.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+                          <circle cx="453.77" cy="236.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+                          <rect x="445.77" y="279.215" width="16" height="22" rx="5" fill="#F3F6EC" style="stroke-width: 1;"></rect>
+                        </g>
+                        <g transform="matrix(3.655244, 0, 0, 3.655244, -1537.871338, -650.987)" style="">
+                          <circle cx="506.77" cy="271.215" r="20" fill="#E4FF4D" stroke="#081C24" stroke-width="2.5" style="stroke-width: 2.5;"></circle>
+                          <circle cx="499.77" cy="263.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+                          <circle cx="513.77" cy="263.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+                          <circle cx="499.77" cy="279.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+                          <circle cx="513.77" cy="279.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+                          <circle cx="506.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+                          <circle cx="492.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+                          <circle cx="520.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+                        </g>
+                      </svg>
+                  </span>
                         <span class="text-white text-xl font-bold tracking-wide uppercase">Pickleball</span>
                     </div>
                 </button>
@@ -898,7 +944,7 @@ const TOURNAMENTS = [
       {name:'A',size:4},
       {name:'B',size:4},
       {name:'C',size:4},
-      {name:'D',size:4}
+      {name:'D',size:3}
     ],
     participants:[
       ['Xuân Trường (FSG)','A'],
@@ -911,7 +957,7 @@ const TOURNAMENTS = [
       ['Long Hải (KT5)','B'],
       ['Khánh Tùng (Dự án)','C'],
       ['Nam Anh (KT5)','C'],
-      ['Huy Hùng (FSG)','D'],
+  
       ['Mạnh Tiến (KT5)','D'],
       ['Văn Tâm (TH)','D'],
       ['Ngọc Sơn (KT7)','C'],
@@ -1040,9 +1086,9 @@ const TOURNAMENTS = [
       ['Phạm Hùng - Nguyễn Hùng (KT7)','C'],
       ['Tuấn Anh - Duy Khánh (KT2)','F'],
       ['Ngọc Sơn - Duy Khánh (KT7)','F'],
-      ['Anh Ngọc - Huy Hùng (FSG)','C'],
+      ['Anh Ngọc - Hồng Quang (FSG)','C'],
       ['Thiên Phúc - Trí Thành (KT2)','D'],
-      ['Văn Tâm - Trường Giang (TH)','E']
+      ['Văn Tâm - Văn Thái (TH)','E']
     ],
 
     rounds:{
@@ -1105,7 +1151,7 @@ const TOURNAMENTS = [
       ['Hoàng Đức - Đồng Trang','B'],
       ['Quỳnh Chi - Đức Anh (KT5)','A'],
       ['Quang Huy - Thanh Huyền (BTK)','C'],
-      ['Huyền Trang - Mạnh Cường (FSG)','C'],
+      ['Huyền Trang - Cường Đỗ (FSG)','C'],
       ['Văn Hưng - Nguyễn Nhàn (KT3)','A'],
       ['Xuân Cường - Nguyễn Dung (KT5)','B'],
       ['Nguyễn Toàn - Lê Tài (BTK)','D'],
@@ -1288,7 +1334,28 @@ const HERO_ICON = [`<svg xmlns="http://www.w3.org/2000/svg" class="vot-bong-pick
     <circle cx="492.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
     <circle cx="520.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
   </g>
-</svg>`,`<img class="football-icon football-bouncing" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg?utm_source=vi.wikipedia.org&utm_campaign=index&utm_content=original" alt="Quả bóng đá">`];
+</svg>`,`<img class="football-icon football-bouncing" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg?utm_source=vi.wikipedia.org&utm_campaign=index&utm_content=original" alt="Quả bóng đá">`,
+`  <svg xmlns="http://www.w3.org/2000/svg" viewBox="94.958 63.01 307.885 359.357" height="50px">
+      <g transform="matrix(3.099823, 1.936984, -1.936984, 3.099823, -236.268723, -6.1363)" style="transform-origin: 453.77px 251.215px;">
+        <rect x="424.77" y="201.215" width="58" height="78" rx="29" fill="#1E7768" stroke="#F3F6EC" stroke-width="3" style="stroke-width: 3;"></rect>
+        <circle cx="444.77" cy="227.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+        <circle cx="462.77" cy="227.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+        <circle cx="444.77" cy="245.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+        <circle cx="462.77" cy="245.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+        <circle cx="453.77" cy="236.215" r="4" fill="#F3F6EC" style="stroke-width: 1;"></circle>
+        <rect x="445.77" y="279.215" width="16" height="22" rx="5" fill="#F3F6EC" style="stroke-width: 1;"></rect>
+      </g>
+      <g transform="matrix(3.655244, 0, 0, 3.655244, -1537.871338, -650.987)" style="">
+        <circle cx="506.77" cy="271.215" r="20" fill="#E4FF4D" stroke="#081C24" stroke-width="2.5" style="stroke-width: 2.5;"></circle>
+        <circle cx="499.77" cy="263.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+        <circle cx="513.77" cy="263.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+        <circle cx="499.77" cy="279.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+        <circle cx="513.77" cy="279.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+        <circle cx="506.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+        <circle cx="492.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+        <circle cx="520.77" cy="271.215" r="2.4" fill="#081C24" style="stroke-width: 1;"></circle>
+      </g>
+    </svg>`,`<img class="football-icon" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg?utm_source=vi.wikipedia.org&utm_campaign=index&utm_content=original" alt="Quả bóng đá">`];
 
 /* ============ helpers ============ */
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -1390,7 +1457,9 @@ const roundsHTML = createTournamentBracket(cat.rounds);
       width: ${roundsHTML[2]}px;">
           ${roundsHTML[0]}
         </div>
-    </section>`
+        
+    </section>
+    <div class="my-scroll-bar">${HERO_ICON[2]}</div>`
 
     
   :`<div class="court-bg hero">
@@ -1398,7 +1467,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
         <h1 class="hero-title">${esc(cat.title)}</h1>
         <p class="hero-sub">${esc(cat.subtitle)}</p>
       </div>
-      <div class="hero-icon">${HERO_ICON[1]}</div>
+      <div class="hero-icon">${HERO_ICON[3]}</div>
     </div>
 
     <section class="block">
@@ -1410,7 +1479,9 @@ const roundsHTML = createTournamentBracket(cat.rounds);
     <section class="block tournament-block">
       <h2>Lịch thi đấu vòng bảng</h2>
       <div class="group-schedule-wrap">${createGroupScheduleTable(cat.groupSchedule)}</div>
-    </section>` : ''}
+      
+    </section>
+    <div class="my-scroll-bar">${HERO_ICON[3]}</div>` : ''}
 
     <section class="block tournament-block">
       <h2>Sơ đồ các vòng thi đấu</h2>
@@ -1419,7 +1490,9 @@ const roundsHTML = createTournamentBracket(cat.rounds);
       width: ${roundsHTML[2]}px;">
           ${roundsHTML[0]}
         </div>
-    </section>`}`
+       
+    </section>
+     <div class="my-scroll-bar">${HERO_ICON[3]}</div>`}`
   ;
 }
 
@@ -1946,6 +2019,56 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
                 document.getElementById('ui-layer').classList.remove('hidden-ui');
             }, 1200); 
         }
+
+
+        // tạo scroll bar
+        document.addEventListener("DOMContentLoaded", (event) => {
+          gsap.registerPlugin(Draggable)
+          const myScrollBars = document.querySelectorAll('.my-scroll-bar')
+
+            myScrollBars.forEach(bar => {
+              const dragIcon = bar.querySelector(':scope > *');
+                const section = bar.previousElementSibling;
+              
+
+              Draggable.create(dragIcon, {
+                  type: "x",
+                  bounds: bar,
+                   onDrag() {
+
+               const dragX = this.x;
+
+                  const barWidth =
+                      bar.getBoundingClientRect().width;
+
+                  const iconWidth =
+                      dragIcon.getBoundingClientRect().width;
+
+                  const maxDragX =
+                      barWidth - iconWidth;
+
+                  const progress =
+                      dragX / maxDragX;
+
+                  const maxScrollX =
+                      section.scrollWidth - section.clientWidth;
+
+                  gsap.set(section, {
+                      x: -progress * maxScrollX
+                  });
+
+            // Di chuyển section
+            gsap.set(section, {
+                x: -progress * maxScrollX
+            });
+            }
+              });
+          });
+          });
+                  
+
+        
+
     </script>
 
 
