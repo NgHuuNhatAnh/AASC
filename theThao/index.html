@@ -32,7 +32,7 @@
    --fontSize3:clamp(1.1rem, 1vw, 1.3rem);
    --fontSize2:clamp(1.3rem, 1vw, 2rem);
     --font-serif: 'Noto Serif', serif;
-
+    --scroll-bar:#e7bc6d46;
   --navy:#8F3F0A;
 --teal:#D65F0A;
 
@@ -206,9 +206,14 @@
   
   .tournament-block{
     /* min-height: 50vw; */
-    /* overflow-x: auto;  */
+    overflow-x: auto; 
     /* overflow-y: auto; */
+     scrollbar-width: none;
   }
+
+  .tournament-block::-webkit-scrollbar {
+    display: none; /* Chrome / Edge */
+}
 
   /* ---------- Hero ---------- */
   .hero{
@@ -318,7 +323,14 @@
   /* bảng bóng đá */
 
   
-  /* .group-schedule-wrap{overflow-x:auto;} */
+  .group-schedule-wrap{
+    overflow-x:auto;
+      scrollbar-width: none; /* Firefox */
+  }
+   .group-schedule-wrap::-webkit-scrollbar {
+    display: none; /* Chrome / Edge */
+}
+
   .group-schedule{
     width:100%; min-width:900px; border-collapse:collapse;
     background:rgba(243,246,236,.06); font-size:.88rem;
@@ -773,12 +785,21 @@
 
 /* scroll bar  */
 .my-scroll-bar{
-  margin-top: 30px;
+
   height: 20px;
   border-radius: 10px;
-  background-color: #333;
+  background-color: var(--scroll-bar);
   width: 90vw;
-  display: none;
+  margin: 30px auto;
+  display:none;
+
+    align-items: center;
+}
+
+@media (max-width: 500px){
+  .my-scroll-bar{
+    display:flex;
+  }
 }
 
 /* .my-scroll-bar {
@@ -1450,7 +1471,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
       <div class="groups-grid">${groupsHTML}</div>
     </section>
 
-    <section class="block tournament-block">
+    <section id="tournament-block-${cat.id}" class="block tournament-block">
       <h2>Sơ đồ vòng loại trực tiếp</h2>
       <div id="tourament-bracket-${cat.id}" class="tourament-bracket" 
       style="height: ${roundsHTML[1]}px;
@@ -1459,7 +1480,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
         </div>
         
     </section>
-    <div class="my-scroll-bar">${HERO_ICON[2]}</div>`
+    <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[2]}</div>`
 
     
   :`<div class="court-bg hero">
@@ -1467,7 +1488,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
         <h1 class="hero-title">${esc(cat.title)}</h1>
         <p class="hero-sub">${esc(cat.subtitle)}</p>
       </div>
-      <div class="hero-icon">${HERO_ICON[3]}</div>
+      <div class="hero-icon" >${HERO_ICON[3]}</div>
     </div>
 
     <section class="block">
@@ -1476,14 +1497,14 @@ const roundsHTML = createTournamentBracket(cat.rounds);
     </section>
 
     ${cat.groupSchedule ? `
-    <section class="block tournament-block">
+    <section  class="block tournament-block">
       <h2>Lịch thi đấu vòng bảng</h2>
-      <div class="group-schedule-wrap">${createGroupScheduleTable(cat.groupSchedule)}</div>
+      <div class="group-schedule-wrap" id="group-schedule-${cat.id}" >${createGroupScheduleTable(cat.groupSchedule)}</div>
       
     </section>
-    <div class="my-scroll-bar">${HERO_ICON[3]}</div>` : ''}
+    <div class="my-scroll-bar" data-scroll="group-schedule-${cat.id}">${HERO_ICON[3]}</div>` : ''}
 
-    <section class="block tournament-block">
+    <section id="tournament-block-${cat.id}" class="block tournament-block">
       <h2>Sơ đồ các vòng thi đấu</h2>
       <div id="tourament-bracket-${cat.id}" class="tourament-bracket" 
       style="height: ${roundsHTML[1]}px;
@@ -1492,7 +1513,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
         </div>
        
     </section>
-     <div class="my-scroll-bar">${HERO_ICON[3]}</div>`}`
+     <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[3]}</div>`}`
   ;
 }
 
@@ -2022,49 +2043,150 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
 
 
         // tạo scroll bar
-        document.addEventListener("DOMContentLoaded", (event) => {
-          gsap.registerPlugin(Draggable)
-          const myScrollBars = document.querySelectorAll('.my-scroll-bar')
+       document.addEventListener("DOMContentLoaded", () => {
 
-            myScrollBars.forEach(bar => {
-              const dragIcon = bar.querySelector(':scope > *');
-                const section = bar.previousElementSibling;
-              
+    gsap.registerPlugin(Draggable);
 
-              Draggable.create(dragIcon, {
-                  type: "x",
-                  bounds: bar,
-                   onDrag() {
+    const myScrollBars =
+        document.querySelectorAll('.my-scroll-bar');
 
-               const dragX = this.x;
+    myScrollBars.forEach(bar => {
 
-                  const barWidth =
-                      bar.getBoundingClientRect().width;
+        const dragIcon = bar.querySelector(':scope > *');
+        const targetId = bar.dataset.scroll;
+        const target = document.getElementById(targetId);
 
-                  const iconWidth =
-                      dragIcon.getBoundingClientRect().width;
+        if (!dragIcon || !target) return;
 
-                  const maxDragX =
-                      barWidth - iconWidth;
+        // console.log(target);
 
-                  const progress =
-                      dragX / maxDragX;
 
-                  const maxScrollX =
-                      section.scrollWidth - section.clientWidth;
+        // =========================
+        // DRAGGABLE
+        // =========================
+       
+        const draggable = Draggable.create(dragIcon, {
 
-                  gsap.set(section, {
-                      x: -progress * maxScrollX
-                  });
+            type: "x",
 
-            // Di chuyển section
-            gsap.set(section, {
-                x: -progress * maxScrollX
-            });
+            bounds: bar,
+
+            onDrag() {
+                updateScroll(this);
+            },
+
+            onDragEnd(){
+              // console.log(draggable.x)
             }
-              });
-          });
-          });
+
+        })[0];
+        
+       
+
+        // =========================
+        // UPDATE SCROLL
+        // =========================
+
+        function updateScroll(drag) {
+
+            const barWidth =
+                bar.getBoundingClientRect().width;
+
+            const iconWidth =
+                dragIcon.getBoundingClientRect().width;
+
+            const maxDragX =
+                barWidth - iconWidth;
+
+            const progress =
+                drag.x / maxDragX
+            
+                
+
+            const maxScrollX =
+                target.scrollWidth - target.clientWidth;
+
+            target.scrollLeft =
+                progress * maxScrollX;
+
+           
+        }
+
+        // khi scroll trên điện thoại
+        target.addEventListener("scroll", () => {
+
+            const maxScrollX =
+                target.scrollWidth - target.clientWidth;
+
+            if (maxScrollX <= 0) return;
+
+            progress =
+                target.scrollLeft / maxScrollX;
+
+            const maxDragX =
+                bar.getBoundingClientRect().width -
+                dragIcon.getBoundingClientRect().width;
+
+            gsap.set(dragIcon, {
+                x: progress * maxDragX
+            });
+
+        });
+
+        // =========================
+        // RESIZE
+        // =========================
+
+      const resizeObserver = new ResizeObserver(() => {
+
+          
+          const maxDragX =
+              bar.getBoundingClientRect().width - dragIcon.getBoundingClientRect().width;
+
+            const progress =
+                draggable.x / maxDragX
+
+
+          draggable.applyBounds();
+
+          
+          
+
+          // // Dùng progress đã lưu
+          // gsap.set(dragIcon, {
+          //     x: progress * maxDragX
+          // });
+
+          // Cập nhật lại scroll theo kích thước mới
+          const maxScrollX =
+              target.scrollWidth - target.clientWidth;
+
+            //   console.log({
+            //     progress: progress,
+            //     barClientWidth: bar.clientWidth,
+            //     barWidth: bar.getBoundingClientRect().width,
+            //     iconOffsetWidth: dragIcon.offsetWidth,
+            //     iconWidth: dragIcon.getBoundingClientRect().width,
+            //     maxDragX,
+            //     progress,
+            //     targetScrollLeft: target.scrollLeft,
+            //     targetScrollWidth: target.scrollWidth,
+            //     targetClientWidth: target.clientWidth,
+            //     maxScrollX,
+            //     targetId
+            // });
+          target.scrollLeft =
+              progress * maxScrollX;
+
+      });
+
+
+
+        resizeObserver.observe(bar);
+
+    });
+
+});
                   
 
         
