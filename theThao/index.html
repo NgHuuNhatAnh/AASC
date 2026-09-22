@@ -2028,7 +2028,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
             // Trượt cửa đóng lại
             document.getElementById('door-left').classList.remove('open');
             document.getElementById('door-right').classList.remove('open');
-            
+           
             // Ẩn nội dung phòng
           // closeButton.classList.remove('revealed');
 
@@ -2038,7 +2038,11 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
             setTimeout(() => {
               //  appShell.classList.remove('revealed');
                 document.getElementById('ui-layer').classList.remove('hidden-ui');
+                const viewport = document.querySelector('.viewport');
+                viewport.scrollTop = 0;
             }, 1200); 
+
+             
         }
 
 
