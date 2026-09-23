@@ -722,6 +722,24 @@
             z-index: 11; /* Đặt cao hơn cửa phải 1 chút để bóng đè lên */
         }
 
+        .door-left::after {
+          content: "";
+          position: absolute;
+           left: 0;
+          top: 0;
+
+          width: 100%;
+          height: 100%;
+
+          background-image: url("./img/Door.png");
+          background-size: cover;
+          background-position: left;
+
+          opacity: 0.2;
+
+          pointer-events: none;
+      }
+
         .door-right {
             /* Clip path zig-zag khớp vừa khít cho nửa bên phải */
             clip-path: polygon(
@@ -736,6 +754,25 @@
             background: linear-gradient(135deg, #f7931e 0%, #9e1f24 100%);
             z-index: 10;
         }
+
+         .door-right::after {
+          content: "";
+          position: absolute;
+          right:0;
+
+           top: 0;
+
+          width: 100%;
+          height: 100%;
+          
+          background-image: url("./img/Door.png");
+          background-size: cover;
+          background-position: right;
+
+          opacity: 0.2;
+
+          /* pointer-events: none; */
+      }
 
         /* Trạng thái mở cửa */
         .door-left.open {
@@ -1101,13 +1138,13 @@ const TOURNAMENTS = [
       ['Khánh Tùng - Việt Hoàng (Dự án)','E'],
       ['Quang Duy (BTK) - Hoàng Đức (TĐG)','B'],
       ['Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)','B'],
-      ['Xuân Trường - Hữu Hoàng (FSG)','F'],
+      ['Xuân Trường - Hữu Hoàng (FSG)','C'],
       ['Hoàng Hà - Lưu Quang (Dự án)','A'],
       ['Long Hải - Xuân Cường (KT5)','A'],
       ['Phạm Hùng - Nguyễn Hùng (KT7)','C'],
       ['Tuấn Anh - Duy Khánh (KT2)','F'],
       ['Ngọc Sơn - Duy Khánh (KT7)','F'],
-      ['Anh Ngọc - Hồng Quang (FSG)','C'],
+      ['Anh Ngọc - Hồng Quang (FSG)','F'],
       ['Thiên Phúc - Trí Thành (KT2)','D'],
       ['Văn Tâm - Văn Thái (TH)','E']
     ],
