@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Khảo sát Môi trường Làm việc</title>
+<style>
+  :root{
+    --primary:#0f4c81;
+    --primary-dark:#0a3760;
+    --accent:#e8a33d;
+    --bg:#f4f6f9;
+    --card:#ffffff;
+    --border:#dbe2ea;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --danger:#c0392b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    color:#fff;
+    padding:32px 20px 26px;
+    text-align:center;
+  }
+  header h1{margin:0 0 6px;font-size:1.5rem;}
+  header h2{margin:0 0 10px;font-size:1.1rem;font-weight:500;opacity:.95;}
+  header p{margin:2px 0;font-size:.85rem;opacity:.85;}
+  .container{max-width:820px;margin:0 auto;padding:20px 16px 80px;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:20px 22px;
+    margin-bottom:18px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .intro p{margin:8px 0;font-size:.95rem;}
+  .intro b{color:var(--primary-dark);}
+  .section-title{
+    background:var(--primary);
+    color:#fff;
+    padding:10px 16px;
+    border-radius:8px;
+    font-size:1.05rem;
+    margin:26px 0 14px;
+  }
+  .cat-title{
+    font-weight:700;
+    color:var(--primary-dark);
+    margin:22px 0 10px;
+    font-size:1rem;
+    border-left:4px solid var(--accent);
+    padding-left:10px;
+  }
+  .question{
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:12px;
+    background:#fbfcfe;
+  }
+  .qtext{font-weight:600;margin-bottom:10px;font-size:.95rem;}
+  .required{color:var(--danger);}
+  .yn-row{display:flex;gap:18px;margin-bottom:8px;flex-wrap:wrap;}
+  .yn-row label{
+    display:flex;align-items:center;gap:6px;
+    cursor:pointer;font-size:.92rem;
+    padding:6px 14px;border:1px solid var(--border);border-radius:20px;
+    background:#fff;
+  }
+  .yn-row input[type=radio]{accent-color:var(--primary);width:16px;height:16px;}
+  .yn-row label.checked{background:var(--primary);color:#fff;border-color:var(--primary);}
+  .followup{
+    margin-top:10px;
+    padding:10px 12px;
+    border-left:3px solid var(--accent);
+    background:#fff7ea;
+    border-radius:6px;
+    display:none;
+  }
+  .followup.show{display:block;}
+  .scale-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;}
+  .scale-row label{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    cursor:pointer;font-size:.85rem;color:var(--muted);
+  }
+  .scale-row input[type=radio]{width:18px;height:18px;accent-color:var(--accent);}
+  .scale-hint{font-size:.78rem;color:var(--muted);margin-bottom:6px;}
+  textarea, select, input[type=text]{
+    width:100%;
+    padding:9px 10px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    font-family:inherit;
+    font-size:.92rem;
+    resize:vertical;
+    background:#fff;
+  }
+  textarea{min-height:60px;}
+  .direct-scale, .nps-scale{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+  .direct-scale label, .nps-scale label{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    cursor:pointer;font-size:.82rem;color:var(--muted);
+    min-width:36px;
+  }
+  .direct-scale input, .nps-scale input{accent-color:var(--primary);width:18px;height:18px;}
+  .classify-row{margin-bottom:16px;}
+  .classify-row label.title{display:block;font-weight:600;margin-bottom:8px;font-size:.95rem;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip-row label{
+    padding:6px 12px;border:1px solid var(--border);border-radius:20px;
+    cursor:pointer;font-size:.88rem;background:#fff;
+  }
+  .chip-row label.checked{background:var(--primary);color:#fff;border-color:var(--primary);}
+  .other-input{margin-top:8px;display:none;max-width:280px;}
+  .other-input.show{display:block;}
+  .open-q{margin-bottom:16px;}
+  .open-q label{display:block;font-weight:600;margin-bottom:6px;font-size:.92rem;}
+  .progress-bar{
+    position:sticky;top:0;z-index:20;background:var(--bg);
+    padding:8px 16px;border-bottom:1px solid var(--border);
+  }
+  .progress-track{height:8px;background:var(--border);border-radius:6px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--accent);width:0%;transition:width .2s;}
+  .progress-label{font-size:.75rem;color:var(--muted);text-align:right;margin-top:3px;}
+  .submit-bar{
+    text-align:center;margin-top:26px;
+  }
+  button#submitBtn{
+    background:var(--primary);color:#fff;border:none;
+    padding:13px 34px;border-radius:8px;font-size:1rem;font-weight:600;
+    cursor:pointer;
+  }
+  button#submitBtn:hover{background:var(--primary-dark);}
+  #statusMsg{margin-top:14px;font-size:.9rem;}
+  #statusMsg.ok{color:#1a7f37;}
+  #statusMsg.err{color:var(--danger);}
+  #statusMsg.pending{color:var(--muted);}
+  .thanks{
+    text-align:center;padding:40px 20px;
+  }
+  .thanks h2{color:var(--primary-dark);}
+  pre.debug{
+    background:#0f172a;color:#e2e8f0;padding:14px;border-radius:8px;
+    overflow:auto;max-height:340px;font-size:.75rem;
+  }
+  .missing{outline:2px solid var(--danger);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>BỘ CÂU HỎI KHẢO SÁT</h1>
+  <h2>MÔI TRƯỜNG LÀM VIỆC</h2>
+  <p>(Ban hành kèm theo Quyết định số 2309.001/QĐ.TH ngày 23/9/2026 của Tổng Giám đốc Công ty TNHH Hãng Kiểm toán AASC)</p>
+  <p>Dành cho Cán bộ Nhân viên Công ty</p>
+  <p>Lĩnh vực: Kế toán – Kiểm toán – Tư vấn tài chính – Thẩm định giá</p>
+</header>
+
+<div class="progress-bar">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">Đã trả lời: 0 / 43 câu bắt buộc</div>
+</div>
+
+<div class="container">
+
+  <div class="card intro">
+    <p>Kính gửi Anh/Chị,</p>
+    <p>Nhằm nâng cao chất lượng môi trường làm việc, hoàn thiện chính sách nhân sự và xây dựng Công ty ngày càng phát triển bền vững, chúng tôi thực hiện khảo sát này để lắng nghe ý kiến đánh giá của Anh/Chị về mọi mặt hoạt động của Công ty nói chung và Đơn vị nơi Anh/Chị đang công tác nói riêng.</p>
+    <p><b>Cam kết bảo mật:</b> Mọi thông tin Anh/Chị cung cấp sẽ được bảo mật tuyệt đối, chỉ sử dụng cho mục đích tổng hợp, phân tích ở cấp độ tập thể (Công ty/Đơn vị) và không dùng để định danh cá nhân người trả lời.</p>
+    <p><b>Thời gian hoàn thành:</b> khoảng 12–15 phút.</p>
+    <p><b>Hướng dẫn trả lời:</b> Mỗi câu hỏi đánh giá được trả lời theo 2 bước: Bước 1 – chọn <b>Có</b> hoặc <b>Không</b>; Bước 2 – nếu chọn Có, đánh giá thêm mức độ theo thang điểm 1–5 (1 = Rất thấp/Rất kém → 5 = Rất cao/Rất tốt); nếu chọn Không, nêu ngắn gọn lý do/ý kiến khác vào ô trống.</p>
+    <p>Riêng <b>Câu 30</b> và <b>Câu 43</b> không theo cấu trúc 2 bước, mà dùng thang điểm đánh giá trực tiếp (Câu 30: 1–5; Câu 43: 0–10).</p>
+    <p>Xin chân thành cảm ơn sự hợp tác của Anh/Chị!</p>
+  </div>
+
+  <form id="surveyForm">
+
+  <div class="section-title">PHẦN I. THÔNG TIN PHÂN LOẠI</div>
+  <div class="card">
+    <p style="font-size:.85rem;color:var(--muted);margin-top:0;">(Thông tin này chỉ nhằm mục đích đánh giá mức độ am hiểu về Công ty của người trả lời, không dùng để định danh cá nhân)</p>
+
+    <div class="classify-row">
+      <label class="title">1. Chức danh/Cấp bậc hiện tại:</label>
+      <div class="chip-row" id="chucdanh-chips"></div>
+      <input type="text" class="other-input" id="chucdanh-other" placeholder="Nhập chức danh khác...">
+    </div>
+
+    <div class="classify-row">
+      <label class="title">2. Thâm niên công tác tại Công ty:</label>
+      <div class="chip-row" id="thamnien-chips"></div>
+    </div>
+  </div>
+
+  <div class="section-title">PHẦN II. NỘI DUNG ĐÁNH GIÁ CHI TIẾT</div>
+  <div id="questionsContainer"></div>
+
+  <div class="section-title">PHẦN III. CÂU HỎI MỞ</div>
+  <div class="card" id="openQuestions"></div>
+
+  <div class="submit-bar">
+    <button type="submit" id="submitBtn">Gửi khảo sát</button>
+    <div id="statusMsg"></div>
+  </div>
+  </form>
+
+  <div class="card thanks" id="thanksCard" style="display:none;">
+    <h2>Xin chân thành cảm ơn Anh/Chị!</h2>
+    <p>Ý kiến của Anh/Chị đã được ghi nhận và là cơ sở quan trọng để Ban Lãnh đạo Công ty xây dựng và cải thiện môi trường làm việc ngày càng tốt hơn.</p>
+  </div>
+
+</div>
+
+<script>
+/* ================== DỮ LIỆU CÂU HỎI ================== */
+const CATEGORIES = [
+  {cat:"A. Khối lượng công việc & Cân bằng công việc – cuộc sống", qs:[1,2,3,4,5]},
+  {cat:"B. Lương, thưởng, phúc lợi", qs:[6,7,8]},
+  {cat:"C. Đào tạo & Phát triển năng lực chuyên môn", qs:[9,10,11,12]},
+  {cat:"D. Lộ trình thăng tiến sự nghiệp", qs:[13,14]},
+  {cat:"E. Đánh giá hiệu quả công việc", qs:[15,16,17]},
+  {cat:"F. Công cụ & Nguồn lực hỗ trợ công việc", qs:[18,19]},
+  {cat:"G. Truyền thông nội bộ", qs:[20,21]},
+  {cat:"H. Quan hệ đồng nghiệp & Làm việc nhóm", qs:[22,23,24]},
+  {cat:"I. Sức khỏe thể chất – tinh thần", qs:[25,26]},
+  {cat:"J. Cơ sở vật chất & An toàn lao động", qs:[27,28]},
+  {cat:"K. Đạo đức nghề nghiệp & Tuân thủ", qs:[29,30,31]},
+  {cat:"L. Lãnh đạo/Quản lý trực tiếp tại Đơn vị", qs:[32,33,34,35]},
+  {cat:"M. Văn hóa doanh nghiệp & Môi trường làm việc", qs:[36,37,38,39]},
+  {cat:"N. Mức độ gắn kết & Ý định gắn bó", qs:[40,41,42]},
+  {cat:"O. Chỉ số giới thiệu nhân viên (eNPS)", qs:[43]},
+];
+
+// type: yn_scale | yn_severity | yn_desc | scale_direct | nps
+const QUESTIONS = {
+ 1:{t:"Công ty/Đơn vị có cơ chế phân bổ khối lượng công việc phù hợp với năng lực và thời gian của Anh/Chị không?",type:"yn_scale"},
+ 2:{t:"Công ty/Đơn vị có giải pháp hỗ trợ giúp Anh/Chị duy trì sự cân bằng giữa công việc và cuộc sống cá nhân ở mức chấp nhận được trong mùa cao điểm (kiểm toán/quyết toán thuế) không?",type:"yn_scale"},
+ 3:{t:"Công ty/Đơn vị có chính sách hỗ trợ rõ ràng cho nhân viên trong giai đoạn làm thêm giờ mùa cao điểm (ăn uống, đưa đón, nghỉ bù…) không?",type:"yn_scale"},
+ 4:{t:"Công ty/Đơn vị có để xảy ra tình trạng Anh/Chị phải làm việc ngoài giờ đến mức ảnh hưởng sức khỏe không?",type:"yn_severity"},
+ 5:{t:"Công ty/Đơn vị có tạo điều kiện để Anh/Chị có đủ thời gian nghỉ ngơi, phục hồi sau các đợt cao điểm làm việc không?",type:"yn_scale"},
+ 6:{t:"Anh/Chị có cảm thấy mức lương hiện tại tương xứng với vị trí, khối lượng công việc và trách nhiệm của mình không?",type:"yn_scale"},
+ 7:{t:"Anh/Chị có cảm thấy chính sách thưởng (bao gồm thưởng làm thêm giờ/làm ngoài giờ mùa vụ) của Công ty công bằng và minh bạch không?",type:"yn_scale"},
+ 8:{t:"Các chế độ phúc lợi (bảo hiểm, nghỉ phép, khám sức khỏe…) hiện tại có đáp ứng tốt nhu cầu của Anh/Chị không?",type:"yn_scale"},
+ 9:{t:"Công ty có cung cấp đầy đủ chương trình đào tạo để nâng cao năng lực chuyên môn cho Anh/Chị không?",type:"yn_scale"},
+ 10:{t:"Nội dung đào tạo tại Công ty có phù hợp và hữu ích cho công việc thực tế của Anh/Chị không?",type:"yn_scale"},
+ 11:{t:"Công ty có chính sách hỗ trợ thiết thực (thời gian, chi phí) cho Anh/Chị khi thi các chứng chỉ hành nghề (CPA, ACCA, CFA, Thẩm định viên về giá…) không?",type:"yn_scale"},
+ 12:{t:"Công ty có tạo điều kiện thuận lợi để Anh/Chị tham gia các khóa cập nhật kiến thức về chuẩn mực kế toán, kiểm toán, thuế mới nhất không?",type:"yn_scale"},
+ 13:{t:"Công ty có lộ trình thăng tiến (Staff – Senior – Manager – Partner…) rõ ràng, minh bạch không?",type:"yn_scale"},
+ 14:{t:"Công ty có tạo điều kiện và cơ hội để Anh/Chị phát triển sự nghiệp lâu dài không?",type:"yn_scale"},
+ 15:{t:"Hệ thống đánh giá hiệu quả công việc (KPI/performance review) của Công ty/của Bộ phận có công bằng, minh bạch không?",type:"yn_scale"},
+ 16:{t:"Công ty/Đơn vị có công khai rõ tiêu chí đánh giá công việc cho Anh/Chị ngay từ đầu kỳ đánh giá không?",type:"yn_scale"},
+ 17:{t:"Kết quả đánh giá công việc có phản ánh đầy đủ và phù hợp với nỗ lực, đóng góp thực tế của Anh/Chị không?",type:"yn_scale"},
+ 18:{t:"Các phần mềm, công cụ hỗ trợ công việc hiện tại của Công ty có đáp ứng tốt nhu cầu công việc của Anh/Chị không?",type:"yn_scale"},
+ 19:{t:"Công ty có cung cấp đầy đủ nguồn lực (tài liệu, dữ liệu, nhân sự hỗ trợ) cần thiết để Anh/Chị hoàn thành công việc hiệu quả không?",type:"yn_scale"},
+ 20:{t:"Thông tin quan trọng của Công ty có được truyền đạt kịp thời, rõ ràng, đầy đủ đến Anh/Chị không?",type:"yn_scale"},
+ 21:{t:"Anh/Chị có cảm thấy các ý kiến chia sẻ, phản hồi của Anh/Chị gửi về Công ty/Bộ phận được tiếp nhận và phản hồi thỏa đáng không?",type:"yn_scale"},
+ 22:{t:"Anh/Chị có gặp khó khăn hoặc mâu thuẫn nào trong mối quan hệ với đồng nghiệp trong nhóm/Bộ phận của mình không?",type:"yn_severity"},
+ 23:{t:"Anh/Chị có gặp trở ngại nào trong việc phối hợp làm việc với các thành viên khác trong nhóm/Bộ phận không?",type:"yn_severity"},
+ 24:{t:"Anh/Chị có nhận được sự hỗ trợ cần thiết từ đồng nghiệp khi gặp khó khăn trong công việc không?",type:"yn_scale"},
+ 25:{t:"Công ty có quan tâm và có chính sách hỗ trợ sức khỏe thể chất, tinh thần cho nhân viên không?",type:"yn_scale"},
+ 26:{t:"Anh/Chị có những thời điểm nào cảm thấy áp lực/căng thẳng (stress) trong công việc vượt quá mức bản thân có thể kiểm soát hay không?",type:"yn_severity"},
+ 27:{t:"Cơ sở vật chất, trang thiết bị làm việc tại văn phòng hiện tại có đáp ứng tốt nhu cầu công việc của Anh/Chị không?",type:"yn_scale"},
+ 28:{t:"Anh/Chị có thấy môi trường làm việc tại Công ty còn tồn tại vấn đề gì chưa đảm bảo an toàn, vệ sinh lao động hay không?",type:"yn_desc"},
+ 29:{t:"Anh/Chị có thấy có vấn đề gì mà Anh/Chị cho rằng không đảm bảo tính độc lập, khách quan của kiểm toán viên khi tham gia cung cấp dịch vụ cho khách hàng hay không?",type:"yn_desc"},
+ 30:{t:"Anh/Chị đánh giá mức độ đầy đủ của nội dung đào tạo về chuẩn mực đạo đức nghề nghiệp và các quy định pháp luật liên quan đến lĩnh vực hoạt động hiện nay như thế nào?",type:"scale_direct"},
+ 31:{t:"Anh/Chị có thấy kênh báo cáo/tố giác vi phạm đạo đức nghề nghiệp hiện tại của Công ty còn tồn tại vấn đề gì hay không?",type:"yn_desc"},
+ 32:{t:"Lãnh đạo bộ phận của Anh/Chị có hỗ trợ tốt và hiệu quả cho Anh/Chị về mặt công việc chuyên môn không?",type:"yn_scale"},
+ 33:{t:"Quản lý trực tiếp của Anh/Chị có phân công công việc công bằng, hợp lý giữa các thành viên trong nhóm không?",type:"yn_scale"},
+ 34:{t:"Quản lý trực tiếp của Anh/Chị có thường xuyên phản hồi, ghi nhận đóng góp của Anh/Chị trong công việc không?",type:"yn_scale"},
+ 35:{t:"Quản lý trực tiếp của Anh/Chị có tạo điều kiện để Anh/Chị phát huy năng lực và ý tưởng của mình không?",type:"yn_scale"},
+ 36:{t:"Anh/Chị có cảm nhận văn hóa làm việc tại Bộ phận/Công ty đề cao sự hợp tác và tôn trọng lẫn nhau không?",type:"yn_scale"},
+ 37:{t:"Anh/Chị có cảm thấy được đối xử công bằng tại Bộ phận mình đang làm việc không?",type:"yn_scale"},
+ 38:{t:"Bộ phận của Anh/Chị có khuyến khích sự đa dạng quan điểm và đổi mới sáng tạo không?",type:"yn_scale"},
+ 39:{t:"Tại Bộ phận của Anh/Chị có xảy ra tình trạng thiên vị hoặc thiếu công bằng trong đối xử với nhân viên không?",type:"yn_severity"},
+ 40:{t:"Anh/Chị có cảm thấy tự hào khi là thành viên của Công ty không?",type:"yn_scale"},
+ 41:{t:"Anh/Chị có cảm nhận được sự gắn kết chặt chẽ giữa bản thân với mục tiêu chung của Công ty không?",type:"yn_scale"},
+ 42:{t:"Anh/Chị có dự định tiếp tục gắn bó làm việc lâu dài tại Công ty (trong 2 năm tới) không?",type:"yn_scale"},
+ 43:{t:"Trên thang điểm từ 0 đến 10, khả năng Anh/Chị giới thiệu Công ty là nơi làm việc tốt cho bạn bè/người quen là bao nhiêu?",type:"nps"},
+};
+
+const OPEN_QUESTIONS = [
+  "Điều Anh/Chị hài lòng nhất khi làm việc tại Công ty/Đơn vị là gì?",
+  "Điều Anh/Chị cảm thấy cần cải thiện nhất tại Công ty/Đơn vị là gì?",
+  "Anh/Chị có đề xuất cụ thể nào để cải thiện môi trường làm việc, đặc biệt trong giai đoạn mùa cao điểm công việc (kiểm toán/quyết toán thuế)?",
+  "Ý kiến khác (nếu có):"
+];
+
+const CHUCDANH = ["Staff/Trợ lý","Senior","Assistant Manager","Manager","Director","Partner","Khác"];
+const THAMNIEN = ["Dưới 1 năm","1–3 năm","3–5 năm","5–10 năm","Trên 10 năm"];
+
+/* ================== RENDER ================== */
+const qContainer = document.getElementById('questionsContainer');
+
+function scaleRow(name, max, min, minLabel, maxLabel, required){
+  let html = `<div class="scale-hint">${minLabel} → ${maxLabel}</div><div class="scale-row">`;
+  for(let i=min;i<=max;i++){
+    html += `<label><input type="radio" name="${name}" value="${i}" ${required?'':''}>${i}</label>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+CATEGORIES.forEach(group=>{
+  const catDiv = document.createElement('div');
+  catDiv.className = 'cat-title';
+  catDiv.textContent = group.cat;
+  qContainer.appendChild(catDiv);
+
+  group.qs.forEach(num=>{
+    const q = QUESTIONS[num];
+    const wrap = document.createElement('div');
+    wrap.className = 'question';
+    wrap.dataset.qnum = num;
+    wrap.dataset.qtype = q.type;
+
+    let inner = `<div class="qtext">Câu ${num}. ${q.t} <span class="required">*</span></div>`;
+
+    if(q.type === 'yn_scale' || q.type === 'yn_severity' || q.type === 'yn_desc'){
+      inner += `<div class="yn-row">
+        <label><input type="radio" name="q${num}_yn" value="Có" onchange="handleYN(${num})"> Có</label>
+        <label><input type="radio" name="q${num}_yn" value="Không" onchange="handleYN(${num})"> Không</label>
+      </div>`;
+
+      if(q.type === 'yn_scale'){
+        inner += `<div class="followup" id="q${num}_yes">
+          <div style="font-size:.85rem;margin-bottom:4px;">Nếu CÓ – đánh giá mức độ:</div>
+          ${scaleRow('q'+num+'_scale',5,1,'1 = Rất thấp/Rất kém','5 = Rất cao/Rất tốt')}
+        </div>
+        <div class="followup" id="q${num}_no">
+          <div style="font-size:.85rem;margin-bottom:4px;">Nếu KHÔNG – lý do/ý kiến khác:</div>
+          <textarea name="q${num}_reason" placeholder="Nhập lý do hoặc ý kiến..."></textarea>
+        </div>`;
+      } else if(q.type === 'yn_severity'){
+        inner += `<div class="followup" id="q${num}_yes">
+          <div style="font-size:.85rem;margin-bottom:4px;">Nếu CÓ – mức độ nghiêm trọng và mô tả cụ thể:</div>
+          ${scaleRow('q'+num+'_scale',5,1,'1 = Rất nhẹ','5 = Rất nghiêm trọng')}
+          <textarea name="q${num}_desc" placeholder="Mô tả cụ thể..." style="margin-top:8px;"></textarea>
+        </div>
+        <div class="followup" id="q${num}_no">
+          <div style="font-size:.85rem;color:var(--muted);">Nếu KHÔNG – không cần trả lời thêm.</div>
+        </div>`;
+      } else if(q.type === 'yn_desc'){
+        inner += `<div class="followup" id="q${num}_yes">
+          <div style="font-size:.85rem;margin-bottom:4px;">Nếu CÓ, vui lòng mô tả cụ thể vấn đề là gì:</div>
+          <textarea name="q${num}_desc" placeholder="Mô tả cụ thể..."></textarea>
+        </div>`;
+      }
+    } else if(q.type === 'scale_direct'){
+      inner += `<div class="direct-scale">`;
+      for(let i=1;i<=5;i++){
+        inner += `<label><input type="radio" name="q${num}_direct" value="${i}">${i}</label>`;
+      }
+      inner += `</div><div class="scale-hint">1 = Rất thấp/Rất kém → 5 = Rất cao/Rất tốt</div>`;
+    } else if(q.type === 'nps'){
+      inner += `<div class="nps-scale">`;
+      for(let i=0;i<=10;i++){
+        inner += `<label><input type="radio" name="q${num}_nps" value="${i}">${i}</label>`;
+      }
+      inner += `</div><div class="scale-hint">0 = Hoàn toàn không giới thiệu → 10 = Chắc chắn giới thiệu</div>`;
+    }
+
+    wrap.innerHTML = inner;
+    qContainer.appendChild(wrap);
+  });
+});
+
+function handleYN(num){
+  const yes = document.getElementById(`q${num}_yes`);
+  const no = document.getElementById(`q${num}_no`);
+  const checked = document.querySelector(`input[name="q${num}_yn"]:checked`);
+  if(!checked) return;
+  if(checked.value === 'Có'){
+    if(yes) yes.classList.add('show');
+    if(no) no.classList.remove('show');
+  } else {
+    if(no) no.classList.add('show');
+    if(yes) yes.classList.remove('show');
+  }
+  updateProgress();
+}
+
+// Chip-style single select for Part I
+function renderChips(containerId, options, name, hasOther, otherInputId){
+  const el = document.getElementById(containerId);
+  options.forEach(opt=>{
+    const label = document.createElement('label');
+    label.innerHTML = `<input type="radio" name="${name}" value="${opt}" style="display:none;"> ${opt}`;
+    label.addEventListener('click', ()=>{
+      el.querySelectorAll('label').forEach(l=>l.classList.remove('checked'));
+      label.classList.add('checked');
+      label.querySelector('input').checked = true;
+      if(hasOther){
+        const otherEl = document.getElementById(otherInputId);
+        if(opt === 'Khác'){ otherEl.classList.add('show'); } else { otherEl.classList.remove('show'); otherEl.value=''; }
+      }
+      updateProgress();
+    });
+    el.appendChild(label);
+  });
+}
+renderChips('chucdanh-chips', CHUCDANH, 'chucdanh', true, 'chucdanh-other');
+renderChips('thamnien-chips', THAMNIEN, 'thamnien', false, null);
+
+// Part III open questions
+const openDiv = document.getElementById('openQuestions');
+OPEN_QUESTIONS.forEach((q,i)=>{
+  const d = document.createElement('div');
+  d.className = 'open-q';
+  d.innerHTML = `<label>${i+1}. ${q}</label><textarea name="open_${i+1}" placeholder="Nhập ý kiến của Anh/Chị..."></textarea>`;
+  openDiv.appendChild(d);
+});
+
+/* ================== PROGRESS ================== */
+const TOTAL_REQUIRED = 43;
+function updateProgress(){
+  let answered = 0;
+  for(let n=1;n<=43;n++){
+    const type = QUESTIONS[n].type;
+    if(type==='yn_scale'||type==='yn_severity'||type==='yn_desc'){
+      const yn = document.querySelector(`input[name="q${n}_yn"]:checked`);
+      if(yn) answered++;
+    } else if(type==='scale_direct'){
+      if(document.querySelector(`input[name="q${n}_direct"]:checked`)) answered++;
+    } else if(type==='nps'){
+      if(document.querySelector(`input[name="q${n}_nps"]:checked`)) answered++;
+    }
+  }
+  const pct = Math.round(answered/TOTAL_REQUIRED*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = `Đã trả lời: ${answered} / ${TOTAL_REQUIRED} câu bắt buộc`;
+}
+document.addEventListener('change', (e)=>{
+  if(e.target.name && e.target.name.endsWith('_yn')) return; // handled by handleYN which calls updateProgress
+  updateProgress();
+});
+updateProgress();
+
+/* ================== THU THẬP DỮ LIỆU ================== */
+function collectData(){
+  const data = {timestamp: new Date().toISOString()};
+  data.chuc_danh = (document.querySelector('input[name="chucdanh"]:checked')||{}).value || '';
+  if(data.chuc_danh === 'Khác'){
+    data.chuc_danh_khac = document.getElementById('chucdanh-other').value.trim();
+  }
+  data.tham_nien = (document.querySelector('input[name="thamnien"]:checked')||{}).value || '';
+
+  for(let n=1;n<=43;n++){
+    const type = QUESTIONS[n].type;
+    if(type==='yn_scale'){
+      const yn = (document.querySelector(`input[name="q${n}_yn"]:checked`)||{}).value||'';
+      data[`cau${n}_co_khong`] = yn;
+      data[`cau${n}_muc_do`] = yn==='Có' ? ((document.querySelector(`input[name="q${n}_scale"]:checked`)||{}).value||'') : '';
+      data[`cau${n}_ly_do`] = yn==='Không' ? (document.querySelector(`textarea[name="q${n}_reason"]`)||{}).value||'' : '';
+    } else if(type==='yn_severity'){
+      const yn = (document.querySelector(`input[name="q${n}_yn"]:checked`)||{}).value||'';
+      data[`cau${n}_co_khong`] = yn;
+      data[`cau${n}_muc_do_nghiem_trong`] = yn==='Có' ? ((document.querySelector(`input[name="q${n}_scale"]:checked`)||{}).value||'') : '';
+      data[`cau${n}_mo_ta`] = yn==='Có' ? (document.querySelector(`textarea[name="q${n}_desc"]`)||{}).value||'' : '';
+    } else if(type==='yn_desc'){
+      const yn = (document.querySelector(`input[name="q${n}_yn"]:checked`)||{}).value||'';
+      data[`cau${n}_co_khong`] = yn;
+      data[`cau${n}_mo_ta`] = yn==='Có' ? (document.querySelector(`textarea[name="q${n}_desc"]`)||{}).value||'' : '';
+    } else if(type==='scale_direct'){
+      data[`cau${n}_diem`] = (document.querySelector(`input[name="q${n}_direct"]:checked`)||{}).value||'';
+    } else if(type==='nps'){
+      data[`cau${n}_diem`] = (document.querySelector(`input[name="q${n}_nps"]:checked`)||{}).value||'';
+    }
+  }
+  for(let i=1;i<=4;i++){
+    data[`cau_hoi_mo_${i}`] = (document.querySelector(`textarea[name="open_${i}"]`)||{}).value||'';
+  }
+  return data;
+}
+
+/* ================== GỬI DỮ LIỆU ================== */
+// ĐIỀN URL WEB APP GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY SAU KHI TRIỂN KHAI (xem hướng dẫn đi kèm)
+const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwdiXkrSTwyHeHOVLR0cT6zrGRcjsH5zCYe7J5hFly4tRf1TYlkz20MPD-BI2mOI3m0Jg/exec";
+
+document.getElementById('surveyForm').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  // Kiểm tra các câu bắt buộc đã trả lời đủ chưa
+  let missing = [];
+  document.querySelectorAll('.question').forEach(q=>q.classList.remove('missing'));
+  for(let n=1;n<=43;n++){
+    const type = QUESTIONS[n].type;
+    let ok = true;
+    if(type==='yn_scale'||type==='yn_severity'||type==='yn_desc'){
+      ok = !!document.querySelector(`input[name="q${n}_yn"]:checked`);
+    } else if(type==='scale_direct'){
+      ok = !!document.querySelector(`input[name="q${n}_direct"]:checked`);
+    } else if(type==='nps'){
+      ok = !!document.querySelector(`input[name="q${n}_nps"]:checked`);
+    }
+    if(!ok){
+      missing.push(n);
+      const qEl = document.querySelector(`.question[data-qnum="${n}"]`);
+      if(qEl) qEl.classList.add('missing');
+    }
+  }
+
+  const statusEl = document.getElementById('statusMsg');
+  if(missing.length > 0){
+    statusEl.className = 'err';
+    statusEl.textContent = `Vui lòng trả lời đầy đủ các câu còn thiếu: Câu ${missing.join(', ')}`;
+    document.querySelector(`.question[data-qnum="${missing[0]}"]`).scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  const data = collectData();
+  statusEl.className = 'pending';
+  statusEl.textContent = 'Đang gửi...';
+
+  if(GOOGLE_SHEET_WEBAPP_URL){
+    fetch(GOOGLE_SHEET_WEBAPP_URL, {
+      method: 'POST',
+      mode: 'no-cors', // Apps Script Web App thường không trả CORS header, dùng no-cors để tránh lỗi (không đọc được response)
+      headers: {'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(data)
+    }).then(()=>{
+      showThanks();
+    }).catch(err=>{
+      statusEl.className = 'err';
+      statusEl.textContent = 'Gửi thất bại, vui lòng thử lại hoặc liên hệ bộ phận Nhân sự. (' + err + ')';
+    });
+  } else {
+    // Chưa cấu hình URL Apps Script -> hiển thị JSON để kiểm tra / demo
+    statusEl.className = 'ok';
+    statusEl.innerHTML = 'Chưa cấu hình URL Google Apps Script. Dữ liệu thu thập được (demo):<br><pre class="debug">'+JSON.stringify(data,null,2)+'</pre>';
+  }
+});
+
+function showThanks(){
+  document.getElementById('surveyForm').style.display = 'none';
+  document.getElementById('thanksCard').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
