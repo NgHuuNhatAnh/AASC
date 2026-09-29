@@ -64,6 +64,10 @@
   --mono:'Space Mono',ui-monospace,monospace;
 
   --sans:'Be Vietnam Pro',system-ui,sans-serif;
+
+  --noResult: 1px red solid;
+  --win: 2px rgb(255, 166, 1) solid;
+  --lose: 1px black solid;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -521,6 +525,13 @@
     font-size:1.8rem; 
     color:var(--text3); }
 
+  .round-title.hang-doc {
+    text-align:left; 
+        text-align: left;
+    display: flex;
+    align-items: center;
+  }
+
   .round-arrow{display:flex; align-items:center; justify-content:center; color:var(--line-strong); font-size:1.6rem; align-self:center; padding-top:22px;}
   .match{
     background:rgba(243,246,236,.045); border:1px solid var(--line); border-radius:12px;
@@ -542,8 +553,12 @@
   .champ-container{display:flex; align-items:center;}
   .champ-card{
     background:linear-gradient(135deg,var(--yellow),#FFF7B0); color:var(--navy-deep);
-    border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:10px;
-    font-weight:800; font-size:.92rem; min-width:220px;
+    border-radius:16px; 
+    padding:16px 26px 16px 20px; 
+    display:flex; align-items:center; 
+    justify-content: center;
+    gap:5px;
+    font-weight:800; font-size:1.2rem; min-width:220px;
   }
   .champ-card input{
     flex:1; background:rgba(8,28,36,.08); border:1px dashed rgba(8,28,36,.35); border-radius:8px;
@@ -585,7 +600,28 @@
         position: relative;
 }
 
+/* cái hiện ẩn tournament brackket  */
 
+ .tourament-bracket.hang-ngang{
+    display: none;
+  }
+
+ .tourament-bracket.hang-doc{
+  display: flex;
+}
+
+@media (max-width: 600px){
+ .tourament-bracket.hang-ngang{
+  display: flex;
+}
+
+
+
+  .tourament-bracket.hang-doc{
+  display: none;
+}
+
+}
 
 .bracket-match {
     display: grid;
@@ -599,20 +635,101 @@
     overflow: hidden;
 }
 
+/* Các connector  */
+
 .connector-1{
      
-     border-top:1px red solid;
-    border-right:1px red solid;
+     border-top:var(--noResult);
+    border-right:var(--noResult);
+}
+
+.connector-1.win{
+     
+     border-top:var(--win);
+    border-right:var(--win);
+     
+    z-index: 5;
+}
+
+.connector-1.lose{
+     
+     border-top:var(--lose);
+    border-right:var(--lose);
+    z-index: 1;
 }
 
 .connector-2{
-     border-right:1px red solid;
-      border-bottom:1px red solid;
+     border-right:var(--noResult);
+      border-bottom:var(--noResult);
 }
 
-.connector-line{
-    border-top:1px red solid;
+.connector-2.win{
+     border-right:var(--win);
+      border-bottom:var(--win);
+       
+    z-index: 5;
 }
+
+.connector-2.lose{
+     border-right:var(--lose);
+      border-bottom:var(--lose);
+       z-index: 1;
+}
+
+
+.connector-line{
+    border-top:var(--noResult);
+    z-index: 5;
+}
+
+.connector-line.win{
+    
+     border-top:var(--win);
+}
+
+
+.connector-3{
+     
+     border-top:var(--noResult);
+    border-left:var(--noResult);
+}
+
+.connector-3.win{
+     
+     border-top:var(--win);
+    border-left:var(--win);
+}
+
+.connector-3.lose{
+     
+     border-top:var(--lose);
+    border-left:var(--lose);
+}
+
+
+.connector-4{
+     border-right:var(--noResult);
+      border-top:var(--noResult);
+}
+
+.connector-4.win{
+     border-right:var(--win);
+      border-top:var(--win);
+}
+
+.connector-4.lose{
+     border-right:var(--lose);
+      border-top:var(--lose);
+}
+
+.connector-hangDoc{
+   border-left:var(--noResult);
+}
+
+.connector-hangDoc.win{
+   border-left:var(--win);
+}
+
 
 /* đội trong bảng */
 .bracket-match > div {
@@ -880,7 +997,7 @@
     align-items: center;
 }
 
-@media (max-width: 500px){
+@media (max-width: 700px){
   .my-scroll-bar{
     display:flex;
   }
@@ -891,7 +1008,7 @@
 <body>
 
 
-<!-- đoạn mở cửa -->
+<!-- đoạn mở cửa style="display:none;"  -->
 <div class="scene" id="main-scene" >
         
         <!-- Không gian bên trong (Sau khi mở cửa) -->
@@ -1067,7 +1184,9 @@ const TOURNAMENTS = [
 
         {
           name:'Bán kết',
-          participants:[]
+          participants:[
+            
+          ]
         },
 
         {
@@ -1541,11 +1660,17 @@ const roundsHTML = createTournamentBracket(cat.rounds);
 
     <section id="tournament-block-${cat.id}" class="block tournament-block">
       <h2>Sơ đồ vòng loại trực tiếp</h2>
-      <div id="tourament-bracket-${cat.id}" class="tourament-bracket" 
-      style="height: ${roundsHTML[1]}px;
-      width: ${roundsHTML[2]}px;">
-          ${roundsHTML[0]}
+      <div id="tourament-bracket-${cat.id}-1" class="tourament-bracket ${roundsHTML[1][0] !== null ? 'hang-ngang': ''} " 
+      style="height: ${roundsHTML[0][1]}px;
+      width: ${roundsHTML[0][2]}px;">
+          ${roundsHTML[0][0]}
         </div>
+        ${roundsHTML[1][0] !== null ? `<div id="tourament-bracket-${cat.id}-2" class="tourament-bracket hang-doc" 
+      style="height: ${roundsHTML[1][1]}px;
+      width: ${roundsHTML[1][2]}px;">
+          ${roundsHTML[1][0]}
+        </div>`: ''}
+        
         
     </section>
     <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[2]}</div>`
@@ -1598,11 +1723,16 @@ const roundsHTML = createTournamentBracket(cat.rounds);
 
     <section id="tournament-block-${cat.id}" class="block tournament-block">
       <h2>Sơ đồ các vòng thi đấu</h2>
-      <div id="tourament-bracket-${cat.id}" class="tourament-bracket" 
-      style="height: ${roundsHTML[1]}px;
-      width: ${roundsHTML[2]}px;">
-          ${roundsHTML[0]}
+      <div id="tourament-bracket-${cat.id}-1" class="tourament-bracket ${roundsHTML[1][0] !== null ? 'hang-ngang': ''} " 
+      style="height: ${roundsHTML[0][1]}px;
+      width: ${roundsHTML[0][2]}px;">
+          ${roundsHTML[0][0]}
         </div>
+        ${roundsHTML[1][0] !== null ? `<div id="tourament-bracket-${cat.id}-2" class="tourament-bracket hang-doc" 
+      style="height: ${roundsHTML[1][1]}px;
+      width: ${roundsHTML[1][2]}px;">
+          ${roundsHTML[1][0]}
+        </div>`: ''}
        
     </section>
      <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[3]}</div>`}`
@@ -1655,7 +1785,7 @@ function createTournamentBracket(arrayParticipants) {
      numberOfMatches = arrayParticipants.matches[0].participants.length/2;
 
     //  console.log('number of matches: ',numberOfMatches)
-    let participants = arrayParticipants.matches[0].participants;
+    // let participants = arrayParticipants.matches[0].participants;
     let stt = 0;
 
     const gapRows = 15;
@@ -1665,8 +1795,22 @@ function createTournamentBracket(arrayParticipants) {
     const boxTeamWidth = 220;  
 
     const roundTitleHeight = 40;
-    const marginBotRoundTitle = 20;
-    // const bracket = document.getElementById('tourament-bracket');
+    
+
+// đoạn dưới này là cấu hình cho bracket dạng dọc
+      const gapHangDoc = 50;
+      const gapHangNgang = 100;
+      let oldGapHangNgang = 0;
+      let currentGapHangNgang = 0;
+
+      let khoangCachBenTraiRound = 400;
+      const KhoangCachTopRound = 80;
+      
+      let heigtOfContainer_2 = 0;
+      let widthOfContainer_2 = 0;
+
+      const roundTitleWidth= 150;
+    
 
     // Kiểm tra số đội có phải lũy thừa của 2
     if (
@@ -1679,6 +1823,8 @@ function createTournamentBracket(arrayParticipants) {
     }
     // Xóa bracket cũ nếu có
     let bracketHTML = '';
+    // cái thứ duplicate
+    let bracketHTML_2 = '';
 
     // Tổng số round
     const totalRounds = Math.log2(numberOfMatches)+1;
@@ -1689,9 +1835,10 @@ function createTournamentBracket(arrayParticipants) {
     // Số box của round hiện tại
     let currentNumberOfMatches = numberOfMatches;
     let translateYvalue= 0;
-    let currentRoundTop=roundTitleHeight + marginBotRoundTitle;;
+    let currentRoundTop=roundTitleHeight +20;
     let oldgapRows=0;
 
+   
 
     // Vòng lặp từng round (nhưng để tạo match, k cần tạo round)
     for (
@@ -1700,11 +1847,16 @@ function createTournamentBracket(arrayParticipants) {
         roundIndex++
     ) {
 
+        const participants = arrayParticipants.matches[roundIndex].participants
+        stt = 0;  
+
         for (
             let matchIndex = 0;
             matchIndex < currentNumberOfMatches;
             matchIndex++
         ) {
+
+          
 
            const matchLeft = (boxTeamWidth + gapColumns) * roundIndex;
 
@@ -1715,13 +1867,11 @@ function createTournamentBracket(arrayParticipants) {
               height: ${roundTitleHeight}px;
               width:${boxTeamWidth}px;
              transform: translateX(${matchLeft}px);
-              margin-bottom:${marginBotRoundTitle}px;">
+              ">
               ${arrayParticipants.matches[roundIndex].name}
               </div>`;
               
           }
-
-           
 
             // match.style.transform = `translate(${matchLeft}px,${translateYvalue}px)`;
 
@@ -1739,7 +1889,7 @@ function createTournamentBracket(arrayParticipants) {
             </div>
             </div>`;
 
-            stt += 2;
+            
 
             if (roundIndex!= 0){
 
@@ -1748,7 +1898,12 @@ function createTournamentBracket(arrayParticipants) {
             // const currentMatchLeft = rect.left;
             const middlteOfMatch = currentRoundTop + translateYvalue + boxTeamHeight/2;
 
-            bracketHTML += `<div class="connector-1" style="
+            bracketHTML += `<div class="connector-1  ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? 'win'
+                      : 'lose'
+                  : ''
+              } " style="
             position : absolute;
             top: ${middlteOfMatch}px;
             left: ${(matchLeft - gapColumns)}px;
@@ -1757,7 +1912,14 @@ function createTournamentBracket(arrayParticipants) {
             border-top-right-radius: ${connectorConnerRadius}px;
             transform: translateY(-100%)"></div>
 
-            <div class="connector-2" style="
+            <div class="connector-2 
+            ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                ? participants[stt][1] > participants[stt+1][1]
+                    ? 'lose'
+                    : 'win'
+                : ''
+            }
+            " style="
             position : absolute;
             top: ${middlteOfMatch}px;
             left: ${(matchLeft  - gapColumns)}px;
@@ -1766,7 +1928,7 @@ function createTournamentBracket(arrayParticipants) {
             border-bottom-right-radius: ${connectorConnerRadius}px;">
             </div>
 
-            <div class="connector-line" style="
+            <div class="connector-line ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null ? 'win' : ''}" style="
             position : absolute;
             top: ${middlteOfMatch}px;
             left: ${matchLeft - gapColumns/2}px;
@@ -1774,6 +1936,8 @@ function createTournamentBracket(arrayParticipants) {
             width : ${gapColumns/2}px;"></div>`
 
             }
+
+            stt += 2;
 
             if (matchIndex < currentNumberOfMatches - 1) {
                 translateYvalue = (currentGapRows + boxTeamHeight) * (matchIndex + 1);
@@ -1793,7 +1957,7 @@ function createTournamentBracket(arrayParticipants) {
                     top: ${currentRoundTop}px;
                     height: ${boxTeamHeight}px;
                     width : ${boxTeamWidth}px;
-                    transform: translate(${matchLeft+gapColumns+boxTeamWidth}px,${translateYvalue}px)"><div class="champ-card">🏆 <span>Vô địch</span>
+                    transform: translate(${matchLeft+gapColumns+boxTeamWidth}px,${translateYvalue}px)"><div class="champ-card">🏆<span>Vô địch</span>
                     </div></div>`;
                   
                 } 
@@ -1805,16 +1969,179 @@ function createTournamentBracket(arrayParticipants) {
                 currentGapRows = currentGapRows * 2 + boxTeamHeight;
                
             }
-
-            
-
         }
 
          
         // Round tiếp theo giảm một nửa số match
         currentNumberOfMatches /= 2;
     }
-return [bracketHTML, heigtOfContainer, widthOfContainer];
+
+
+
+
+  
+    // để bracket ngang
+     if (numberOfMatches<4) {
+      stt = 0;
+      currentNumberOfMatches = numberOfMatches;
+
+      currentGapHangNgang = gapHangNgang;
+      heigtOfContainer_2 = KhoangCachTopRound + (boxTeamHeight+gapHangDoc)*(totalRounds+1);
+      widthOfContainer_2 = khoangCachBenTraiRound + (boxTeamWidth+gapHangNgang)*numberOfMatches;
+
+      const khoangCachChoTitle= khoangCachBenTraiRound;
+      for (
+        let roundIndex = 0;
+        roundIndex < totalRounds;
+        roundIndex++
+    ) {
+
+      const participants = arrayParticipants.matches[roundIndex].participants
+      stt = 0;
+
+      const matchTop= KhoangCachTopRound + (boxTeamHeight+gapHangDoc)*(totalRounds-roundIndex);
+        for (
+            let matchIndex = 0;
+            matchIndex < currentNumberOfMatches;
+            matchIndex++
+        ) {
+
+          
+             if (matchIndex ==0) {
+              bracketHTML_2 += `<div class="round-title hang-doc"
+              style="
+              position: absolute;
+              height: ${boxTeamHeight}px;
+              width:${roundTitleWidth}px;
+             transform: translate(${khoangCachChoTitle/3}px,${matchTop}px);
+              ">
+              ${arrayParticipants.matches[roundIndex].name}
+              </div>`;
+              
+          }
+
+          
+
+           const matchLeft = khoangCachBenTraiRound + (boxTeamWidth + currentGapHangNgang) * matchIndex;
+
+          //  console.log(matchLeft, matchIndex);
+
+          // cái để hiện bán kết, chung kết
+           
+       
+
+            // match.style.transform = `translate(${matchLeft}px,${translateYvalue}px)`;
+
+            bracketHTML_2 += `<div class="bracket-match" style="
+            position : absolute;
+            height: ${boxTeamHeight}px;
+            width : ${boxTeamWidth}px;
+            transform: translate(${matchLeft}px,${matchTop}px)">
+            <div class="team-row">
+              <span>${participants[stt]?.[0] ?? '-'}</span><span>${participants[stt]?.[1] ?? '-'}</span>
+            </div>
+            <div class="team-row">
+              <span>${participants[stt+1]?.[0] ?? '-'}</span><span>${participants[stt+1]?.[1] ?? '-'}</span>
+            </div>
+            </div>`;
+
+            
+
+            if (roundIndex!= 0){
+
+            // const rect = match.getBoundingClientRect();
+
+            // const currentMatchLeft = rect.left;
+            const middlteOfMatch = matchLeft + boxTeamWidth/2;
+
+            bracketHTML_2 += `
+            <div class="connector-hangDoc ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null ? 'win' : ''}" style="
+            position : absolute;
+            top: ${matchTop + boxTeamHeight}px;
+            left: ${middlteOfMatch}px;
+            height: ${gapHangDoc/2}px;
+            width : 0px;"></div>
+
+            <div class="connector-3 
+             ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                ? participants[stt][1] > participants[stt+1][1]
+                    ? 'win'
+                    : 'lose'
+                : ''
+            }
+            " style="
+            position : absolute;
+            top: ${matchTop + boxTeamHeight + gapHangDoc/2}px;
+            left: ${(middlteOfMatch)}px;
+            height: ${gapHangDoc/2}px;
+            width : ${(oldGapHangNgang+ boxTeamWidth)/2}px;
+            border-top-left-radius: ${connectorConnerRadius}px;
+            transform: translateX(-100%)"></div>
+
+            <div class="connector-4 
+             ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                ? participants[stt][1] > participants[stt+1][1]
+                    ? 'lose'
+                    : 'win'
+                : ''
+            }
+            " style="
+            position : absolute;
+            top: ${matchTop + boxTeamHeight + gapHangDoc/2}px;
+            left: ${middlteOfMatch}px;
+            height: ${gapHangDoc/2}px;
+            width : ${(oldGapHangNgang+ boxTeamWidth)/2}px;
+            border-top-right-radius: ${connectorConnerRadius}px;">
+            </div>
+            `
+
+            }
+
+            stt += 2;
+           
+            // tính chiều cao container
+                 if (roundIndex == 0) {
+                  heigtOfContainer = currentRoundTop + translateYvalue + boxTeamHeight;
+                } 
+
+                 if (roundIndex == totalRounds-1) {
+                   widthOfContainer = matchLeft + boxTeamWidth*2 + gapColumns ;
+
+                   bracketHTML_2 += 
+                   `<div class="champ-container" style="
+                   position: absolute;
+                   
+                    height: ${boxTeamHeight}px;
+                    width : ${boxTeamWidth}px;
+                    transform: translate(${matchLeft}px,${KhoangCachTopRound}px)"><div class="champ-card">🏆<span>Vô địch</span>
+                    </div></div>`;
+                  
+                } 
+               
+
+               
+               
+            
+
+        }
+
+         oldGapHangNgang = currentGapHangNgang;
+        khoangCachBenTraiRound += (boxTeamWidth +currentGapHangNgang)/2
+        currentGapHangNgang = currentGapHangNgang * 2 + boxTeamWidth;
+        // Round tiếp theo gấp đôi lên
+        currentNumberOfMatches /=2
+          
+    }
+      
+    } else {
+      bracketHTML_2 = null;
+      heigtOfContainer_2= null;
+      widthOfContainer_2= null;
+    }
+
+
+return [[bracketHTML, heigtOfContainer, widthOfContainer],
+[bracketHTML_2,heigtOfContainer_2,widthOfContainer_2]];
 
 }
 
@@ -1859,146 +2186,93 @@ window.addEventListener('DOMContentLoaded', ()=>{
   tl1.from(firstHero.querySelector('.hero-sub'), {opacity:0, y:16, duration:.7, delay:.1, ease:'power2.out'}, "<");
   tl1.from(firstHero.querySelector('.hero-icon'), {opacity:0, scale:.7, duration:.8, delay:.15, ease:'back.out(1.6)'}, "<");
 });
-
 // đoạn dưới cho image slider 
 // document.addEventListener('DOMContentLoaded', () => {
-
 //     const slider = document.querySelector('#image-slider');
-
 //     if (!slider) return;
-
 //     const images = slider.querySelectorAll('img');
-
 //     const prevBtn = slider.querySelector('#slider-prev');
 //     const nextBtn = slider.querySelector('#slider-next');
-
 //     let currentIndex = 0;
 //     let autoSlide;
-
-
 //     // =========================
 //     // Khởi tạo
 //     // =========================
-
 //     gsap.set(images, {
 //         xPercent: 0,
 //         opacity: 0
 //     });
-
 //     gsap.set(images[0], {
 //         xPercent: 0,
 //         opacity: 1
 //     });
-
-
 //     // =========================
 //     // Chuyển ảnh
 //     // =========================
-
 //     function showSlide(newIndex, direction = 1) {
-
 //         // vòng lại
 //         if (newIndex >= images.length) {
 //             newIndex = 0;
 //         }
-
 //         if (newIndex < 0) {
 //             newIndex = images.length - 1;
 //         }
-
 //         if (newIndex === currentIndex) return;
-
-
 //         const currentImage = images[currentIndex];
 //         const nextImage = images[newIndex];
-
-
 //         // Dừng animation đang chạy nếu người dùng bấm liên tục
 //         gsap.killTweensOf([currentImage, nextImage]);
-
-
 //         // Ảnh mới nằm ngoài màn hình
 //         gsap.set(nextImage, {
 //             xPercent: direction > 0 ? 100 : -100,
 //             opacity: 1
 //         });
-
-
 //         // Ảnh hiện tại trượt ra
 //         gsap.to(currentImage, {
 //             xPercent: direction > 0 ? -100 : 100,
 //             duration: 0.8,
 //             ease: "power2.inOut"
 //         });
-
-
 //         // Ảnh mới trượt vào
 //         gsap.to(nextImage, {
 //             xPercent: 0,
 //             duration: 0.8,
 //             ease: "power2.inOut"
 //         });
-
-
 //         currentIndex = newIndex;
 //     }
-
-
 //     // =========================
 //     // Next
 //     // =========================
-
 //     function nextSlide() {
-
 //         showSlide(currentIndex + 1, 1);
-
 //         resetAutoSlide();
 //     }
-
-
 //     // =========================
 //     // Previous
 //     // =========================
-
 //     function prevSlide() {
-
 //         showSlide(currentIndex - 1, -1);
-
 //         resetAutoSlide();
 //     }
-
-
 //     // =========================
 //     // Auto 5 giây
 //     // =========================
-
 //     function resetAutoSlide() {
-
 //         clearTimeout(autoSlide);
-
 //         autoSlide = setTimeout(() => {
-
 //             showSlide(currentIndex + 1, 1);
-
 //             resetAutoSlide();
-
 //         }, 5000);
 //     }
-
-
 //     // =========================
 //     // Button
 //     // =========================
-
 //     nextBtn.addEventListener('click', nextSlide);
-
 //     prevBtn.addEventListener('click', prevSlide);
-
-
 //     // =========================
 //     // Start
 //     // =========================
-
 //     resetAutoSlide();
 
 // });
