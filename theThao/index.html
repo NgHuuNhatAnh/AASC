@@ -77,6 +77,8 @@
     color:var(--chalk);
     -webkit-font-smoothing:antialiased;
     overflow:hidden;
+
+    
   }
   input{font-family:inherit;}
   ::selection{background:var(--yellow);color:var(--navy-deep);}
@@ -117,7 +119,7 @@
  .topbar {
     min-height: var(--topbar-h);
     height: auto;
-
+    
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -193,13 +195,24 @@
     overflow-y: auto;
     position:relative;
     z-index: 0;
+     scrollbar-width: none;
   }
+
+  .viewport::-webkit-scrollbar {
+    display: none; /* Chrome / Edge */
+}
+
+
   .track{
     display:flex; 
     height:auto;
-
-  min-height: 100%;
+    align-items: flex-start;
+    min-height: 100%;
+   
 }
+
+
+
   .panel{
     flex:0 0 100vw; 
     width:100vw; 
@@ -208,6 +221,25 @@
      overflow-x: hidden ;
   }
   
+  @media (max-width: 700px) {
+    .panel.pickleball:nth-of-type(3) {
+      height: 3900px;
+    }
+  }
+  
+
+.schedule-block{
+  /* min-height: 50vw; */
+    overflow-x: auto; 
+    /* overflow-y: auto; */
+     scrollbar-width: none;
+}
+
+ .schedule-block::-webkit-scrollbar {
+    display: none; /* Chrome / Edge */
+}
+
+
   .tournament-block{
     /* min-height: 50vw; */
     overflow-x: auto; 
@@ -217,6 +249,10 @@
 
   .tournament-block::-webkit-scrollbar {
     display: none; /* Chrome / Edge */
+}
+
+.group-schedule-wrap{
+  width: fit-content;
 }
 
   /* ---------- Hero ---------- */
@@ -373,6 +409,9 @@
     z-index:10; position:relative;
     }
   section.block + section.block{border-top:1px solid var(--line);}
+
+.my-scroll-bar+section.tournament-block{border-top:1px solid var(--line); }
+
   .block h2{
     font-size:var(--fontSize2); 
     font-weight:700;
@@ -448,13 +487,7 @@
   /* bảng bóng đá */
 
   
-  .group-schedule-wrap{
-    overflow-x:auto;
-      scrollbar-width: none; /* Firefox */
-  }
-   .group-schedule-wrap::-webkit-scrollbar {
-    display: none; /* Chrome / Edge */
-}
+ 
 
   .group-schedule{
     width:100%; min-width:900px; border-collapse:collapse;
@@ -468,24 +501,10 @@
   .group-schedule thead th{background:var(--yellow); color:var(--text3); font-weight:700;}
   .group-schedule td:first-child,
   .group-schedule td:nth-child(2){white-space:nowrap; font-family:var(--mono); font-size:.78rem;}
-  .schedule-team{min-width:92px; font-weight:600;}
-  .schedule-court,
-
-  .schedule-score{width:72px; min-width:72px;}
-
-  .schedule-court input,
-  .schedule-score input{
-    width:100%; min-width:0; padding:5px 4px; text-align:center;
-    border:1px dashed var(--line-strong); border-radius:4px;
-    background:transparent; color:var(--chalk); font: .78rem var(--mono);
-  }
-.schedule-score-pair {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-}
-
+ 
+/* h2.table-name{
+  margin-top:30px;
+} */
 
   
 /* Icon bong da */
@@ -997,6 +1016,11 @@
     align-items: center;
 }
 
+.my-scroll-bar > .football-icon {
+  height: 45px;
+  width: auto;
+}
+
 @media (max-width: 700px){
   .my-scroll-bar{
     display:flex;
@@ -1009,7 +1033,7 @@
 
 
 <!-- đoạn mở cửa style="display:none;"  -->
-<div class="scene" id="main-scene" >
+<div class="scene" id="main-scene" style="display:none;">
         
         <!-- Không gian bên trong (Sau khi mở cửa) -->
        
@@ -1426,14 +1450,41 @@ const TOURNAMENTS = [
       ['Dự Án','A'],
 
     ],
-    groupSchedule:[
-      {date:'05/10/2026', time:'17h20', a:{court:'', teams:['KT5','Liên Quân']}, b:{court:'', teams:['KT1','KT2+3']}},
-      {date:'05/10/2026', time:'17h20', a:{court:'', teams:['KT7','Dự Án']}},
-      {date:'08/10/2026', time:'17h20', a:{court:'', teams:['KT5','KT7']}, b:{court:'', teams:['KT1','FSG']}},
-      {date:'08/10/2026', time:'17h20', a:{court:'', teams:['Liên Quân','Dự Án']}},
-      {date:'12/10/2026', time:'17h20', a:{court:'', teams:['KT5','Dự Án']}, b:{court:'', teams:['KT2+3','FSG']}},
-      {date:'12/10/2026', time:'17h20', a:{court:'', teams:['Liên Quân','KT7']}}
-    ],
+  
+
+    groupSchedule:[{
+      Name: "Lịch thi đấu vòng bảng",
+      table:{thead:[
+         {th: [{v:"Ngày",rowspan:2}, {v:"Giờ",rowspan:2},{v:"Bảng A", colspan:4} , {v:"Bảng B", colspan:4}]},
+        {th: [{v:"Sân"} , {v:"Đội"},{v:"Đội"},{v:"Tỉ số"},{v:"Sân"},{v:"Đội"},{v:"Đội"},{v:"Tỉ số"}]},
+      ], 
+      tbody:[{td: [{v:"05/10/2026"}, {v:"17h20"},{v:""} , {v:"KT5"},{v:"Liên Quân"},{v:"-"},{v:""},{v:"KT1"},{v:"KT2+3"},{v:"-"}]},
+        {td: [{v:"05/10/2026"}, {v:"17h20"},{v:""} , {v:"KT7"},{v:"Dự Án"},{v:"-"},{v:""},{v:""},{v:""},{v:""}]},
+        {td: [{v:"08/10/2026"}, {v:"17h20"},{v:""} , {v:"KT5"},{v:"KT7"},{v:"-"},{v:""},{v:"KT1"},{v:"FSG"},{v:"-"}]},
+        {td: [{v:"08/10/2026"}, {v:"17h20"},{v:""} , {v:"Liên Quân"},{v:"Dự Án"},{v:"-"},{v:""},{v:""},{v:""},{v:""}]},
+        {td: [{v:"12/10/2026"}, {v:"17h20"},{v:""} , {v:"KT5"},{v:"Dự Án"},{v:"-"},{v:""},{v:"KT2+3"},{v:"FSG"},{v:"-"}]},
+        {td: [{v:"12/10/2026"}, {v:"17h20"},{v:""} , {v:"Liên Quân"},{v:"KT7"},{v:"-"},{v:""},{v:""},{v:""},{v:""}]},]
+    }
+    },
+  {
+  Name: "Vòng bán kết",
+  table: {
+    thead: [{th: [{v:"Ngày", rowspan:2},{v:"Giờ", rowspan:2},{v:"Sân", rowspan:2},{v:"Trận", rowspan:2},{v:"Đội", rowspan:2},{v:"Đội", rowspan:2}]}],
+
+    tbody: [{td: [{v:"20/10/2026"},{v:"17h30"},{v:"1"},{v:"BK1"},{v:"Nhất A"},{v:"Nhì B"}]},
+      {td: [{v:"20/10/2026"},{v:"17h30"},{v:"2"},{v:"BK2"},{v:"Nhất B"},{v:"Nhì A"}]}]  }},
+
+{  Name: "Tranh giải ba, tư và Chung kết AASC Cup",
+  table: {
+    thead: [{th: [{v:"Ngày", rowspan:2},{v:"Giờ", rowspan:2},{v:"Trận đấu", colspan:4}]},
+    {th:[{v:"Sân"},{v:"Trận"},{v:"Đội"},{v:"Đội"}]}],
+      
+    tbody: [
+      {td: [{v:"25/10/2026"},{v:"7h00"},{v:"1"},{v:"Giải ba"},{v:"Thua BK1"},{v:"Thua BK2"}]},
+      {td: [{v:"25/10/2026"},{v:"7h00"},{v:"2"},{v:"Gắn Kết"},{v:"Liên Quân HN"},{v:"Liên Quân CN"}]},
+      {td: [{v:"25/10/2026"},{v:"8h00"},{v:"1"},{v:"Chung kết"},{v:"Thắng BK1"},{v:"Thắng BK2"}]}]
+  }
+}],
     rounds:{
       paneTitle:'Vòng loại trực tiếp',
 
@@ -1484,14 +1535,49 @@ const TOURNAMENTS = [
       ['KT3','B'],
       ['KT2','B']
     ],
-    groupSchedule:[
-      {date:'05/10/2026', time:'18h30', a:{court:'', teams:['KT1','Liên Quân'],score:null}, b:{court:'', teams:['KT5','KT3'],score:null}},
-      {date:'05/10/2026', time:'18h30', a:{court:'', teams:['FSG','KT7'],score:null}},
-      {date:'08/10/2026', time:'18h30', a:{court:'', teams:['KT1','FSG'],score:null}, b:{court:'', teams:['KT5','KT2'],score:null}},
-      {date:'08/10/2026', time:'18h30', a:{court:'', teams:['Liên Quân','KT7'],score:null}},
-      {date:'12/10/2026', time:'18h30', a:{court:'', teams:['KT1','KT7']}, b:{court:'', teams:['KT3','KT2'],score:null}},
-      {date:'12/10/2026', time:'18h30', a:{court:'', teams:['Liên Quân','FSG'],score:null}}
-    ],
+
+    groupSchedule: [
+  {
+    Name: "Lịch thi đấu vòng bảng",
+    table: {
+      thead: [
+        {th: [{ v: "Ngày", rowspan: 2 },{ v: "Giờ", rowspan: 2 },{ v: "Bảng A", colspan: 4 },{ v: "Bảng B", colspan: 4 }]},
+        {th: [{ v: "Sân" },{ v: "Đội" },{ v: "Đội" },{ v: "Tỉ số" },{ v: "Sân" },{ v: "Đội" },{ v: "Đội" },{ v: "Tỉ số" }]}
+      ],
+      tbody: [
+        {td: [{ v: "05/10/2026" },{ v: "18h30" },{ v: "" },{ v: "KT1" },{ v: "Liên Quân" },{ v: "-" },{ v: "" },{ v: "KT5" },{ v: "KT3" },{ v: "-" }]},
+        {td: [{ v: "05/10/2026" },{ v: "18h30" },{ v: "" },{ v: "FSG" },{ v: "KT7" },{ v: "-" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]},
+        {td: [{ v: "08/10/2026" },{ v: "18h30" },{ v: "" },{ v: "KT1" },{ v: "FSG" },{ v: "-" },{ v: "" },{ v: "KT5" },{ v: "KT2" },{ v: "-" }]},
+        {td: [{ v: "08/10/2026" },{ v: "18h30" },{ v: "" },{ v: "Liên Quân" },{ v: "KT7" },{ v: "-" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]},
+        {td: [{ v: "12/10/2026" },{ v: "18h30" },{ v: "" },{ v: "KT1" },{ v: "KT7" },{ v: "-" },{ v: "" },{ v: "KT3" },{ v: "KT2" },{ v: "-" }]},
+        {td: [{ v: "12/10/2026" },{ v: "18h30" },{ v: "" },{ v: "Liên Quân" },{ v: "FSG" },{ v: "-" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]}]
+    }
+  },
+  {
+    Name: "Vòng bán kết",
+    table: {
+      thead: [
+        {th: [{ v: "Ngày", rowspan: 2 },{ v: "Giờ", rowspan: 2 },{ v: "Sân", rowspan: 2 },{ v: "Trận", rowspan: 2 },{ v: "Đội", rowspan: 2 },{ v: "Đội", rowspan: 2 }]}],
+      tbody: [
+        {td: [{ v: "20/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "BK1" },{ v: "Nhất A" },{ v: "Nhì B" }]},
+        {td: [{ v: "20/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "BK2" },{ v: "Nhất B" },{ v: "Nhì A" }]}
+      ]
+    }
+  },
+  {
+    Name: "Tranh giải ba, tư và Chung kết AASC Cup",
+    table: {
+      thead: [
+        {th: [{ v: "Ngày", rowspan: 2 },{ v: "Giờ", rowspan: 2 },{ v: "Trận đấu", colspan: 4 }]},
+        {th: [{ v: "Sân" },{ v: "Trận" },{ v: "Đội" },{ v: "Đội" }]}
+      ],
+      tbody: [
+        {td: [{ v: "25/10/2026" },{ v: "7h00" },{ v: "3" },{ v: "Giải ba" },{ v: "Thua BK1" },{ v: "Thua BK2" }]},
+        {td: [{ v: "25/10/2026" },{ v: "7h30" },{ v: "4" },{ v: "Gắn Kết" },{ v: "Liên Quân HN" },{ v: "Liên Quân CN" }]},
+        {td: [{ v: "25/10/2026" },{ v: "8h00" },{ v: "2" },{ v: "Chung kết" },{ v: "Thắng BK1" },{ v: "Thắng BK2" }]}]
+    }
+  }
+],
     rounds:{
       paneTitle:'Vòng loại trực tiếp',
 
@@ -1624,7 +1710,6 @@ function buildPanelHTML(cat){
 const roundsHTML = createTournamentBracket(cat.rounds);
 
 
-  
 
   return `
   ${cat.bomon === 'pickleball' ?`
@@ -1713,13 +1798,21 @@ const roundsHTML = createTournamentBracket(cat.rounds);
       <div class="groups-grid">${groupsHTML}</div>
     </section>
 
-    ${cat.groupSchedule ? `
-    <section  class="block tournament-block">
-      <h2>Lịch thi đấu vòng bảng</h2>
-      <div class="group-schedule-wrap" id="group-schedule-${cat.id}" >${createGroupScheduleTable(cat.groupSchedule)}</div>
-      
-    </section>
-    <div class="my-scroll-bar" data-scroll="group-schedule-${cat.id}">${HERO_ICON[3]}</div>` : ''}
+    
+
+    
+    ${cat.groupSchedule?.map((table, index) => `
+  <section  class="block schedule-block" id="group-schedule-${cat.id}-${index}">
+    <h2 class="table-name">${esc(table.Name)}</h2>
+
+    <div class="group-schedule-wrap">
+      ${createTable(table.table, 'group-schedule')}
+    </div>
+</section>
+<div class="my-scroll-bar" data-scroll="group-schedule-${cat.id}-${index}">${HERO_ICON[3]}</div>
+`).join('') || ''}
+
+
 
     <section id="tournament-block-${cat.id}" class="block tournament-block">
       <h2>Sơ đồ các vòng thi đấu</h2>
@@ -1739,42 +1832,57 @@ const roundsHTML = createTournamentBracket(cat.rounds);
   ;
 }
 
-function createGroupScheduleTable(schedule){
-  const renderMatch = (match, groupName, rowIndex) => {
-    if (!match) return '<td></td><td></td><td></td><td></td>';
+function createTable(tableData, className = '') {
 
-    return `<td class="schedule-court">${esc(match.court)}</td>
-      <td class="schedule-team">${esc(match.teams[0])}</td>
-      <td class="schedule-team">${esc(match.teams[1])}</td>
-      <td class="schedule-score"><div class="schedule-score-pair">
-       ${match.score==null?' - ': match.score }
-      </div></td>`;
+  const renderRows = (rows) => {
+    return rows.map(row => {
+
+      const type = row.th ? 'th' : 'td';
+      const cells = row[type];
+
+      return `<tr>
+        ${cells.map(cell => {
+
+          // Cell dạng string
+          if (typeof cell === 'string') {
+            return `<${type}>${esc(cell)}</${type}>`;
+          }
+
+          // Các attribute của cell
+          const attrs = [
+            cell.rowspan ? `rowspan="${cell.rowspan}"` : '',
+            cell.colspan ? `colspan="${cell.colspan}"` : ''
+          ].filter(Boolean).join(' ');
+
+          return `<${type}${attrs ? ' ' + attrs : ''}>
+            ${esc(cell.v ?? '')}
+          </${type}>`;
+
+        }).join('')}
+      </tr>`;
+
+    }).join('');
   };
 
 
-  const rows = schedule.map((round, index) => `<tr>
-    <td>${esc(round.date)}</td>
-    <td>${esc(round.time)}</td>
-    ${renderMatch(round.a, 'A', index)}
-    ${renderMatch(round.b, 'B', index)}
-  </tr>`).join('');
+  return `
+    <table class="${className}">
 
-  return `<table class="group-schedule">
-    <thead>
-      <tr>
-        <th rowspan="2">Ngày</th>
-        <th rowspan="2">Giờ</th>
-        <th colspan="4">Bảng A</th>
-        <th colspan="4">Bảng B</th>
-      </tr>
-      <tr>
-        <th>Sân</th><th>Đội</th><th>Đội</th><th>Tỉ số</th>
-        <th>Sân</th><th>Đội</th><th>Đội</th><th>Tỉ số</th>
-      </tr>
-    </thead>
-    <tbody>${rows}</tbody>
-  </table>`;
+      <thead>
+        ${renderRows(tableData.thead)}
+      </thead>
+
+      <tbody>
+        ${renderRows(tableData.tbody)}
+      </tbody>
+
+    </table>
+  `;
 }
+
+
+
+
 
 function createTournamentBracket(arrayParticipants) {
 
@@ -2153,9 +2261,15 @@ function goTo(index,move = true){
   if(index===current) return;
   current = index;
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', i===index));
- 
- move? gsap.to(trackEl, {x:`-${index*100}vw`, duration:.65, ease:'power3.inOut'}):gsap.set(trackEl, {x:`-${index*100}vw`});
+ const viewport = document.querySelector('.viewport');
+
+ move? gsap.timeline().to(trackEl, {x:`-${index*100}vw`, duration:.65, ease:'power3.inOut'})
+ .to(viewport, {scrollTop: 0,duration: 0.65,ease: 'power3.inOut'},"<"):gsap.set(trackEl, {x:`-${index*100}vw`});
+
+
 }
+
+
 window.addEventListener('resize', ()=>{ gsap.set(trackEl, {x:`-${current*100}vw`}); });
 
 // swipe support
@@ -2420,11 +2534,18 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
     const myScrollBars =
         document.querySelectorAll('.my-scroll-bar');
 
+        
+
     myScrollBars.forEach(bar => {
+      
 
         const dragIcon = bar.querySelector(':scope > *');
+         
         const targetId = bar.dataset.scroll;
+        
         const target = document.getElementById(targetId);
+
+   
 
         if (!dragIcon || !target) return;
 
@@ -2434,6 +2555,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
         // =========================
         // DRAGGABLE
         // =========================
+      
        
         const draggable = Draggable.create(dragIcon, {
 
@@ -2442,15 +2564,21 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
             bounds: bar,
 
             onDrag() {
+      
+
                 updateScroll(this);
+
+                
             },
 
             onDragEnd(){
               // console.log(draggable.x)
+       
             }
 
         })[0];
-        
+
+
        
 
         // =========================
