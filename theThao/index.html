@@ -605,7 +605,7 @@
 }
 
 .logo {
-    height: 150%;
+    height: 130%;
     width: auto;
     display: block;
     filter: brightness(0) invert(1);
@@ -615,6 +615,14 @@
     transform: scale(1.08);
     filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(255,255,255,.7));
 }
+
+/* @media (max-width: 600px){
+ .logo{
+  
+    height: 120%;
+ }
+} */
+
 
 /* cái tournament bracket  */
 .tourament-bracket {
@@ -1111,7 +1119,7 @@
     </div>
     <div class="brand">
       
-      <div class="brand-text">AASC cup<small></small></div>
+      <!-- <div class="brand-text">AASC cup<small></small></div> -->
     </div>
     <div class="tabs" id="tabs"></div>
     
@@ -1476,8 +1484,8 @@ const TOURNAMENTS = [
   table: {
     thead: [{th: [{v:"Ngày", rowspan:2},{v:"Giờ", rowspan:2},{v:"Sân", rowspan:2},{v:"Trận", rowspan:2},{v:"Đội", rowspan:2},{v:"Đội", rowspan:2}]}],
 
-    tbody: [{td: [{v:"20/10/2026"},{v:"17h30"},{v:"1"},{v:"BK1"},{v:"Nhất A"},{v:"Nhì B"}]},
-      {td: [{v:"20/10/2026"},{v:"17h30"},{v:"2"},{v:"BK2"},{v:"Nhất B"},{v:"Nhì A"}]}]  }},
+    tbody: [{td: [{v:"19/10/2026"},{v:"17h30"},{v:"1"},{v:"BK1"},{v:"Nhất A"},{v:"Nhì B"}]},
+      {td: [{v:"19/10/2026"},{v:"17h30"},{v:"2"},{v:"BK2"},{v:"Nhất B"},{v:"Nhì A"}]}]  }},
 
 {  Name: "Tranh giải ba, tư và Chung kết AASC Cup",
   table: {
@@ -1564,8 +1572,8 @@ const TOURNAMENTS = [
       thead: [
         {th: [{ v: "Ngày", rowspan: 2 },{ v: "Giờ", rowspan: 2 },{ v: "Sân", rowspan: 2 },{ v: "Trận", rowspan: 2 },{ v: "Đội", rowspan: 2 },{ v: "Đội", rowspan: 2 }]}],
       tbody: [
-        {td: [{ v: "20/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "BK1" },{ v: "Nhất A" },{ v: "Nhì B" }]},
-        {td: [{ v: "20/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "BK2" },{ v: "Nhất B" },{ v: "Nhì A" }]}
+        {td: [{ v: "19/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "BK1" },{ v: "Nhất A" },{ v: "Nhì B" }]},
+        {td: [{ v: "19/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "BK2" },{ v: "Nhất B" },{ v: "Nhì A" }]}
       ]
     }
   },
@@ -1778,7 +1786,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
                     05/10/2026 
                     <span class="text-[0.875rem] sm:text-[1.125rem] font-bold text-gray-400 mx-1 sm:mx-2 uppercase align-middle">đến</span> 
                     <br class="sm:hidden">
-                    24/10/2026
+                    25/10/2026
                 </h2>
                 
                 <!-- Divider Gradient Cam -->
@@ -2436,7 +2444,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
     const bongDa = document.querySelectorAll('.tab.bongda');
     const pickleball = document.querySelectorAll('.tab.pickleball');
 
-    const brandTextSmall = document.querySelector('.brand-text > small')
+    // const brandTextSmall = document.querySelector('.brand-text > small')
 
     bongDa.forEach(el => {
         el.style.display = 'none';
@@ -2452,7 +2460,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
     // Hiện nội dung được chọn
     if (sportType === 'football') {
       // appShell.style.display = '';
-      brandTextSmall.textContent = 'Giải Bóng đá';
+      // brandTextSmall.textContent = 'Giải Bóng đá';
        bongDa.forEach(el => {
         el.style.display = '';
         });
@@ -2468,7 +2476,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
 
     if (sportType === 'pickleball') {
         // appShell.style.display = '';
-        brandTextSmall.textContent = 'Giải Pickle ball';
+        // brandTextSmall.textContent = 'Giải Pickle ball';
        bongDa.forEach(el => {
         el.style.display = 'none';
         });
