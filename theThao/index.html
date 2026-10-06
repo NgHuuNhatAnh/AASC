@@ -68,7 +68,18 @@
   --noResult: 1px red solid;
   --win: 2px rgb(255, 166, 1) solid;
   --lose: 1px black solid;
+
+  --soleColor1:rgba(255, 224, 181, .30);
+  --soleColor2: rgba(255, 255, 255, .65);
+  --theadBorder: 1px solid #B85A16;
+  --tbodyBorder: 1px solid #D8A15D;
+
+  --tableBorderRadius:10px;
+  --winGroupStage: #11f8baa2;
+
   }
+
+
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
@@ -408,9 +419,31 @@
     padding:clamp(18px,4vw,44px) clamp(18px,6vw,64px);
     z-index:10; position:relative;
     }
-  section.block + section.block{border-top:1px solid var(--line);}
 
-.my-scroll-bar+section.tournament-block{border-top:1px solid var(--line); }
+/* Section cho cái bảng hiệu số */
+section.Bang-Dau-block {
+  display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    column-gap: 100px;
+    row-gap: 30px;
+    flex-wrap: wrap;
+
+}
+
+@media (max-width: 1200px) {
+    section.Bang-Dau-block {
+        justify-content: flex-start;
+    }
+}
+
+
+ .seperate-block {
+  border-top:1px solid var(--line);
+  height: 0;
+}
+
+
 
   .block h2{
     font-size:var(--fontSize2); 
@@ -499,12 +532,136 @@
     font-size: var(--fontSize4);
   }
   .group-schedule thead th{background:var(--yellow); color:var(--text3); font-weight:700;}
-  .group-schedule td:first-child,
-  .group-schedule td:nth-child(2){white-space:nowrap; font-family:var(--mono); font-size:.78rem;}
+
  
-/* h2.table-name{
-  margin-top:30px;
+/* Bảng hiệu số bóng đá  */
+
+ 
+
+.Bang-dau {
+  width: 100%;
+  min-width: 590px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+
+  background: rgba(255, 247, 237, .75);
+  
+  border-radius: 10px;
+
+  font-size: .88rem;
+  box-shadow: 0 3px 10px rgba(143, 63, 10, .08);
+}
+
+.Bang-dau thead tr:first-child  th {
+  border-top: var(--theadBorder);
+ 
+}
+
+.Bang-dau thead tr:first-child  th:first-child {
+  border-left: var(--theadBorder);
+   border-top-left-radius: var(--tableBorderRadius);
+}
+
+.Bang-dau thead tr:first-child  th:last-child {
+  border-right: var(--theadBorder);
+  border-top-right-radius: var(--tableBorderRadius);
+}
+
+
+.Bang-dau tbody tr td:first-child {
+
+  border-left: var(--tbodyBorder);
+ 
+}
+
+.Bang-dau tbody tr td:last-child {
+
+  border-right:  var(--tbodyBorder);
+ 
+}
+
+.Bang-dau tbody tr:last-child td{
+
+  border-bottom:  var(--tbodyBorder);
+ 
+}
+
+.Bang-dau tbody tr:last-child td:first-child{
+
+   border-bottom-left-radius: var(--tableBorderRadius);
+ 
+}
+
+.Bang-dau tbody tr:last-child td:last-child{
+
+    border-bottom-right-radius: var(--tableBorderRadius);
+ 
+}
+
+
+.Bang-dau th,
+.Bang-dau td {
+  border: 0;
+  border-right: 1px solid rgba(143, 63, 10, .20);
+  border-bottom: 1px solid rgba(143, 63, 10, .20);
+
+  padding: 8px 10px;
+  text-align: center;
+  font-size: var(--fontSize4);
+}
+
+.Bang-dau td:first-child {
+  text-align: left;
+  padding-left: 20px;
+}
+
+.Bang-dau th:first-child{
+  width: 120px;
+}
+
+.Bang-dau thead tr:first-child th:nth-child(2),
+.Bang-dau thead tr:first-child th:nth-child(4),
+.Bang-dau th:last-child,
+.Bang-dau thead tr:nth-child(2) th {
+  width: 80px;
+}
+
+/* Header */
+.Bang-dau thead th {
+  background: #F6C76A;
+  color: #6F2F08;
+  font-weight: 700;
+
+  border-right: 1px solid #B85A16;
+  border-bottom: 1px solid #B85A16;
+
+  padding: 8px 10px;
+  text-align: center;
+}
+
+/* Cột cuối cùng không cần đường dọc bên phải */
+
+
+/* Dòng xen kẽ */
+.Bang-dau tbody tr:nth-child(even) {
+  background:  var(--soleColor1);
+}
+
+.Bang-dau tbody tr:nth-child(odd) {
+  background:  var(--soleColor2);
+}
+
+/* khi xác định được đội vào trong  */
+/* .Bang-dau tbody tr:nth-child(1),
+.Bang-dau tbody tr:nth-child(2) {
+  background: var(--winGroupStage);
 } */
+
+
+
+/* Bỏ border ngoài cùng */
+
 
   
 /* Icon bong da */
@@ -1034,8 +1191,10 @@
   width: auto;
 }
 
-@media (max-width: 700px){
-  .my-scroll-bar{
+
+
+@media (max-width: 960px){
+  .my-scroll-bar {
     display:flex;
   }
 }
@@ -1046,7 +1205,7 @@
 
 
 <!-- đoạn mở cửa style="display:none;"  -->
-<div class="scene" id="main-scene" >
+<div class="scene" id="main-scene" style="display:none;">
         
         <!-- Không gian bên trong (Sau khi mở cửa) -->
        
@@ -1464,6 +1623,38 @@ const TOURNAMENTS = [
 
     ],
   
+   BangDau:[
+       {
+    Name: "Bảng A",
+    table: {
+      thead: [
+        {th: [{ v: "Đội", rowspan: 2 },{ v: "Lượt trận", rowspan: 2 },{ v: "Hiệu số", colspan: 3 },{ v: "Thẻ phạt", rowspan: 2 },{ v: "Điểm", rowspan: 2 }]},
+        {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
+      ],
+      tbody: [
+        {td: [{ v: "KT7" },{ v: "1" },{ v: "4" },{ v: "2" },{ v: "2" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "KT5" },{ v: "1" },{ v: "0" },{ v: "0" },{ v: "0" },{ v: "" },{ v: "1" }]},
+        {td: [{ v: "Liên quân" },{ v: "1" },{ v: "0" },{ v: "0" },{ v: "0" },{ v: "" },{ v: "1" }]},
+        {td: [{ v: "Dự án" },{ v: "1" },{ v: "2" },{ v: "4" },{ v: "-2" },{ v: "" },{ v: "0" }]},
+       ]
+    }
+  },
+  {
+      Name: "Bảng B",
+    table: {
+      thead: [
+        {th: [{ v: "Đội", rowspan: 2 },{ v: "Lượt trận", rowspan: 2 },{ v: "Hiệu số", colspan: 3 },{ v: "Thẻ phạt", rowspan: 2 },{ v: "Điểm", rowspan: 2 }]},
+        {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
+      ],
+      tbody: [
+        {td: [{ v: "KT2+3" },{ v: "1" },{ v: "10" },{ v: "1" },{ v: "9" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "FSG" },{ v: "0" },{ v: "" },{ v: "" },{ v: "" },{ v: "" },{ v: "0" }]},
+        {td: [{ v: "KT1" },{ v: "1" },{ v: "1" },{ v: "10" },{ v: "-9" },{ v: "" },{ v: "0" }]},
+     
+       ]
+    }
+  },
+    ],
 
     groupSchedule:[{
       Name: "Lịch thi đấu vòng bảng",
@@ -1547,6 +1738,39 @@ const TOURNAMENTS = [
       ['KT5','B'],
       ['KT2','B'],
       ['KT3','B'],
+    ],
+
+    BangDau:[
+       {
+    Name: "Bảng A",
+    table: {
+      thead: [
+        {th: [{ v: "Đội", rowspan: 2 },{ v: "Lượt trận", rowspan: 2 },{ v: "Hiệu số", colspan: 3 },{ v: "Thẻ phạt", rowspan: 2 },{ v: "Điểm", rowspan: 2 }]},
+        {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
+      ],
+      tbody: [
+        {td: [{ v: "FSG" },{ v: "1" },{ v: "3" },{ v: "0" },{ v: "3" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "KT1" },{ v: "1" },{ v: "2" },{ v: "0" },{ v: "2" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "Liên quân" },{ v: "1" },{ v: "0" },{ v: "2" },{ v: "-2" },{ v: "" },{ v: "0" }]},
+        {td: [{ v: "KT7" },{ v: "1" },{ v: "0" },{ v: "3" },{ v: "-3" },{ v: "" },{ v: "0" }]},
+       ]
+    }
+  },
+  {
+      Name: "Bảng B",
+    table: {
+      thead: [
+        {th: [{ v: "Đội", rowspan: 2 },{ v: "Lượt trận", rowspan: 2 },{ v: "Hiệu số", colspan: 3 },{ v: "Thẻ phạt", rowspan: 2 },{ v: "Điểm", rowspan: 2 }]},
+        {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
+      ],
+      tbody: [
+        {td: [{ v: "KT5" },{ v: "1" },{ v: "5" },{ v: "0" },{ v: "5" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "KT2" },{ v: "0" },{ v: "" },{ v: "" },{ v: "" },{ v: "" },{ v: "0" }]},
+        {td: [{ v: "KT3" },{ v: "1" },{ v: "0" },{ v: "5" },{ v: "-5" },{ v: "" },{ v: "0" }]},
+     
+       ]
+    }
+  },
     ],
 
     groupSchedule: [
@@ -1746,16 +1970,19 @@ const roundsHTML = createTournamentBracket(cat.rounds);
       ${noteHTML}
     </section>
 
+    <div class="seperate-block"></div>
     <section class="block">
       <h2>Danh sách vận động viên</h2>
       <div class="participants-grid">${participantsHTML}</div>
     </section>
 
+    <div class="seperate-block"></div>
     <section class="block">
       <h2>Bảng đấu vòng tròn</h2>
       <div class="groups-grid">${groupsHTML}</div>
     </section>
 
+    <div class="seperate-block"></div>
     <section id="tournament-block-${cat.id}" class="block tournament-block">
       <h2>Sơ đồ vòng loại trực tiếp</h2>
       <div id="tourament-bracket-${cat.id}-1" class="tourament-bracket ${roundsHTML[1][0] !== null ? 'hang-ngang': ''} " 
@@ -1806,13 +2033,21 @@ const roundsHTML = createTournamentBracket(cat.rounds);
 
     </div>
 
-    <section class="block">
-      <h2>Bảng đấu vòng tròn</h2>
-      <div class="groups-grid">${groupsHTML}</div>
-    </section>
+   
+       
+  <section  class="block schedule-block Bang-Dau-block" id="BangDau-${cat.id}">
+     ${cat.BangDau?.map((table, index) => `
+     <div>
+    <h2 class="table-name">${esc(table.Name)}</h2>
 
-    
+    <div class="group-schedule-wrap">
+      ${createTable(table.table, 'Bang-dau')}
+    </div>
+    </div>`).join('') || ''}
+</section>
+<div class="my-scroll-bar" data-scroll="BangDau-${cat.id}">${HERO_ICON[3]}</div>
 
+<div class="seperate-block"></div>
     
     ${cat.groupSchedule?.map((table, index) => `
   <section  class="block schedule-block" id="group-schedule-${cat.id}-${index}">
@@ -1824,7 +2059,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
 </section>
 <div class="my-scroll-bar" data-scroll="group-schedule-${cat.id}-${index}">${HERO_ICON[3]}</div>
 `).join('') || ''}
-
+<div class="seperate-block"></div>
 
 
     <section id="tournament-block-${cat.id}" class="block tournament-block">
@@ -1844,6 +2079,13 @@ const roundsHTML = createTournamentBracket(cat.rounds);
      <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[3]}</div>`}`
   ;
 }
+
+
+//  <section class="block">
+//       <h2>Bảng đấu vòng tròn</h2>
+//       <div class="groups-grid">${groupsHTML}</div>
+//     </section>
+
 
 function createTable(tableData, className = '') {
 
@@ -2277,8 +2519,10 @@ function goTo(index,move = true){
  const viewport = document.querySelector('.viewport');
 
  move? gsap.timeline().to(trackEl, {x:`-${index*100}vw`, duration:.65, ease:'power3.inOut'})
- .to(viewport, {scrollTop: 0,duration: 0.65,ease: 'power3.inOut'},"<"):gsap.set(trackEl, {x:`-${index*100}vw`});
-
+ .to(viewport, {scrollTop: 0,duration: 0.65,ease: 'power3.inOut'},"<")
+ .call(updateBangDauScrollBars)
+ :gsap.set(trackEl, {x:`-${index*100}vw`})
+ .call(updateBangDauScrollBars);
 
 }
 
@@ -2698,7 +2942,61 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
     });
 
 });
-                  
+        // TÍnh toán hiện scrollbar khi resize phù hợp
+      function updateBangDauScrollBars() {
+    document
+        .querySelectorAll('section')
+        .forEach(section => {
+
+            const firstTable = section.querySelector('table');
+
+            if (!firstTable) return;
+
+            const scrollBar = document.querySelector(
+                `.my-scroll-bar[data-scroll="${section.id}"]`
+            );
+
+            if (!scrollBar) return;
+
+            // Panel cha gần nhất
+            const panel = section.closest('.panel');
+
+            if (!panel) {
+                scrollBar.style.display = 'none';
+                return;
+            }
+
+            const panelRect = panel.getBoundingClientRect();
+
+            // Panel có nằm trong viewport không?
+            const panelInViewport =
+                panelRect.right > 0 &&
+                panelRect.left < window.innerWidth &&
+                panelRect.bottom > 0 &&
+                panelRect.top < window.innerHeight;
+
+            // Nếu panel không hiện trên viewport -> ẩn scrollbar
+            if (!panelInViewport) {
+                scrollBar.style.display = 'none';
+                return;
+            }
+
+            // Sau khi panel đã nằm trong viewport,
+            // mới kiểm tra bảng có bị tràn ngang không
+            const rect = firstTable.getBoundingClientRect();
+
+            const isHidden =
+                rect.left < 0 ||
+                rect.right > window.innerWidth;
+
+            scrollBar.style.display =
+                isHidden ? 'flex' : 'none';
+        });
+        
+}
+window.addEventListener('resize', updateBangDauScrollBars);
+window.addEventListener('load', updateBangDauScrollBars);
+
 
         
 
