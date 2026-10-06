@@ -437,6 +437,22 @@ section.Bang-Dau-block {
     }
 }
 
+section.schedule-block {
+  display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    
+    flex-wrap: wrap;
+
+}
+
+@media (max-width: 1200px) {
+    section.schedule-block {
+        justify-content: flex-start;
+    }
+}
+
+
 
  .seperate-block {
   border-top:1px solid var(--line);
@@ -2035,7 +2051,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
 
    
        
-  <section  class="block schedule-block Bang-Dau-block" id="BangDau-${cat.id}">
+  <section  class="block Bang-Dau-block" id="BangDau-${cat.id}">
      ${cat.BangDau?.map((table, index) => `
      <div>
     <h2 class="table-name">${esc(table.Name)}</h2>
@@ -2051,10 +2067,11 @@ const roundsHTML = createTournamentBracket(cat.rounds);
     
     ${cat.groupSchedule?.map((table, index) => `
   <section  class="block schedule-block" id="group-schedule-${cat.id}-${index}">
-    <h2 class="table-name">${esc(table.Name)}</h2>
+    <div><h2 class="table-name">${esc(table.Name)}</h2>
 
     <div class="group-schedule-wrap">
       ${createTable(table.table, 'group-schedule')}
+    </div>
     </div>
 </section>
 <div class="my-scroll-bar" data-scroll="group-schedule-${cat.id}-${index}">${HERO_ICON[3]}</div>
@@ -2521,7 +2538,7 @@ function goTo(index,move = true){
  move? gsap.timeline().to(trackEl, {x:`-${index*100}vw`, duration:.65, ease:'power3.inOut'})
  .to(viewport, {scrollTop: 0,duration: 0.65,ease: 'power3.inOut'},"<")
  .call(updateBangDauScrollBars)
- :gsap.set(trackEl, {x:`-${index*100}vw`})
+ :gsap.timeline().set(trackEl, {x:`-${index*100}vw`})
  .call(updateBangDauScrollBars);
 
 }
