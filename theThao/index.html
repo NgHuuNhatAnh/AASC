@@ -627,9 +627,15 @@ section.schedule-block {
   font-size: var(--fontSize4);
 }
 
+
+
 .Bang-dau td:first-child {
-  text-align: left;
+  
   padding-left: 20px;
+}
+
+.Bang-dau td:nth-child(6) {
+  text-align: left;
 }
 
 .Bang-dau th:first-child{
@@ -669,6 +675,15 @@ section.schedule-block {
 }
 
 /* khi xác định được đội vào trong  */
+
+#BangDau-bongdanam-1 tbody tr:nth-child(1),
+#BangDau-bongdanam-1 tbody tr:nth-child(2),
+#BangDau-bongdanu-1 tbody tr:nth-child(1)
+ {
+  background: var(--winGroupStage);
+}
+
+
 /* .Bang-dau tbody tr:nth-child(1),
 .Bang-dau tbody tr:nth-child(2) {
   background: var(--winGroupStage);
@@ -1648,10 +1663,10 @@ const TOURNAMENTS = [
         {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
       ],
       tbody: [
-        {td: [{ v: "KT7" },{ v: "1" },{ v: "4" },{ v: "2" },{ v: "2" },{ v: "" },{ v: "3" }]},
-        {td: [{ v: "KT5" },{ v: "1" },{ v: "0" },{ v: "0" },{ v: "0" },{ v: "" },{ v: "1" }]},
-        {td: [{ v: "Liên quân" },{ v: "1" },{ v: "0" },{ v: "0" },{ v: "0" },{ v: "" },{ v: "1" }]},
-        {td: [{ v: "Dự án" },{ v: "1" },{ v: "2" },{ v: "4" },{ v: "-2" },{ v: "" },{ v: "0" }]},
+        {td: [{ v: "Liên quân" },{ v: "2" },{ v: "5" },{ v: "1" },{ v: "4" },{ v: "" },{ v: "4" }]},
+        {td: [{ v: "KT5" },{ v: "2" },{ v: "3" },{ v: "1" },{ v: "2" },{ v: "1 đỏ" },{ v: "4" }]},
+        {td: [{ v: "KT7" },{ v: "2" },{ v: "5" },{ v: "5" },{ v: "0" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "Dự án" },{ v: "2" },{ v: "3" },{ v: "9" },{ v: "-6" },{ v: "" },{ v: "0" }]},
        ]
     }
   },
@@ -1664,8 +1679,8 @@ const TOURNAMENTS = [
       ],
       tbody: [
         {td: [{ v: "KT2+3" },{ v: "1" },{ v: "10" },{ v: "1" },{ v: "9" },{ v: "" },{ v: "3" }]},
-        {td: [{ v: "FSG" },{ v: "0" },{ v: "" },{ v: "" },{ v: "" },{ v: "" },{ v: "0" }]},
-        {td: [{ v: "KT1" },{ v: "1" },{ v: "1" },{ v: "10" },{ v: "-9" },{ v: "" },{ v: "0" }]},
+        {td: [{ v: "FSG" },{ v: "1" },{ v: "2" },{ v: "0" },{ v: "2" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "KT1" },{ v: "2" },{ v: "1" },{ v: "12" },{ v: "-11" },{ v: "" },{ v: "0" }]},
      
        ]
     }
@@ -1680,8 +1695,8 @@ const TOURNAMENTS = [
       ], 
       tbody:[{td: [{v:"05/10/2026"}, {v:"17h20"},{v:"1"} , {v:"KT5"},{v:"0-0"},{v:"Liên Quân"},{v:"3"},{v:"KT1"},{v:"1-10"},{v:"KT2+3"}]},
         {td: [{v:"05/10/2026"}, {v:"17h20"},{v:"2"} , {v:"KT7"},{v:"4-2"},{v:"Dự Án"},{v:""},{v:""},{v:""},{v:""}]},
-        {td: [{v:"08/10/2026"}, {v:"17h20"},{v:"1"} , {v:"KT5"},{v:"-"},{v:"KT7"},{v:"3"},{v:"KT1"},{v:"-"},{v:"FSG"}]},
-        {td: [{v:"08/10/2026"}, {v:"17h20"},{v:"2"} , {v:"Liên Quân"},{v:"-"},{v:"Dự Án"},{v:""},{v:""},{v:""},{v:""}]},
+        {td: [{v:"08/10/2026"}, {v:"17h20"},{v:"1"} , {v:"KT5"},{v:"3-1"},{v:"KT7"},{v:"3"},{v:"KT1"},{v:"0-2"},{v:"FSG"}]},
+        {td: [{v:"08/10/2026"}, {v:"17h20"},{v:"2"} , {v:"Liên Quân"},{v:"5-1"},{v:"Dự Án"},{v:""},{v:""},{v:""},{v:""}]},
         {td: [{v:"12/10/2026"}, {v:"17h20"},{v:"1"} , {v:"KT5"},{v:"-"},{v:"Dự Án"},{v:"3"},{v:"KT2+3"},{v:"-"},{v:"FSG"}]},
         {td: [{v:"12/10/2026"}, {v:"17h20"},{v:"2"} , {v:"Liên Quân"},{v:"-"},{v:"KT7"},{v:""},{v:""},{v:""},{v:""}]},]
     }
@@ -1765,10 +1780,10 @@ const TOURNAMENTS = [
         {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
       ],
       tbody: [
-        {td: [{ v: "FSG" },{ v: "1" },{ v: "3" },{ v: "0" },{ v: "3" },{ v: "" },{ v: "3" }]},
-        {td: [{ v: "KT1" },{ v: "1" },{ v: "2" },{ v: "0" },{ v: "2" },{ v: "" },{ v: "3" }]},
-        {td: [{ v: "Liên quân" },{ v: "1" },{ v: "0" },{ v: "2" },{ v: "-2" },{ v: "" },{ v: "0" }]},
-        {td: [{ v: "KT7" },{ v: "1" },{ v: "0" },{ v: "3" },{ v: "-3" },{ v: "" },{ v: "0" }]},
+        {td: [{ v: "FSG" },{ v: "2" },{ v: "5" },{ v: "0" },{ v: "5" },{ v: "" },{ v: "6" }]},
+        {td: [{ v: "KT1" },{ v: "2" },{ v: "2" },{ v: "2" },{ v: "0" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "Liên quân" },{ v: "2" },{ v: "2" },{ v: "2" },{ v: "0" },{ v: "1 vàng" },{ v: "3" }]},
+        {td: [{ v: "KT7" },{ v: "2" },{ v: "0" },{ v: "5" },{ v: "-5" },{ v: "" },{ v: "0" }]},
        ]
     }
   },
@@ -1780,8 +1795,8 @@ const TOURNAMENTS = [
         {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
       ],
       tbody: [
-        {td: [{ v: "KT5" },{ v: "1" },{ v: "5" },{ v: "0" },{ v: "5" },{ v: "" },{ v: "3" }]},
-        {td: [{ v: "KT2" },{ v: "0" },{ v: "" },{ v: "" },{ v: "" },{ v: "" },{ v: "0" }]},
+        {td: [{ v: "KT5" },{ v: "2" },{ v: "8" },{ v: "0" },{ v: "8" },{ v: "" },{ v: "6" }]},
+        {td: [{ v: "KT2" },{ v: "1" },{ v: "0" },{ v: "3" },{ v: "-3" },{ v: "" },{ v: "0" }]},
         {td: [{ v: "KT3" },{ v: "1" },{ v: "0" },{ v: "5" },{ v: "-5" },{ v: "" },{ v: "0" }]},
      
        ]
@@ -1800,8 +1815,8 @@ const TOURNAMENTS = [
       tbody: [
         {td: [{ v: "05/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "KT1" },{ v: "2-0" },{ v: "Liên Quân" },{ v: "3" },{ v: "KT5" },{ v: "5-0" },{ v: "KT3" }]},
         {td: [{ v: "05/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "FSG" },{ v: "3-0" },{ v: "KT7" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]},
-        {td: [{ v: "08/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "KT1" },{ v: "-" },{ v: "FSG" },{ v: "3" },{ v: "KT5" },{ v: "-" },{ v: "KT2" }]},
-        {td: [{ v: "08/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "Liên Quân" },{ v: "-" },{ v: "KT7" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]},
+        {td: [{ v: "08/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "KT1" },{ v: "0-2" },{ v: "FSG" },{ v: "3" },{ v: "KT5" },{ v: "3-0" },{ v: "KT2" }]},
+        {td: [{ v: "08/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "Liên Quân" },{ v: "2-0" },{ v: "KT7" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]},
         {td: [{ v: "12/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "KT1" },{ v: "-" },{ v: "KT7" },{ v: "3" },{ v: "KT3" },{ v: "-" },{ v: "KT2" }]},
         {td: [{ v: "12/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "Liên Quân" },{ v: "-" },{ v: "FSG" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]}]
     }
@@ -1813,7 +1828,7 @@ const TOURNAMENTS = [
         {th: [{ v: "Ngày", rowspan: 2 },{ v: "Giờ", rowspan: 2 },{ v: "Sân", rowspan: 2 },{ v: "Trận", rowspan: 2 },{ v: "Đội", rowspan: 2 },{ v: "Đội", rowspan: 2 }]}],
       tbody: [
         {td: [{ v: "19/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "BK1" },{ v: "Nhất A" },{ v: "Nhì B" }]},
-        {td: [{ v: "19/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "BK2" },{ v: "Nhất B" },{ v: "Nhì A" }]}
+        {td: [{ v: "19/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "BK2" },{ v: "KT5" },{ v: "Nhì A" }]}
       ]
     }
   },
@@ -1840,7 +1855,7 @@ const TOURNAMENTS = [
           participants:[
             ['Nhất A'],
             ['Nhì B'],
-            ['Nhất B'],
+            ['KT5'],
             ['Nhì A']
           ]
         },
@@ -2057,7 +2072,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
     <h2 class="table-name">${esc(table.Name)}</h2>
 
     <div class="group-schedule-wrap">
-      ${createTable(table.table, 'Bang-dau')}
+      ${createTable(table.table, 'Bang-dau',`BangDau-${cat.id}-${index}`)}
     </div>
     </div>`).join('') || ''}
 </section>
@@ -2104,7 +2119,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
 //     </section>
 
 
-function createTable(tableData, className = '') {
+function createTable(tableData, className = '',id=null) {
 
   const renderRows = (rows) => {
     return rows.map(row => {
@@ -2127,7 +2142,7 @@ function createTable(tableData, className = '') {
           ].filter(Boolean).join(' ');
 
           return `<${type}${attrs ? ' ' + attrs : ''}>
-            ${esc(cell.v ?? '')}
+            ${cell.v ?? ''}
           </${type}>`;
 
         }).join('')}
@@ -2138,7 +2153,7 @@ function createTable(tableData, className = '') {
 
 
   return `
-    <table class="${className}">
+    <table class="${className}" ${id ? `id="${id}"` : ''}>
 
       <thead>
         ${renderRows(tableData.thead)}
