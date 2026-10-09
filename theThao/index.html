@@ -239,28 +239,9 @@
   }
   
 
-.schedule-block{
-  /* min-height: 50vw; */
-    overflow-x: auto; 
-    /* overflow-y: auto; */
-     scrollbar-width: none;
-}
-
- .schedule-block::-webkit-scrollbar {
-    display: none; /* Chrome / Edge */
-}
 
 
-  .tournament-block{
-    /* min-height: 50vw; */
-    overflow-x: auto; 
-    /* overflow-y: auto; */
-     scrollbar-width: none;
-  }
-
-  .tournament-block::-webkit-scrollbar {
-    display: none; /* Chrome / Edge */
-}
+ 
 
 .group-schedule-wrap{
   width: fit-content;
@@ -419,6 +400,18 @@
     padding:clamp(18px,4vw,44px) clamp(18px,6vw,64px);
     z-index:10; position:relative;
     }
+
+     section{
+    /* min-height: 50vw; */
+    overflow-x: auto; 
+    /* overflow-y: auto; */
+     scrollbar-width: none;
+  }
+
+  section::-webkit-scrollbar {
+    display: none; /* Chrome / Edge */
+}
+
 
 /* Section cho cái bảng hiệu số */
 section.Bang-Dau-block {
@@ -676,9 +669,9 @@ section.schedule-block {
 
 /* khi xác định được đội vào trong  */
 
-#BangDau-bongdanam-1 tbody tr:nth-child(1),
-#BangDau-bongdanam-1 tbody tr:nth-child(2),
-#BangDau-bongdanu-1 tbody tr:nth-child(1)
+#TungBangDau-bongdanam-1 tbody tr:nth-child(1),
+#TungBangDau-bongdanam-1 tbody tr:nth-child(2),
+#TungBangDau-bongdanu-1 tbody tr:nth-child(1)
  {
   background: var(--winGroupStage);
 }
@@ -2072,7 +2065,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
     <h2 class="table-name">${esc(table.Name)}</h2>
 
     <div class="group-schedule-wrap">
-      ${createTable(table.table, 'Bang-dau',`BangDau-${cat.id}-${index}`)}
+      ${createTable(table.table, 'Bang-dau',`TungBangDau-${cat.id}-${index}`)}
     </div>
     </div>`).join('') || ''}
 </section>
@@ -2834,7 +2827,8 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
         
         const target = document.getElementById(targetId);
 
-   
+    
+
 
         if (!dragIcon || !target) return;
 
