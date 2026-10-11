@@ -65,9 +65,9 @@
 
   --sans:'Be Vietnam Pro',system-ui,sans-serif;
 
-  --noResult: 1px red solid;
-  --win: 2px rgb(255, 166, 1) solid;
-  --lose: 1px black solid;
+  --noResult: red;
+  --win: rgb(255, 166, 1);
+  --lose: rgba(44, 44, 44, 0.212);
 
   --soleColor1:rgba(255, 224, 181, .30);
   --soleColor2: rgba(255, 255, 255, .65);
@@ -75,7 +75,7 @@
   --tbodyBorder: 1px solid #D8A15D;
 
   --tableBorderRadius:10px;
-  --winGroupStage: #11f8baa2;
+  --winGroupStage: #1df800a2;
 
   }
 
@@ -738,6 +738,9 @@ section.schedule-block {
     padding:10px 12px; display:flex; flex-direction:column; gap:6px;
   }
   .team-row{display:flex; align-items:center; gap:8px; font-size:.88rem;}
+  .team-row.win span{
+    background: var(--winGroupStage); ;
+  }
   .team-label{padding:5px 2px; flex:1;}
   .team-input{
     flex:1; background:transparent; border:1px dashed var(--line-strong); border-radius:6px;
@@ -849,100 +852,22 @@ section.schedule-block {
 }
 
 /* Các connector  */
-
-.connector-1{
-     
-     border-top:var(--noResult);
-    border-right:var(--noResult);
+.connector{
+  fill:none;
+   stroke:var(--noResult);
 }
 
-.connector-1.win{
-     
-     border-top:var(--win);
-    border-right:var(--win);
-     
-    z-index: 5;
+.connector.win{
+  stroke:var(--win);
+  stroke-linecap: round;
+  stroke-dasharray: 3 4;
+
 }
 
-.connector-1.lose{
-     
-     border-top:var(--lose);
-    border-right:var(--lose);
-    z-index: 1;
+.connector.lose{
+   stroke:var(--lose);
+
 }
-
-.connector-2{
-     border-right:var(--noResult);
-      border-bottom:var(--noResult);
-}
-
-.connector-2.win{
-     border-right:var(--win);
-      border-bottom:var(--win);
-       
-    z-index: 5;
-}
-
-.connector-2.lose{
-     border-right:var(--lose);
-      border-bottom:var(--lose);
-       z-index: 1;
-}
-
-
-.connector-line{
-    border-top:var(--noResult);
-    z-index: 5;
-}
-
-.connector-line.win{
-    
-     border-top:var(--win);
-}
-
-
-.connector-3{
-     
-     border-top:var(--noResult);
-    border-left:var(--noResult);
-}
-
-.connector-3.win{
-     
-     border-top:var(--win);
-    border-left:var(--win);
-}
-
-.connector-3.lose{
-     
-     border-top:var(--lose);
-    border-left:var(--lose);
-}
-
-
-.connector-4{
-     border-right:var(--noResult);
-      border-top:var(--noResult);
-}
-
-.connector-4.win{
-     border-right:var(--win);
-      border-top:var(--win);
-}
-
-.connector-4.lose{
-     border-right:var(--lose);
-      border-top:var(--lose);
-}
-
-.connector-hangDoc{
-   border-left:var(--noResult);
-}
-
-.connector-hangDoc.win{
-   border-left:var(--win);
-}
-
 
 /* đội trong bảng */
 .bracket-match > div {
@@ -1223,13 +1148,63 @@ section.schedule-block {
   }
 }
 
+
+/* lottie */
+.champion-container {
+      position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    z-index: 1000;
+    transform: translate(-50%,-50%);
+}
+
+.champion-container dotlottie-wc {
+  height: 100%;
+  width: auto;
+}
+
+
+.champion-name {
+  position: absolute;
+  z-index: 1;
+
+  max-width: 90%;
+  padding: 0 8px;
+
+  font-family: var(--sans);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  overflow-wrap: anywhere;
+
+  color: var(--navy);
+  -webkit-text-stroke: 0.5px rgba(255, 204, 102, 0.8);
+
+  text-shadow:
+    0 2px 0 rgba(255, 247, 220, 0.9),
+    0 4px 8px rgba(75, 35, 5, 0.45),
+    0 0 18px rgba(255, 204, 102, 0.7);
+}
+
 </style>
+
+<script
+  src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js"
+  type="module">
+</script>
+
 </head>
 <body>
 
 
 <!-- đoạn mở cửa style="display:none;"  -->
-<div class="scene" id="main-scene">
+<div class="scene" id="main-scene" >
         
         <!-- Không gian bên trong (Sau khi mở cửa) -->
        
@@ -1351,6 +1326,7 @@ const TOURNAMENTS = [
     tab:'Đơn Nam',
     title:'Đơn nam',
     subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
+    // champion:'haha',
     rules:[
       '🏆 Đánh đến hết chung kết',
       '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 9, không cách điểm',
@@ -1405,7 +1381,7 @@ const TOURNAMENTS = [
         {
           name:'Bán kết',
           participants:[
-            
+           
           ]
         },
 
@@ -2101,7 +2077,21 @@ const roundsHTML = createTournamentBracket(cat.rounds);
         </div>`: ''}
        
     </section>
-     <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[3]}</div>`}`
+     <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[3]}</div>`}
+     
+     ${cat.champion ? `<div class="champion-container">
+        <dotlottie-wc
+          src="./champion.lottie"
+          autoplay
+          loop
+          >
+        </dotlottie-wc>
+        <span class="champion-name">${cat.champion}</span>
+      </div>` 
+     : ''}
+     `
+
+     
   ;
 }
 
@@ -2181,7 +2171,7 @@ function createTournamentBracket(arrayParticipants) {
     const connectorConnerRadius = 10;
     const boxTeamHeight = 80;   
     const boxTeamWidth = 220;  
-
+     const connectorStrokeWidth = 2;
     const roundTitleHeight = 40;
     
 
@@ -2269,10 +2259,20 @@ function createTournamentBracket(arrayParticipants) {
             height: ${boxTeamHeight}px;
             width : ${boxTeamWidth}px;
             transform: translate(${matchLeft}px,${translateYvalue}px)">
-            <div class="team-row">
+            <div class="team-row ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? 'win'
+                      : ''
+                  : ''
+              }">
               <span>${participants[stt]?.[0] ?? '-'}</span><span>${participants[stt]?.[1] ?? '-'}</span>
             </div>
-            <div class="team-row">
+            <div class="team-row ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? ''
+                      : 'win'
+                  : ''
+              }">
               <span>${participants[stt+1]?.[0] ?? '-'}</span><span>${participants[stt+1]?.[1] ?? '-'}</span>
             </div>
             </div>`;
@@ -2285,43 +2285,72 @@ function createTournamentBracket(arrayParticipants) {
 
             // const currentMatchLeft = rect.left;
             const middlteOfMatch = currentRoundTop + translateYvalue + boxTeamHeight/2;
+           
 
-            bracketHTML += `<div class="connector-1  ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+
+            bracketHTML +=` <svg xmlns="http://www.w3.org/2000/svg" 
+            class="connector${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
                   ? participants[stt][1] > participants[stt+1][1]
-                      ? 'win'
-                      : 'lose'
+                      ? ' win'
+                      : ' lose'
                   : ''
-              } " style="
-            position : absolute;
+              }"
+            style="position : absolute;
             top: ${middlteOfMatch}px;
             left: ${(matchLeft - gapColumns)}px;
-            height: ${(oldgapRows+ boxTeamHeight)/2}px;
-            width : ${gapColumns/2}px;
-            border-top-right-radius: ${connectorConnerRadius}px;
-            transform: translateY(-100%)"></div>
+            height: ${oldgapRows+ boxTeamHeight + connectorStrokeWidth/2}px;
+            width : ${gapColumns}px; 
+            transform: translateY(-${(oldgapRows+ boxTeamHeight )/2}px);"
+            
+            
+            preserveAspectRatio="none"
+            viewBox="0 0 ${gapColumns} ${oldgapRows+ boxTeamHeight + connectorStrokeWidth/2}">
+                <path d="M 0 ${connectorStrokeWidth/2}
+                L ${gapColumns/2-connectorConnerRadius} ${connectorStrokeWidth/2} 
+                Q ${gapColumns/2} ${connectorStrokeWidth/2} ${gapColumns/2} ${connectorStrokeWidth/2 + connectorConnerRadius} 
+                L ${gapColumns/2}  ${(oldgapRows+ boxTeamHeight)/2 + connectorStrokeWidth/2}
+                ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? `L ${gapColumns} ${(oldgapRows+ boxTeamHeight )/2 + connectorStrokeWidth/2}`
+                      : ''
+                  : `L ${gapColumns} ${(oldgapRows+ boxTeamHeight )/2 + connectorStrokeWidth/2}`
+              }
+                " stroke-width="${connectorStrokeWidth}"  vector-effect="non-scaling-stroke"></path>
+              </svg>
 
-            <div class="connector-2 
-            ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+              <svg xmlns="http://www.w3.org/2000/svg"
+              
+              class="connector${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
                 ? participants[stt][1] > participants[stt+1][1]
-                    ? 'lose'
-                    : 'win'
+                    ? ' lose'
+                    : ' win'
+                : ''
+            }" 
+            style="position : absolute;
+            top: ${middlteOfMatch}px;
+            left: ${(matchLeft - gapColumns)}px;
+            height: ${oldgapRows+ boxTeamHeight + connectorStrokeWidth/2}px;
+            width : ${gapColumns}px; 
+            transform: translateY(-${(oldgapRows+ boxTeamHeight - connectorStrokeWidth)/2}px) scaleY(-1);"
+            
+            
+            preserveAspectRatio="none"
+            viewBox="0 0 ${gapColumns} ${oldgapRows+ boxTeamHeight + connectorStrokeWidth/2}">
+                <path d="M 0 ${connectorStrokeWidth/2}
+                L ${gapColumns/2-connectorConnerRadius} ${connectorStrokeWidth/2} 
+                Q ${gapColumns/2} ${connectorStrokeWidth/2} ${gapColumns/2} ${connectorStrokeWidth/2 + connectorConnerRadius} 
+                L ${gapColumns/2}  ${(oldgapRows+ boxTeamHeight)/2 + connectorStrokeWidth/2}
+                ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                ? participants[stt][1] > participants[stt+1][1]
+                    ? ''
+                    : `L ${gapColumns} ${(oldgapRows+ boxTeamHeight )/2 + connectorStrokeWidth/2}`
                 : ''
             }
-            " style="
-            position : absolute;
-            top: ${middlteOfMatch}px;
-            left: ${(matchLeft  - gapColumns)}px;
-            height: ${(oldgapRows+ boxTeamHeight)/2}px;
-            width : ${gapColumns/2}px;
-            border-bottom-right-radius: ${connectorConnerRadius}px;">
-            </div>
+                "  stroke-width="${connectorStrokeWidth}"  vector-effect="non-scaling-stroke"></path>
+              </svg>
 
-            <div class="connector-line ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null ? 'win' : ''}" style="
-            position : absolute;
-            top: ${middlteOfMatch}px;
-            left: ${matchLeft - gapColumns/2}px;
-            height: 0px;
-            width : ${gapColumns/2}px;"></div>`
+           
+            `;
 
             }
 
@@ -2441,48 +2470,81 @@ function createTournamentBracket(arrayParticipants) {
 
             // const currentMatchLeft = rect.left;
             const middlteOfMatch = matchLeft + boxTeamWidth/2;
+              const widthConnector = oldGapHangNgang+ boxTeamWidth + connectorStrokeWidth/2;
+              const pathToMidConnector = (oldGapHangNgang+ boxTeamWidth)/2 + connectorStrokeWidth/2;
 
-            bracketHTML_2 += `
-            <div class="connector-hangDoc ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null ? 'win' : ''}" style="
-            position : absolute;
-            top: ${matchTop + boxTeamHeight}px;
-            left: ${middlteOfMatch}px;
-            height: ${gapHangDoc/2}px;
-            width : 0px;"></div>
-
-            <div class="connector-3 
-             ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                ? participants[stt][1] > participants[stt+1][1]
-                    ? 'win'
-                    : 'lose'
-                : ''
-            }
-            " style="
-            position : absolute;
-            top: ${matchTop + boxTeamHeight + gapHangDoc/2}px;
+            bracketHTML_2 +=` <svg xmlns="http://www.w3.org/2000/svg" 
+            class="connector${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? ' win'
+                      : ' lose'
+                  : ''
+              }"
+            style="position : absolute;
+            top:  ${matchTop + boxTeamHeight }px;
             left: ${(middlteOfMatch)}px;
-            height: ${gapHangDoc/2}px;
-            width : ${(oldGapHangNgang+ boxTeamWidth)/2}px;
-            border-top-left-radius: ${connectorConnerRadius}px;
-            transform: translateX(-100%)"></div>
 
-            <div class="connector-4 
-             ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                ? participants[stt][1] > participants[stt+1][1]
-                    ? 'lose'
-                    : 'win'
-                : ''
-            }
-            " style="
-            position : absolute;
-            top: ${matchTop + boxTeamHeight + gapHangDoc/2}px;
-            left: ${middlteOfMatch}px;
-            height: ${gapHangDoc/2}px;
-            width : ${(oldGapHangNgang+ boxTeamWidth)/2}px;
-            border-top-right-radius: ${connectorConnerRadius}px;">
-            </div>
-            `
+            height: ${gapHangDoc}px;
+            width : ${widthConnector}px;
 
+            transform: translateX(-${(oldGapHangNgang+ boxTeamWidth)/2}px);"
+            preserveAspectRatio="none"
+
+            viewBox="0 0 ${widthConnector} ${gapHangDoc}">
+
+                <path d="M ${connectorStrokeWidth/2} ${gapHangDoc}
+                L  ${connectorStrokeWidth/2} ${gapHangDoc/2+connectorConnerRadius}
+                Q  ${connectorStrokeWidth/2} ${gapHangDoc/2}   ${connectorStrokeWidth/2 + connectorConnerRadius}  ${gapHangDoc/2}
+                L  ${pathToMidConnector} ${gapHangDoc/2} 
+
+                ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? `L ${pathToMidConnector} 0`
+                      : ''
+                  : `L ${pathToMidConnector} 0`
+              }
+                " stroke-width="${connectorStrokeWidth}"  vector-effect="non-scaling-stroke"></path>
+              </svg>
+
+
+              <svg xmlns="http://www.w3.org/2000/svg" 
+            class="connector${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? ' lose'
+                      : ' win'
+                  : ''
+              }"
+            style="position : absolute;
+            top:  ${matchTop + boxTeamHeight }px;
+            left: ${(middlteOfMatch)}px;
+
+            height: ${gapHangDoc}px;
+            width : ${widthConnector}px;
+
+            transform: translateX(-${(oldGapHangNgang+ boxTeamWidth - connectorStrokeWidth)/2}px) scaleX(-1);;"
+            preserveAspectRatio="none"
+
+            viewBox="0 0 ${widthConnector} ${gapHangDoc}">
+
+                <path d="M ${connectorStrokeWidth/2} ${gapHangDoc}
+                L  ${connectorStrokeWidth/2} ${gapHangDoc/2+connectorConnerRadius}
+                Q  ${connectorStrokeWidth/2} ${gapHangDoc/2}   ${connectorStrokeWidth/2 + connectorConnerRadius}  ${gapHangDoc/2}
+                L  ${pathToMidConnector} ${gapHangDoc/2} 
+
+                ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? ''
+                      : `L ${pathToMidConnector} 0`
+                  : ''
+              }
+                " stroke-width="${connectorStrokeWidth}"  vector-effect="non-scaling-stroke"></path>
+              </svg>
+
+ 
+            `;
+
+
+           
             }
 
             stt += 2;
@@ -2581,6 +2643,26 @@ window.addEventListener('DOMContentLoaded', ()=>{
   tl1.from(firstHero.querySelector('.hero-title'), {opacity:0, y:24, duration:.7, ease:'power2.out'});
   tl1.from(firstHero.querySelector('.hero-sub'), {opacity:0, y:16, duration:.7, delay:.1, ease:'power2.out'}, "<");
   tl1.from(firstHero.querySelector('.hero-icon'), {opacity:0, scale:.7, duration:.8, delay:.15, ease:'back.out(1.6)'}, "<");
+
+
+   const paths = document.querySelectorAll('svg.connector.win path');
+
+        paths.forEach((path) => {
+        const length = path.getTotalLength();
+
+        gsap.fromTo(
+          path,
+          {
+            strokeDashoffset: length
+          },
+          {
+            strokeDashoffset: 0,
+            duration: 3,
+            repeat:-1,
+            ease: "none"
+          }
+        );
+      });
 });
 // đoạn dưới cho image slider 
 // document.addEventListener('DOMContentLoaded', () => {
