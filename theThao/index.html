@@ -78,6 +78,7 @@
   --tableBorderRadius:10px;
   --winGroupStage: #1df800a2;
 
+  --championText:red ;
   }
 
 
@@ -676,9 +677,7 @@ section.schedule-block {
 
 /* khi xác định được đội vào trong  */
 
-#TungBangDau-bongdanam-1 tbody tr:nth-child(1),
-#TungBangDau-bongdanam-1 tbody tr:nth-child(2),
-#TungBangDau-bongdanu-1 tbody tr:nth-child(1)
+.Bang-dau tbody tr:nth-child(-n+2)
  {
   background: var(--winGroupStage);
 }
@@ -1161,8 +1160,8 @@ section.schedule-block {
       position: fixed;
     top: 50vh;
     left: 50vw;
-    width: 300px;
-    height: 300px;
+    width: clamp(300px,50vw,600px);
+    aspect-ratio: 1;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -1173,14 +1172,14 @@ section.schedule-block {
 
 .champion-container dotlottie-wc {
   height: 100%;
-  width: auto;
+  width: 100%;
 }
 
 
 .champion-name {
   position: absolute;
   z-index: 1;
-left: 50%;
+  left: 50%;
   transform: translateX(-50%);
   width: max-content;
   max-width: 90vw;
@@ -1191,15 +1190,15 @@ left: 50%;
   font-weight: 800;
   line-height: 1.3;
   text-align: center;
-   white-space: nowrap;
+   white-space: pre-line;
 
-  color: var(--navy);
-  -webkit-text-stroke: 0.5px rgba(255, 204, 102, 0.8);
+  color: var(--yellow);
+  -webkit-text-stroke: 0.5px var(--navy-deep);
 
   text-shadow:
-    0 2px 0 rgba(255, 247, 220, 0.9),
+    0 2px 0 var(--navy),
     0 4px 8px rgba(75, 35, 5, 0.45),
-    0 0 18px rgba(255, 204, 102, 0.7);
+    0 0 18px rgba(255, 204, 102, 0.353);
 }
 
 </style>
@@ -1214,7 +1213,7 @@ left: 50%;
 
 
 <!-- đoạn mở cửa style="display:none;"  -->
-<div class="scene" id="main-scene"  >
+<div class="scene" id="main-scene" style="display:none;" >
         
         <!-- Không gian bên trong (Sau khi mở cửa) -->
        
@@ -1702,10 +1701,11 @@ const TOURNAMENTS = [
         {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
       ],
       tbody: [
-        {td: [{ v: "Liên quân" },{ v: "2" },{ v: "5" },{ v: "1" },{ v: "4" },{ v: "" },{ v: "4" }]},
-        {td: [{ v: "KT5" },{ v: "2" },{ v: "3" },{ v: "1" },{ v: "2" },{ v: "1 đỏ" },{ v: "4" }]},
-        {td: [{ v: "KT7" },{ v: "2" },{ v: "5" },{ v: "5" },{ v: "0" },{ v: "" },{ v: "3" }]},
-        {td: [{ v: "Dự án" },{ v: "2" },{ v: "3" },{ v: "9" },{ v: "-6" },{ v: "" },{ v: "0" }]},
+        {td: [{ v: "KT5" },{ v: "3" },{ v: "9" },{ v: "2" },{ v: "7" },{ v: "1 đỏ" },{ v: "7" }]},
+        {td: [{ v: "Liên quân" },{ v: "3" },{ v: "7" },{ v: "1" },{ v: "6" },{ v: "3 vàng" },{ v: "7" }]},
+        
+        {td: [{ v: "KT7" },{ v: "3" },{ v: "5" },{ v: "7" },{ v: "-2" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "Dự án" },{ v: "3" },{ v: "4" },{ v: "15" },{ v: "-11" },{ v: "1 vàng" },{ v: "0" }]},
        ]
     }
   },
@@ -1717,8 +1717,8 @@ const TOURNAMENTS = [
         {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
       ],
       tbody: [
-        {td: [{ v: "KT2+3" },{ v: "1" },{ v: "10" },{ v: "1" },{ v: "9" },{ v: "" },{ v: "3" }]},
-        {td: [{ v: "FSG" },{ v: "1" },{ v: "2" },{ v: "0" },{ v: "2" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "KT2+3" },{ v: "2" },{ v: "10" },{ v: "1" },{ v: "9" },{ v: "2 vàng" },{ v: "4" }]},
+        {td: [{ v: "FSG" },{ v: "2" },{ v: "2" },{ v: "0" },{ v: "2" },{ v: "2 vàng" },{ v: "4" }]},
         {td: [{ v: "KT1" },{ v: "2" },{ v: "1" },{ v: "12" },{ v: "-11" },{ v: "" },{ v: "0" }]},
      
        ]
@@ -1736,8 +1736,8 @@ const TOURNAMENTS = [
         {td: [{v:"05/10/2026"}, {v:"17h20"},{v:"2"} , {v:"KT7"},{v:"4-2"},{v:"Dự Án"},{v:""},{v:""},{v:""},{v:""}]},
         {td: [{v:"08/10/2026"}, {v:"17h20"},{v:"1"} , {v:"KT5"},{v:"3-1"},{v:"KT7"},{v:"3"},{v:"KT1"},{v:"0-2"},{v:"FSG"}]},
         {td: [{v:"08/10/2026"}, {v:"17h20"},{v:"2"} , {v:"Liên Quân"},{v:"5-1"},{v:"Dự Án"},{v:""},{v:""},{v:""},{v:""}]},
-        {td: [{v:"12/10/2026"}, {v:"17h20"},{v:"1"} , {v:"KT5"},{v:"-"},{v:"Dự Án"},{v:"3"},{v:"KT2+3"},{v:"-"},{v:"FSG"}]},
-        {td: [{v:"12/10/2026"}, {v:"17h20"},{v:"2"} , {v:"Liên Quân"},{v:"-"},{v:"KT7"},{v:""},{v:""},{v:""},{v:""}]},]
+        {td: [{v:"12/10/2026"}, {v:"17h20"},{v:"1"} , {v:"KT5"},{v:"6-1"},{v:"Dự Án"},{v:"3"},{v:"KT2+3"},{v:"0-0"},{v:"FSG"}]},
+        {td: [{v:"12/10/2026"}, {v:"17h20"},{v:"2"} , {v:"Liên Quân"},{v:"2-0"},{v:"KT7"},{v:""},{v:""},{v:""},{v:""}]},]
     }
     },
   {
@@ -1745,8 +1745,8 @@ const TOURNAMENTS = [
   table: {
     thead: [{th: [{v:"Ngày", rowspan:2},{v:"Giờ", rowspan:2},{v:"Sân", rowspan:2},{v:"Trận", rowspan:2},{v:"Đội", rowspan:2},{v:"Đội", rowspan:2}]}],
 
-    tbody: [{td: [{v:"19/10/2026"},{v:"17h30"},{v:"1"},{v:"BK1"},{v:"Nhất A"},{v:"Nhì B"}]},
-      {td: [{v:"19/10/2026"},{v:"17h30"},{v:"2"},{v:"BK2"},{v:"Nhất B"},{v:"Nhì A"}]}]  }},
+    tbody: [{td: [{v:"19/10/2026"},{v:"17h30"},{v:"1"},{v:"BK1"},{v:"KT5"},{v:"FSG"}]},
+      {td: [{v:"19/10/2026"},{v:"17h30"},{v:"2"},{v:"BK2"},{v:"KT2+3"},{v:"Liên Quân"}]}]  }},
 
 {  Name: "Tranh giải ba, tư và Chung kết AASC Cup",
   table: {
@@ -1766,10 +1766,10 @@ const TOURNAMENTS = [
         {
           name:'Bán kết',
           participants:[
-            ['Nhất A'],
-            ['Nhì B'],
-            ['Nhất B'],
-            ['Nhì A']
+            ['KT5'],
+            ['FSG'],
+            ['KT2+3'],
+            ['Liên Quân']
           ]
         },
 
@@ -1819,10 +1819,10 @@ const TOURNAMENTS = [
         {th: [{ v: "Bàn thắng" },{ v: "Bàn thua" },{ v: "Hiệu số" }]}
       ],
       tbody: [
-        {td: [{ v: "FSG" },{ v: "2" },{ v: "5" },{ v: "0" },{ v: "5" },{ v: "" },{ v: "6" }]},
-        {td: [{ v: "KT1" },{ v: "2" },{ v: "2" },{ v: "2" },{ v: "0" },{ v: "" },{ v: "3" }]},
-        {td: [{ v: "Liên quân" },{ v: "2" },{ v: "2" },{ v: "2" },{ v: "0" },{ v: "1 vàng" },{ v: "3" }]},
-        {td: [{ v: "KT7" },{ v: "2" },{ v: "0" },{ v: "5" },{ v: "-5" },{ v: "" },{ v: "0" }]},
+        {td: [{ v: "FSG" },{ v: "3" },{ v: "1" },{ v: "1" },{ v: "5" },{ v: "" },{ v: "7" }]},
+        {td: [{ v: "KT1" },{ v: "3" },{ v: "7" },{ v: "2" },{ v: "5" },{ v: "" },{ v: "6" }]},
+        {td: [{ v: "Liên quân" },{ v: "3" },{ v: "3" },{ v: "3" },{ v: "0" },{ v: "1 vàng" },{ v: "4" }]},
+        {td: [{ v: "KT7" },{ v: "3" },{ v: "0" },{ v: "5" },{ v: "-5" },{ v: "" },{ v: "0" }]},
        ]
     }
   },
@@ -1835,8 +1835,9 @@ const TOURNAMENTS = [
       ],
       tbody: [
         {td: [{ v: "KT5" },{ v: "2" },{ v: "8" },{ v: "0" },{ v: "8" },{ v: "" },{ v: "6" }]},
-        {td: [{ v: "KT2" },{ v: "1" },{ v: "0" },{ v: "3" },{ v: "-3" },{ v: "" },{ v: "0" }]},
-        {td: [{ v: "KT3" },{ v: "1" },{ v: "0" },{ v: "5" },{ v: "-5" },{ v: "" },{ v: "0" }]},
+        
+        {td: [{ v: "KT3" },{ v: "1" },{ v: "2" },{ v: "5" },{ v: "-3" },{ v: "" },{ v: "3" }]},
+        {td: [{ v: "KT2" },{ v: "1" },{ v: "0" },{ v: "5" },{ v: "-5" },{ v: "" },{ v: "0" }]},
      
        ]
     }
@@ -1856,8 +1857,8 @@ const TOURNAMENTS = [
         {td: [{ v: "05/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "FSG" },{ v: "3-0" },{ v: "KT7" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]},
         {td: [{ v: "08/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "KT1" },{ v: "0-2" },{ v: "FSG" },{ v: "3" },{ v: "KT5" },{ v: "3-0" },{ v: "KT2" }]},
         {td: [{ v: "08/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "Liên Quân" },{ v: "2-0" },{ v: "KT7" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]},
-        {td: [{ v: "12/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "KT1" },{ v: "-" },{ v: "KT7" },{ v: "3" },{ v: "KT3" },{ v: "-" },{ v: "KT2" }]},
-        {td: [{ v: "12/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "Liên Quân" },{ v: "-" },{ v: "FSG" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]}]
+        {td: [{ v: "12/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "KT1" },{ v: "5-0" },{ v: "KT7" },{ v: "3" },{ v: "KT3" },{ v: "2-0" },{ v: "KT2" }]},
+        {td: [{ v: "12/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "Liên Quân" },{ v: "1-1" },{ v: "FSG" },{ v: "" },{ v: "" },{ v: "" },{ v: "" }]}]
     }
   },
   {
@@ -1866,8 +1867,8 @@ const TOURNAMENTS = [
       thead: [
         {th: [{ v: "Ngày", rowspan: 2 },{ v: "Giờ", rowspan: 2 },{ v: "Sân", rowspan: 2 },{ v: "Trận", rowspan: 2 },{ v: "Đội", rowspan: 2 },{ v: "Đội", rowspan: 2 }]}],
       tbody: [
-        {td: [{ v: "19/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "BK1" },{ v: "Nhất A" },{ v: "Nhì B" }]},
-        {td: [{ v: "19/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "BK2" },{ v: "KT5" },{ v: "Nhì A" }]}
+        {td: [{ v: "19/10/2026" },{ v: "18h30" },{ v: "1" },{ v: "BK1" },{ v: "FSG" },{ v: "KT3" }]},
+        {td: [{ v: "19/10/2026" },{ v: "18h30" },{ v: "2" },{ v: "BK2" },{ v: "KT5" },{ v: "KT1" }]}
       ]
     }
   },
@@ -1892,10 +1893,10 @@ const TOURNAMENTS = [
         {
           name:'Bán kết',
           participants:[
-            ['Nhất A'],
-            ['Nhì B'],
+            ['FSG'],
+            ['KT3'],
             ['KT5'],
-            ['Nhì A']
+            ['KT1']
           ]
         },
 
@@ -2749,35 +2750,52 @@ function hienChampion(index, tenDai = false) {
     return;
   }
 
-  const champion = tab.dataset.champion;
-  const staggerTiming = tenDai ? 0.03 : 0.07;
+  let champion = tab.dataset.champion;
 
-  nameEl.textContent = champion;
+  const lines = tenDai
+  ? champion.split(' - ')
+  : [champion];
 
-  championSplit = new SplitText(nameEl, {
-    type: 'chars',
-    charsClass: 'char++'
-  });
+nameEl.innerHTML = lines
+  .map(line => `<div class="champion-line">${line}</div>`)
+  .join('');
 
-  championAni = gsap.timeline();
+
+  document.fonts.ready.then(() => {
+    championSplit = new SplitText(nameEl, {
+      type: 'chars',
+      charsClass: 'char++'
+    });
+
+    championAni = gsap.timeline();
 
   championAni
-    .set(container, {
-      display: 'flex',
-      opacity: 1
-    })
-    .from(container, {
-      opacity: 0,
+  .set(container, {
+    display: 'flex'
+  })
+  .fromTo(
+    container,
+    { opacity: 0 },
+    {
+      opacity: 1,
       duration: 0.5
-    })
-    .from(championSplit.chars, {
-      y: -100,
-      opacity: 0,
-      rotation: 'random(-80, 80)',
-      stagger: staggerTiming,
-      duration: 0.8,
-      ease: 'back.out(1.7)'
-    }, 0.3);
+    }
+  )
+  .from(championSplit.chars, {
+    y: -100,
+    opacity: 0,
+    rotation: 'random(-80, 80)',
+    stagger: tenDai ? 0.03 : 0.07,
+    duration: 0.8,
+    ease: 'back.out(1.7)',
+    clearProps: 'transform'
+  }, 0.3);
+
+});
+
+  
+
+  
 }
 
 window.addEventListener('resize', ()=>{ gsap.set(trackEl, {x:`-${current*100}vw`}); });
@@ -2785,8 +2803,8 @@ window.addEventListener('resize', ()=>{ gsap.set(trackEl, {x:`-${current*100}vw`
 let hideChampionAni;
 
 viewport.addEventListener('click', (e) => {
-  if (e.target.closest('.tab')) return;
-
+  
+  console.log('test')
   const champContainer = viewport.querySelector('.champion-container');
 
   hideChampionAni?.kill();
