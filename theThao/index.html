@@ -407,8 +407,9 @@
      section{
     /* min-height: 50vw; */
     overflow-x: auto; 
-    /* overflow-y: auto; */
+    /* overflow-y: hidden; */
      scrollbar-width: none;
+     height: fit-content;
   }
 
   section::-webkit-scrollbar {
@@ -426,6 +427,46 @@ section.Bang-Dau-block {
     flex-wrap: wrap;
 
 }
+
+section .grid-container{
+   display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    column-gap: 50px;
+    row-gap: 30px;
+    flex-wrap: wrap;
+}
+
+section .sutBong-container {
+  
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: visible;
+  position: relative;
+  width: 550px;
+  height: 350px;
+  /* top: 0px; */
+}
+
+section .sutBong-container dotlottie-wc {
+  position: absolute;
+  display: block;
+  
+  width: 600px;
+  height: 400px;
+}
+
+@media (max-width: 1133px) {
+ 
+ section .grid-container,   
+section .sutBong-container {
+    justify-content: left;
+    
+}
+
+}
+
 
 @media (max-width: 1200px) {
     section.Bang-Dau-block {
@@ -677,8 +718,7 @@ section.schedule-block {
 
 /* khi xác định được đội vào trong  */
 
-.Bang-dau tbody tr:nth-child(-n+2)
- {
+.Bang-dau:not(.vua-pha-luoi) tbody tr:nth-child(-n+2) {
   background: var(--winGroupStage);
 }
 
@@ -1759,6 +1799,24 @@ const TOURNAMENTS = [
       {td: [{v:"25/10/2026"},{v:"8h00"},{v:"1"},{v:"Chung kết"},{v:"Thắng BK1"},{v:"Thắng BK2"}]}]
   }
 }],
+vuaPhaLuoi:{
+  Name: "Vua phá lưới",
+    table: {
+      thead: [
+        {th: [{ v: "Tên"},{ v: "Phòng"},{ v: "Số bàn"}]},
+      
+      ],
+      tbody: [
+        {td: [{ v: "Nguyễn Mạnh Tiến" },{ v: "KT5" } , {v: 4+2}]},
+        {td: [{ v: "Ngô Quang Duy" },{ v: "Liên Quân" } , {v: 3+1}]},
+         {td: [{ v: "Nguyễn Hoàng Long" },{ v: "KT2+3" } , {v: 3}]},
+         {td: [{ v: "Phạm Ngọc Sơn" },{ v: "KT7" } , {v: 3}]},
+        {td: [{ v: "Lê Văn Hưng" },{ v: "KT2+3" } , {v: 2}]},
+        {td: [{ v: "Phạm Thiên Phúc" },{ v: "KT2+3" } , {v: 2}]},
+        ]
+    }
+},
+
     rounds:{
       paneTitle:'Vòng loại trực tiếp',
 
@@ -1886,6 +1944,26 @@ const TOURNAMENTS = [
     }
   }
 ],
+
+vuaPhaLuoi:{
+  Name: "Vua phá lưới",
+    table: {
+      thead: [
+        {th: [{ v: "Tên"},{ v: "Phòng"},{ v: "Số bàn"}]},
+      
+      ],
+      tbody: [
+        {td: [{ v: "Nguyễn Vũ Quỳnh Chi" },{ v: "KT5" } , {v: 4+2}]},
+        {td: [{ v: "Nguyễn Anh Thư" },{ v: "FSG" } , {v: 3+1}]},
+        {td: [{ v: "Số 10" },{ v: "KT1" } , {v: 4}]},
+        {td: [{ v: "Hồ Thị Duyên" },{ v: "KT1" } , {v: 2+1}]},
+        
+        {td: [{ v: "Lê Quỳnh Anh" },{ v: "Liên Quân" } , {v: 1+1}]},
+         
+         
+        ]
+    }
+},
     rounds:{
       paneTitle:'Vòng loại trực tiếp',
 
@@ -2153,6 +2231,30 @@ const roundsHTML = createTournamentBracket(cat.rounds, cat.tenDai ? 140 : undefi
 <div class="seperate-block"></div>
 
 
+   ${cat.vuaPhaLuoi?  `
+  <section  class="block vua-pha-luoi" id="vua-pha-luoi-${cat.id}">
+    <h2 class="table-name">${esc(cat.vuaPhaLuoi.Name)}</h2>
+    <div class="grid-container">
+    <div class="group-schedule-wrap">
+      ${createTable(cat.vuaPhaLuoi.table, 'Bang-dau vua-pha-luoi')}
+    </div>
+      <div class="sutBong-container">
+
+        <dotlottie-wc
+        src="./sutBong.lottie"
+        autoplay
+        loop>
+      </dotlottie-wc>
+        </div>
+    </div>
+</section>
+<div class="my-scroll-bar" data-scroll="vua-pha-luoi-${cat.id}">${HERO_ICON[3]}</div>
+`: ''}
+
+<div class="seperate-block"></div>
+
+
+
     <section id="tournament-block-${cat.id}" class="block tournament-block">
       <h2>Sơ đồ các vòng thi đấu</h2>
       <div id="tourament-bracket-${cat.id}-1" class="tourament-bracket ${roundsHTML[1][0] !== null ? 'hang-ngang': ''} " 
@@ -2177,10 +2279,7 @@ const roundsHTML = createTournamentBracket(cat.rounds, cat.tenDai ? 140 : undefi
 }
 
 
-//  <section class="block">
-//       <h2>Bảng đấu vòng tròn</h2>
-//       <div class="groups-grid">${groupsHTML}</div>
-//     </section>
+
 
 
 function createTable(tableData, className = '',id=null) {
@@ -2705,7 +2804,25 @@ return [[bracketHTML, heigtOfContainer, widthOfContainer],
 
 }
 
+// cái áp height width cho cái sút bóng
+// function syncSutBongSize() {
+//   document.querySelectorAll('.vua-pha-luoi .grid-container').forEach(grid => {
+//     const table = grid.querySelector('.group-schedule-wrap table');
+//     const sutBong = grid.querySelector('.sutBong-container');
 
+//     if (!table || !sutBong) return;
+
+//     const rect = table.getBoundingClientRect();
+
+//     sutBong.style.width = `${rect.width}px`;
+//     sutBong.style.height = `${rect.height}px`;
+//     sutBong.style.flex = `0 0 ${rect.width}px`;
+//   });
+
+//   console.log('sync')
+// }
+
+// syncSutBongSize();
 
 /* ============ GSAP panel ============ */
 let current = 0;
@@ -3048,6 +3165,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
         el.style.display = '';
     });
     goTo(Number(pickleball[0].getAttribute('data-index')),false);
+    hienChampion(Number(pickleball[0].getAttribute('data-index')))
     }
 
 
