@@ -22,7 +22,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Draggable.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
 
 <style>
   :root{
@@ -230,6 +231,7 @@
     height:auto;
      overflow-y: auto;
      overflow-x: hidden ;
+     position: relative;
   }
   
   @media (max-width: 700px) {
@@ -501,6 +503,7 @@ section.schedule-block {
     border:1px solid var(--line); border-radius:14px; overflow:hidden; background:rgba(243,246,236,.03);
   }
 
+
   .group-head{
     color: var(--text1);
     background:var(--teal-soft); 
@@ -525,6 +528,10 @@ section.schedule-block {
      display: flex;
     align-items: center; 
   }
+
+ .slot-group:nth-child(-n + 3) {
+  background: var(--winGroupStage);
+}
   
   /* bảng bóng đá */
 
@@ -1152,8 +1159,8 @@ section.schedule-block {
 /* lottie */
 .champion-container {
       position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 50vh;
+    left: 50vw;
     width: 300px;
     height: 300px;
     align-items: center;
@@ -1161,6 +1168,7 @@ section.schedule-block {
     display: flex;
     z-index: 1000;
     transform: translate(-50%,-50%);
+    overflow: visible;
 }
 
 .champion-container dotlottie-wc {
@@ -1172,8 +1180,10 @@ section.schedule-block {
 .champion-name {
   position: absolute;
   z-index: 1;
-
-  max-width: 90%;
+left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90vw;
   padding: 0 8px;
 
   font-family: var(--sans);
@@ -1181,7 +1191,7 @@ section.schedule-block {
   font-weight: 800;
   line-height: 1.3;
   text-align: center;
-  overflow-wrap: anywhere;
+   white-space: nowrap;
 
   color: var(--navy);
   -webkit-text-stroke: 0.5px rgba(255, 204, 102, 0.8);
@@ -1204,7 +1214,7 @@ section.schedule-block {
 
 
 <!-- đoạn mở cửa style="display:none;"  -->
-<div class="scene" id="main-scene" >
+<div class="scene" id="main-scene"  >
         
         <!-- Không gian bên trong (Sau khi mở cửa) -->
        
@@ -1326,7 +1336,7 @@ const TOURNAMENTS = [
     tab:'Đơn Nam',
     title:'Đơn nam',
     subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
-    // champion:'haha',
+    champion:'Xuân Tùng (KT8)',
     rules:[
       '🏆 Đánh đến hết chung kết',
       '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 9, không cách điểm',
@@ -1334,7 +1344,7 @@ const TOURNAMENTS = [
       '🔜 Bán kết: Game chạm 9 không cách điểm',
       '👑 Chung kết: Game chạm 9, tối đa chạm 11 '
     ],
-    note:null,
+
     groups:[
       {name:'A',size:4},
       {name:'B',size:4},
@@ -1342,23 +1352,25 @@ const TOURNAMENTS = [
       {name:'D',size:4}
     ],
     participants:[
-      ['Xuân Trường (FSG)','A'],
-      ['Duy Khánh (KT7)','B'],
       ['Xuân Tùng (KT8)','A'],
-      ['Đức Anh (KT5)','A'],
-      ['Quang Hưng (KT3)','B'],
-      ['Tuấn Anh (KT2)','D'],
       ['Duy Khánh (KT2)','A'],
+      ['Đức Anh (KT5)','A'],
+      ['Xuân Trường (FSG)','A'],
+
+      ['Quang Hưng (KT3)','B'],
+      ['Duy Khánh (KT7)','B'],
       ['Long Hải (KT5)','B'],
-      ['Khánh Tùng (Dự án)','C'],
-      ['Nam Anh (KT5)','C'],
-  
-      ['Mạnh Tiến (KT5)','D'],
-      ['Văn Tâm (TH)','D'],
-      ['Ngọc Sơn (KT7)','C'],
       ['Trí Thành (KT2)','B'],
+
+      ['Khánh Tùng (Dự án)','C'],
       ['Hồng Quang (FSG)','C'],
-        ['Trọng Đức (KT3)','D']
+      ['Nam Anh (KT5)','C'],
+      ['Ngọc Sơn (KT7)','C'],
+
+      ['Văn Tâm (VT)','D'],
+      ['Mạnh Tiến (KT5)','D'],
+      ['Trọng Đức (KT3)','D'],
+      ['Tuấn Anh (KT2)','D']
     ],
     rounds:{
       paneTitle:'Vòng loại trực tiếp',
@@ -1367,30 +1379,41 @@ const TOURNAMENTS = [
         {
           name:'Tứ kết',
           participants:[
-            ['Nhất A'],
-            ['Nhì B'],
-            ['Nhất C'],
-            ['Nhì D'],
-            ['Nhất B'],
-            ['Nhì A'],
-            ['Nhất D'],
-            ['Nhì C']
+            ['Xuân Tùng (KT8)',9],
+            ['Duy Khánh (KT7)',4],
+            ['Khánh Tùng (Dự án)',2],
+            ['Mạnh Tiến (KT5)',9],
+            ['Quang Hưng (KT3)',5],
+            ['Duy Khánh (KT2)',9],
+            ['Hồng Quang (FSG)',0],
+            ['Văn Tâm (VT)',9]
           ]
         },
 
         {
           name:'Bán kết',
           participants:[
+           ['Xuân Tùng (KT8)',9],
            
+            ['Mạnh Tiến (KT5)',4],
+         
+            ['Duy Khánh (KT2)',9],
+          
+            ['Văn Tâm (VT)',1]
           ]
         },
 
         {
           name:'Chung kết',
-          participants:[]
+          participants:[
+             ['Xuân Tùng (KT8)',11],
+            ['Duy Khánh (KT2)',4],
+          
+          ]
         }
       ]
-    }
+    },
+    
   },
 
   {
@@ -1399,14 +1422,13 @@ const TOURNAMENTS = [
     tab:'Đôi Nữ',
     title:'Đôi nữ',
     subtitle:'Vòng bảng · Bán kết (Top 4) · Chung kết',
+    tenDai:true,
     rules:[
       '🏆 Đánh đến hết chung kết',
       '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 11, không cách điểm',
       '🔜 Bán kết: lấy 2 đội nhất nhì mỗi bảng, game chạm 11 không cách điểm',
       '👑 Chung kết: game chạm 11, tối đa chạm 13'
     ],
-    note:null,
-
     groups:[
       {name:'A',size:3},
       {name:'B',size:3}
@@ -1414,11 +1436,13 @@ const TOURNAMENTS = [
 
     participants:[
       ['Hồ Duyên - Y Bình (KT1)','A'],
-      ['Nguyễn Dung - Hải Yến (KT5)','B'],
       ['Thanh Huyền - Lê Tài (BTK)','A'],
-      ['Huyền Trang - Đồng Trang (FSG)','B'],
       ['Anh Thi - Đỗ Nhung (KT5)','A'],
-      ['Thúy Nga - Quỳnh Chi (KT5)','B']
+
+      ['Thúy Nga - Quỳnh Chi (KT5)','B'],
+      ['Huyền Trang - Đồng Trang (FSG)','B'],
+      ['Nguyễn Dung - Hải Yến (KT5)','B'],
+      
     ],
 
     rounds:{
@@ -1428,19 +1452,31 @@ const TOURNAMENTS = [
         {
           name:'Bán kết',
           participants:[
-            ['Nhất A'],
-            ['Nhì B'],
-            ['Nhất B'],
-            ['Nhì A']
+            ['Hồ Duyên (KT1) - Y Bình (KT1)',11],
+           ['Huyền Trang (FSG) - Đồng Trang (FSG)',10],
+          
+
+            ['Thúy Nga (KT5) - Quỳnh Chi (KT5)',11],
+             ['Thanh Huyền (BTK) - Lê Tài (BTK)',3],
+                  
+   
           ]
         },
 
         {
           name:'Chung kết',
-          participants:[]
+          participants:[
+            
+            
+            ['Hồ Duyên (KT1) - Y Bình (KT1)',6],
+            ['Thúy Nga (KT5) - Quỳnh Chi (KT5)',11],
+         
+                  
+          ]
         }
       ]
-    }
+    },
+    champion:'Thúy Nga - Quỳnh Chi (KT5)',
   },
 
   {
@@ -1456,37 +1492,36 @@ const TOURNAMENTS = [
       '🔜 Bán kết: game chạm 11 không cách điểm',
       '👑 Chung kết: game chạm 13, tối đa chạm 15'
     ],
-    note:'',
+
 
     groups:[
-      {name:'A',size:3},
-      {name:'B',size:3},
-      {name:'C',size:3},
-      {name:'D',size:3},
-      {name:'E',size:3},
-      {name:'F',size:3}
+      {name:'A',size:4},
+      {name:'B',size:4},
+      {name:'C',size:4},
+      {name:'D',size:4},
+     
     ],
-
+    tenDai:true,
     participants:[
-      ['Cường Đỗ - Xuân Biển (B.TGĐ)'],
-      ['Khánh Duy - Đình Đức (Dự án)','C'],
-      ['Quang Huy (BTK) - Nguyễn Toàn (TĐG)','D'],
-      ['Đức Ân - Minh Tiến (KT5)','B'],
-      ['Minh Châu - Mạnh Tiến (KT5)','E'],
       ['Văn Hưng - Quang Hưng (KT3)','A'],
-      ['Tiến Trung - Quốc Dũng (KT1)','D'],
-      ['Khánh Tùng - Việt Hoàng (Dự án)','E'],
+      ['Khánh Duy - Đình Đức (Dự án)','A'],
+      ['Quang Huy (BTK) - Nguyễn Toàn (TĐG)','A'],
+      ['Minh Châu - Mạnh Tiến (KT5)','A'],
+
+      ['Hoàng Hà - Duy Khánh (KT2)','B'],
       ['Quang Duy (BTK) - Hoàng Đức (TĐG)','B'],
+      ['Nguyễn Hùng - Duy Khánh (KT7)','B'],
+      ['Hoàng Hà - Lưu Quang (Dự án)','B'],
+
+      ['Cường Đỗ - Xuân Biển (B.TGĐ)','C'],
+      ['Đức Ân - Minh Tiến (KT5)','C'],
+      ['Thiên Phúc - Xuân Trường','C'],   
+      ['Khánh Tùng - Việt Hoàng (Dự án)','C'],
+      
       ['Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)','B'],
-      ['Anh Ngọc - Xuân Trường (FSG)','C'],
-      ['Hoàng Hà - Lưu Quang (Dự án)','A'],
-      ['Long Hải - Xuân Cường (KT5)','A'],
-      ['Phạm Hùng - Nguyễn Hùng (KT7)','C'],
-      ['Tuấn Anh - Duy Khánh (KT2)','F'],
-      ['Ngọc Sơn - Duy Khánh (KT7)','F'],
-      ['Hữu Hoàng - Hồng Quang (FSG)','F'],
-      ['Thiên Phúc - Trí Thành (KT2)','D'],
-      ['Văn Tâm - Văn Thái (TH)','E']
+      ['Tiến Trung - Quốc Dũng (KT1)','D'],
+       ['Long Hải - Nam Anh (KT5)','D'],      
+      ['Văn Tâm - Trọng Đức','D']
     ],
 
     rounds:{
@@ -1496,28 +1531,44 @@ const TOURNAMENTS = [
         {
           name:'Tứ kết',
           participants:[
-            ['Nhất A'],
-            ['Nhất B'],
-            ['Nhất C'],
-            ['Nhất D'],
-            ['Nhất E'],
-            ['Nhất F'],
-            ['Nhì XS 1'],
-            ['Cường Đỗ - Xuân Biển']
+          ['Văn Hưng (KT3) - Quang Hưng (KT3)',11],
+          ['Quang Duy (BTK) - Hoàng Đức (TĐG)',4],
+
+      
+          ['Quang Huy (BTK) - Nguyễn Toàn (TĐG)',11],
+          ['Hoàng Hà (KT2) - Duy Khánh (KT2)',4],
+          
+          ['Cường Đỗ (B.TGĐ) - Xuân Biển (B.TGĐ)',6],
+          ['Long Hải (KT5) - Nam Anh (KT5)',11],  
+ 
+          ['Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)',11],
+          ['Đức Ân (KT5) - Minh Tiến (KT5)',0],
+          
           ]
         },
 
         {
           name:'Bán kết',
-          participants:[]
+          participants:[
+             ['Văn Hưng - Quang Hưng (KT3)',11],
+          ['Quang Huy (BTK) - Nguyễn Toàn (TĐG)',3],
+
+          ['Long Hải - Nam Anh (KT5)',9],  
+          ['Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)',11],
+
+          ]
         },
 
         {
           name:'Chung kết',
-          participants:[]
+          participants:[
+             ['Văn Hưng - Quang Hưng (KT3)',9],
+          ['Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)',11],
+          ]
         }
       ]
-    }
+    },
+    champion:'Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)',
   },
 
   {
@@ -1534,7 +1585,6 @@ const TOURNAMENTS = [
       '👑 Chung kết: game chạm 13, tối đa chạm 15',
 
     ],
-    note:'',
 
     groups:[
       {name:'A',size:3},
@@ -1542,21 +1592,25 @@ const TOURNAMENTS = [
       {name:'C',size:3},
       {name:'D',size:4}
     ],
-
+    tenDai:true,
     participants:[
-      ['Xuân Thái (B.TGĐ) - Lan Anh (BTK)','D'],
-      ['Hồ Duyên - Tiến Trung (KT1)','C'],
-      ['Hoàng Đức - Đồng Trang','B'],
       ['Quỳnh Chi - Đức Anh (KT5)','A'],
-      ['Quang Huy - Thanh Huyền (BTK)','C'],
+       ['Văn Hưng - Nguyễn Nhàn (KT3)','A'],
+       ['Huyền Trang - Khánh Duy (Dự án)','A'],
+
+      ['Minh Tiến - Nguyễn Dung (KT5)','B'], 
+      ['Hoàng Đức - Đồng Trang','B'],
+      ['Quốc Dũng - Y Bình (KT1)','B'],
+
       ['Huyền Trang - Cường Đỗ (FSG)','C'],
-      ['Văn Hưng - Nguyễn Nhàn (KT3)','A'],
-      ['Xuân Cường - Nguyễn Dung (KT5)','B'],
-      ['Nguyễn Toàn - Lê Tài (BTK)','D'],
-      ['Huyền Trang - Khánh Duy (Dự án)','A'],
+      ['Quang Huy - Thanh Huyền (BTK)','C'],
+      ['Hồ Duyên - Tiến Trung (KT1)','C'],
+
       ['Thúy Nga - Nam Anh (KT5)','D'],
+      ['Xuân Thái (B.TGĐ) - Lan Anh (BTK)','D'],
+      ['Nguyễn Toàn - Lê Tài (BTK)','D'],
       ['Nguyễn Thu - Nguyễn Hùng (KT7)','D'],
-      ['Quốc Dũng - Y Bình (KT1)','B']
+      
     ],
 
     rounds:{
@@ -1566,32 +1620,48 @@ const TOURNAMENTS = [
         {
           name:'Tứ kết',
           participants:[
-            ['Nhất A'],
-            ['Nhì B'],
-            ['Nhất C'],
-            ['Nhì D'],
-            ['Nhất B'],
-            ['Nhì A'],
-            ['Nhất D'],
-            ['Nhì C']
+           ['Quỳnh Chi (KT5) - Đức Anh (KT5)',11],
+          ['Quốc Dũng (KT1) - Y Bình (KT1)',2],
+
+          
+      ['Huyền Trang (FSG) - Cường Đỗ (B.TGĐ)',11],
+      ['Xuân Thái (B.TGĐ) - Lan Anh (BTK)',5],
+
+      ['Minh Tiến (KT5) - Nguyễn Dung (KT5)',5], 
+       ['Văn Hưng (KT3) - Nguyễn Nhàn (KT3)',11],
+      
+       ['Thúy Nga (KT5) - Nam Anh (KT5)',11],   
+      ['Quang Huy (BTK) - Thanh Huyền (BTK)',6],
+    
           ]
         },
 
           {
           name:'Bán kết',
           participants:[
-          
+                 ['Quỳnh Chi - Đức Anh (KT5)',11],
+      ['Huyền Trang - Cường Đỗ (FSG)',9],
+      
+       ['Văn Hưng - Nguyễn Nhàn (KT3)',11],
+       ['Thúy Nga - Nam Anh (KT5)',8],   
+    
           ]
         },
 
         {
           name:'Chung kết',
-          participants:[]
+          participants:[
+              ['Quỳnh Chi - Đức Anh (KT5)',11],
+      
+       ['Văn Hưng - Nguyễn Nhàn (KT3)',9],
+
+          ]
         },
 
         
       ]
-    }
+    },
+    champion: 'Quỳnh Chi - Đức Anh (KT5)',
   },
   {
     id:'bongdanam',
@@ -1888,8 +1958,24 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g
 /* ============ build interactive panels ============ */
 const tabsEl = document.getElementById('tabs');
 const trackEl = document.getElementById('track');
+ const viewport = document.querySelector('.viewport');
+// Tạo container chiến thắng
+const championContainer = document.createElement('div');
 
+championContainer.className = 'champion-container';
 
+championContainer.innerHTML = `
+  <dotlottie-wc
+    src="./champion.lottie"
+    autoplay
+    loop>
+  </dotlottie-wc>
+
+  <span class="champion-name"></span>
+`;
+
+  viewport.appendChild(championContainer);    
+    
 
 TOURNAMENTS.forEach((cat, idx)=>{
   // tab
@@ -1898,10 +1984,11 @@ TOURNAMENTS.forEach((cat, idx)=>{
   tab.className = 'tab'+(idx===0?' active':'') +` ${cat.bomon}`;
   tab.textContent = cat.tab;
 
-
-
+if (cat.champion) {
+  tab.dataset.champion = cat.champion;
+}
   tab.setAttribute('data-index', idx);
-  tab.addEventListener('click', ()=>goTo(idx));
+  tab.addEventListener('click', ()=>goTo(idx,cat.tenDai));
   tabsEl.appendChild(tab);
 
   // panel
@@ -1944,7 +2031,7 @@ function buildPanelHTML(cat){
   
 
 
-const roundsHTML = createTournamentBracket(cat.rounds);
+const roundsHTML = createTournamentBracket(cat.rounds, cat.tenDai ? 140 : undefined,cat.tenDai);
 
 
 
@@ -1998,7 +2085,9 @@ const roundsHTML = createTournamentBracket(cat.rounds);
         
         
     </section>
-    <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[2]}</div>`
+    <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[2]}</div>
+    
+    `
 
     
   :`<div class="court-bg hero">
@@ -2079,16 +2168,7 @@ const roundsHTML = createTournamentBracket(cat.rounds);
     </section>
      <div class="my-scroll-bar" data-scroll="tournament-block-${cat.id}">${HERO_ICON[3]}</div>`}
      
-     ${cat.champion ? `<div class="champion-container">
-        <dotlottie-wc
-          src="./champion.lottie"
-          autoplay
-          loop
-          >
-        </dotlottie-wc>
-        <span class="champion-name">${cat.champion}</span>
-      </div>` 
-     : ''}
+    
      `
 
      
@@ -2154,7 +2234,7 @@ function createTable(tableData, className = '',id=null) {
 
 
 
-function createTournamentBracket(arrayParticipants) {
+function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=false) {
 
     
     let heigtOfContainer = 0;
@@ -2169,7 +2249,7 @@ function createTournamentBracket(arrayParticipants) {
     const gapRows = 15;
     const gapColumns = 70;
     const connectorConnerRadius = 10;
-    const boxTeamHeight = 80;   
+     
     const boxTeamWidth = 220;  
      const connectorStrokeWidth = 2;
     const roundTitleHeight = 40;
@@ -2264,8 +2344,13 @@ function createTournamentBracket(arrayParticipants) {
                       ? 'win'
                       : ''
                   : ''
-              }">
-              <span>${participants[stt]?.[0] ?? '-'}</span><span>${participants[stt]?.[1] ?? '-'}</span>
+              }"> 
+              <span>${tenDai
+              ? (participants[stt]?.[0] ?? '-').replace(' - ', '<br>')
+              : (participants[stt]?.[0] ?? '-')
+            }</span>
+            <span>${participants[stt]?.[1] ?? '-'}</span>
+
             </div>
             <div class="team-row ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
                   ? participants[stt][1] > participants[stt+1][1]
@@ -2273,7 +2358,11 @@ function createTournamentBracket(arrayParticipants) {
                       : 'win'
                   : ''
               }">
-              <span>${participants[stt+1]?.[0] ?? '-'}</span><span>${participants[stt+1]?.[1] ?? '-'}</span>
+              <span>${tenDai
+              ? (participants[stt+1]?.[0] ?? '-').replace(' - ', '<br>')
+              : (participants[stt+1]?.[0] ?? '-')
+            }
+                </span><span>${participants[stt+1]?.[1] ?? '-'}</span>
             </div>
             </div>`;
 
@@ -2454,11 +2543,31 @@ function createTournamentBracket(arrayParticipants) {
             height: ${boxTeamHeight}px;
             width : ${boxTeamWidth}px;
             transform: translate(${matchLeft}px,${matchTop}px)">
-            <div class="team-row">
-              <span>${participants[stt]?.[0] ?? '-'}</span><span>${participants[stt]?.[1] ?? '-'}</span>
+            <div class="team-row ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? 'win'
+                      : ''
+                  : ''
+              }">
+              <span>
+                ${tenDai
+              ? (participants[stt]?.[0] ?? '-').replace(' - ', '<br>')
+              : (participants[stt]?.[0] ?? '-')
+            }
+                </span><span>${participants[stt]?.[1] ?? '-'}</span>
             </div>
-            <div class="team-row">
-              <span>${participants[stt+1]?.[0] ?? '-'}</span><span>${participants[stt+1]?.[1] ?? '-'}</span>
+            <div class="team-row ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
+                  ? participants[stt][1] > participants[stt+1][1]
+                      ? ''
+                      : 'win'
+                  : ''
+              }">
+              <span>
+                ${tenDai
+              ? (participants[stt+1]?.[0] ?? '-').replace(' - ', '<br>')
+              : (participants[stt+1]?.[0] ?? '-')
+            }
+                </span><span>${participants[stt+1]?.[1] ?? '-'}</span>
             </div>
             </div>`;
 
@@ -2599,11 +2708,11 @@ return [[bracketHTML, heigtOfContainer, widthOfContainer],
 
 /* ============ GSAP panel ============ */
 let current = 0;
-function goTo(index,move = true){
+function goTo(index,tenDai=false,move = true){
   if(index===current) return;
   current = index;
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', i===index));
- const viewport = document.querySelector('.viewport');
+
 
  move? gsap.timeline().to(trackEl, {x:`-${index*100}vw`, duration:.65, ease:'power3.inOut'})
  .to(viewport, {scrollTop: 0,duration: 0.65,ease: 'power3.inOut'},"<")
@@ -2611,10 +2720,88 @@ function goTo(index,move = true){
  :gsap.timeline().set(trackEl, {x:`-${index*100}vw`})
  .call(updateBangDauScrollBars);
 
+ hienChampion(index,tenDai);
+
+
 }
 
 
+ let championAni;
+    let championSplit;
+
+function hienChampion(index, tenDai = false) {
+  const tab = document.querySelectorAll('.tab')[index];
+  const container = viewport.querySelector('.champion-container');
+  const nameEl = container.querySelector('.champion-name');
+
+  // Hủy animation ẩn nếu có
+  hideChampionAni?.kill();
+
+  // Dọn animation và SplitText cũ
+  championAni?.kill();
+  championSplit?.revert();
+
+  if (!tab.dataset.champion) {
+    gsap.set(container, {
+      display: 'none',
+      opacity: 0
+    });
+    return;
+  }
+
+  const champion = tab.dataset.champion;
+  const staggerTiming = tenDai ? 0.03 : 0.07;
+
+  nameEl.textContent = champion;
+
+  championSplit = new SplitText(nameEl, {
+    type: 'chars',
+    charsClass: 'char++'
+  });
+
+  championAni = gsap.timeline();
+
+  championAni
+    .set(container, {
+      display: 'flex',
+      opacity: 1
+    })
+    .from(container, {
+      opacity: 0,
+      duration: 0.5
+    })
+    .from(championSplit.chars, {
+      y: -100,
+      opacity: 0,
+      rotation: 'random(-80, 80)',
+      stagger: staggerTiming,
+      duration: 0.8,
+      ease: 'back.out(1.7)'
+    }, 0.3);
+}
+
 window.addEventListener('resize', ()=>{ gsap.set(trackEl, {x:`-${current*100}vw`}); });
+
+let hideChampionAni;
+
+viewport.addEventListener('click', (e) => {
+  if (e.target.closest('.tab')) return;
+
+  const champContainer = viewport.querySelector('.champion-container');
+
+  hideChampionAni?.kill();
+
+  hideChampionAni = gsap.timeline()
+    .to(champContainer, {
+      opacity: 0,
+      duration: 0.5
+    })
+    .set(champContainer, {
+      display: 'none'
+    });
+});
+
+
 
 // swipe support
 // let touchStartX = null;
@@ -2637,6 +2824,7 @@ window.addEventListener('keydown', e=>{
 
 // one orchestrated entrance animation for the first panel
 window.addEventListener('DOMContentLoaded', ()=>{
+  gsap.registerPlugin(SplitText);
   const tl1 = gsap.timeline();
   const firstHero = document.querySelector('.panel .hero');
   if(!firstHero) return;
@@ -2663,6 +2851,12 @@ window.addEventListener('DOMContentLoaded', ()=>{
           }
         );
       });
+
+   
+
+// ScrollTrigger chỉ xử lý pin
+
+
 });
 // đoạn dưới cho image slider 
 // document.addEventListener('DOMContentLoaded', () => {
