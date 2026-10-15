@@ -2890,7 +2890,7 @@ function goTo(index,tenDai=false){
     .call(updateBangDauScrollBars);
     } 
     clickBangCode = false;
-
+    skipMove1 = false;
 
 const tab = document.querySelectorAll('.tab')[index];
 const hienChamp = tab?.dataset.hienChamp;
@@ -3220,6 +3220,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
     // appShell.style.display='none';
 
     skipHien2 = true;
+     current = -1
     // Hiện nội dung được chọn
     if (sportType === 'football') {
       // appShell.style.display = '';
@@ -3228,7 +3229,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
         el.style.display = '';
         });
 
-        current = -1
+       
         clickBangCode = true;
         bongDa[0]?.click();
         
@@ -3250,7 +3251,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
         pickleball.forEach(el => {
         el.style.display = '';
     });
-    current = -1
+   
     clickBangCode = true;
    pickleball[1]?.click();
     
@@ -3266,11 +3267,17 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
             
             }, 300); // Chờ 300ms sau khi UI ẩn đi mới mở cửa
 
+
+
+
 //SAU Khi mở cửa mới chạy animation
+
                   skipMove1= true;    
+                    current = -1
+
     if (sportType === 'football') {
       
-        current = -1
+      
 
         bongDa[0]?.click(); 
 
@@ -3278,13 +3285,12 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
 
     if (sportType === 'pickleball') {
         
-    current = -1
-
+    
    pickleball[1]?.click();
     
     }
 
-        }
+        };
 
         function resetScene() {
        
