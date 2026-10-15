@@ -788,32 +788,26 @@ section.schedule-block {
     background: var(--winGroupStage); ;
   }
   .team-label{padding:5px 2px; flex:1;}
-  .team-input{
+  /* .team-input{
     flex:1; background:transparent; border:1px dashed var(--line-strong); border-radius:6px;
     padding:6px 8px; color:var(--chalk); font-size:.85rem; outline:none; min-width:0;
   }
   .team-input:focus{border-color:var(--yellow); background:rgba(228,255,77,.06);}
   .score-row{display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:.76rem; color:var(--chalk-dim); margin-top:2px;}
-  .score-input{
-    width:64px; background:transparent; border:1px dashed var(--line-strong); border-radius:6px;
-    padding:5px 6px; color:var(--yellow); text-align:center; font-family:var(--mono); font-size:.82rem; outline:none;
-  }
-  .score-input:focus{border-color:var(--yellow);}
+   */
+ 
   .champ-container{display:flex; align-items:center;}
   .champ-card{
     background:linear-gradient(135deg,var(--yellow),#FFF7B0); color:var(--navy-deep);
     border-radius:16px; 
     padding:16px 26px 16px 20px; 
     display:flex; align-items:center; 
+    flex-direction: column;
     justify-content: center;
     gap:5px;
     font-weight:800; font-size:1.2rem; min-width:220px;
   }
-  .champ-card input{
-    flex:1; background:rgba(8,28,36,.08); border:1px dashed rgba(8,28,36,.35); border-radius:8px;
-    padding:7px 9px; color:var(--navy-deep); font-weight:700; font-size:.88rem; outline:none; min-width:0;
-  }
-  .champ-card input:focus{border-color:var(--navy-deep);}
+
 
   footer.pad{height:24px;}
 
@@ -1219,14 +1213,13 @@ section.schedule-block {
 .champion-name {
   position: absolute;
   z-index: 1;
-  left: 50%;
-  transform: translateX(-50%);
+ 
   width: max-content;
   max-width: 90vw;
   padding: 0 8px;
 
   font-family: var(--sans);
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(2rem, 5vw, 5rem);
   font-weight: 800;
   line-height: 1.3;
   text-align: center;
@@ -1234,11 +1227,14 @@ section.schedule-block {
 
   color: var(--yellow);
   -webkit-text-stroke: 0.5px var(--navy-deep);
-
-  text-shadow:
-    0 2px 0 var(--navy),
-    0 4px 8px rgba(75, 35, 5, 0.45),
-    0 0 18px rgba(255, 204, 102, 0.353);
+  
+text-shadow:
+  -1px  0    0 var(--navy),
+   1px  0    0 var(--navy),
+   0    -1px 0 var(--navy),
+   0     1px 0 var(--navy),
+   0     4px 8px rgba(75, 35, 5, 0.45),
+   0     0   18px rgba(255, 204, 102, 0.353);
 }
 
 </style>
@@ -1375,7 +1371,7 @@ const TOURNAMENTS = [
     tab:'Đơn Nam',
     title:'Đơn nam',
     subtitle:'Vòng bảng · Vòng loại trực tiếp · Bán kết · Chung kết',
-    champion:'Xuân Tùng (KT8)',
+    champion:'Xuân Tùng',
     rules:[
       '🏆 Đánh đến hết chung kết',
       '🔄 Vòng bảng: vòng tròn tính điểm, game chạm 9, không cách điểm',
@@ -1506,16 +1502,16 @@ const TOURNAMENTS = [
           name:'Chung kết',
           participants:[
             
-            
-            ['Hồ Duyên (KT1) - Y Bình (KT1)',6],
             ['Thúy Nga (KT5) - Quỳnh Chi (KT5)',11],
+            ['Hồ Duyên (KT1) - Y Bình (KT1)',6],
+            
          
                   
           ]
         }
       ]
     },
-    champion:'Thúy Nga - Quỳnh Chi (KT5)',
+    champion:'Thúy Nga - Quỳnh Chi',
   },
 
   {
@@ -1589,10 +1585,10 @@ const TOURNAMENTS = [
         {
           name:'Bán kết',
           participants:[
-             ['Văn Hưng - Quang Hưng (KT3)',11],
+             ['Văn Hưng (KT3) - Quang Hưng (KT3)',11],
           ['Quang Huy (BTK) - Nguyễn Toàn (TĐG)',3],
 
-          ['Long Hải - Nam Anh (KT5)',9],  
+          ['Long Hải (KT5) - Nam Anh (KT5)',9],  
           ['Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)',11],
 
           ]
@@ -1601,13 +1597,13 @@ const TOURNAMENTS = [
         {
           name:'Chung kết',
           participants:[
-             ['Văn Hưng - Quang Hưng (KT3)',9],
+             ['Văn Hưng (KT3) - Quang Hưng (KT3)',9],
           ['Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)',11],
           ]
         }
       ]
     },
-    champion:'Xuân Thái (B.TGĐ) - Xuân Tùng (KT8)',
+    champion:'Xuân Thái - Xuân Tùng',
   },
 
   {
@@ -1678,11 +1674,11 @@ const TOURNAMENTS = [
           {
           name:'Bán kết',
           participants:[
-                 ['Quỳnh Chi - Đức Anh (KT5)',11],
-      ['Huyền Trang - Cường Đỗ (FSG)',9],
+                 ['Quỳnh Chi (KT5) - Đức Anh (KT5)',11],
+      ['Huyền Trang (FSG) - Cường Đỗ (B.TGĐ)',9],
       
-       ['Văn Hưng - Nguyễn Nhàn (KT3)',11],
-       ['Thúy Nga - Nam Anh (KT5)',8],   
+       ['Văn Hưng (KT3) - Nguyễn Nhàn (KT3)',11],
+       ['Thúy Nga (KT5) - Nam Anh (KT5)',8],   
     
           ]
         },
@@ -1690,9 +1686,10 @@ const TOURNAMENTS = [
         {
           name:'Chung kết',
           participants:[
-              ['Quỳnh Chi - Đức Anh (KT5)',11],
+
+              ['Quỳnh Chi (KT5) - Đức Anh (KT5)',11],
       
-       ['Văn Hưng - Nguyễn Nhàn (KT3)',9],
+       ['Văn Hưng (KT3) - Nguyễn Nhàn (KT3)',9],
 
           ]
         },
@@ -1700,7 +1697,7 @@ const TOURNAMENTS = [
         
       ]
     },
-    champion: 'Quỳnh Chi - Đức Anh (KT5)',
+    champion: 'Quỳnh Chi - Đức Anh',
   },
   {
     id:'bongdanam',
@@ -1807,7 +1804,7 @@ vuaPhaLuoi:{
       
       ],
       tbody: [
-        {td: [{ v: "Nguyễn Mạnh Tiến" },{ v: "KT5" } , {v: 4+2}]},
+        {td: [{ v: "Nguyễn Mạnh Tiến" },{ v: "KT5" } , {v: 3+3}]},
         {td: [{ v: "Ngô Quang Duy" },{ v: "Liên Quân" } , {v: 3+1}]},
          {td: [{ v: "Nguyễn Hoàng Long" },{ v: "KT2+3" } , {v: 3}]},
          {td: [{ v: "Phạm Ngọc Sơn" },{ v: "KT7" } , {v: 3}]},
@@ -1954,10 +1951,8 @@ vuaPhaLuoi:{
       ],
       tbody: [
         {td: [{ v: "Nguyễn Vũ Quỳnh Chi" },{ v: "KT5" } , {v: 4+2}]},
+        {td: [{ v: "Hồ Thị Duyên" },{ v: "KT1" } , {v: 2+4}]},
         {td: [{ v: "Nguyễn Anh Thư" },{ v: "FSG" } , {v: 3+1}]},
-        {td: [{ v: "Số 10" },{ v: "KT1" } , {v: 4}]},
-        {td: [{ v: "Hồ Thị Duyên" },{ v: "KT1" } , {v: 2+1}]},
-        
         {td: [{ v: "Lê Quỳnh Anh" },{ v: "Liên Quân" } , {v: 1+1}]},
          
          
@@ -2058,7 +2053,9 @@ championContainer.innerHTML = `
 
 TOURNAMENTS.forEach((cat, idx)=>{
   // tab
-  
+  // if (idx !== 1) return; // test
+
+
   const tab = document.createElement('button');
   tab.className = 'tab'+(idx===0?' active':'') +` ${cat.bomon}`;
   tab.textContent = cat.tab;
@@ -2067,6 +2064,7 @@ if (cat.champion) {
   tab.dataset.champion = cat.champion;
 }
   tab.setAttribute('data-index', idx);
+  tab.setAttribute('data-hien-champ', true);
   tab.addEventListener('click', ()=>goTo(idx,cat.tenDai));
   tabsEl.appendChild(tab);
 
@@ -2110,7 +2108,7 @@ function buildPanelHTML(cat){
   
 
 
-const roundsHTML = createTournamentBracket(cat.rounds, cat.tenDai ? 140 : undefined,cat.tenDai);
+const roundsHTML = createTournamentBracket(cat.rounds, cat.tenDai ? 140 : undefined,cat.tenDai,cat.champion ? cat.champion : null);
 
 
 
@@ -2334,7 +2332,7 @@ function createTable(tableData, className = '',id=null) {
 
 
 
-function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=false) {
+function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=false,champion=null) {
 
     
     let heigtOfContainer = 0;
@@ -2396,7 +2394,55 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
     let currentRoundTop=roundTitleHeight +20;
     let oldgapRows=0;
 
-   
+   // function check bảng trước, sau win
+   function checkKetQua(participants,luotTruoc,stt) {
+              let truoc = '';
+              let sau = '';
+              let stt1oTren = true;
+
+       
+
+
+              if (
+                participants[stt]?.[1] != null &&
+                participants[stt + 1]?.[1] != null
+              )
+              {
+                const part1 =  participants[stt][0];
+                const part2 =  participants[stt+1][0];
+                const luot1 = luotTruoc.slice(0,2);
+                const luot2 = luotTruoc.slice(2,4);
+
+           
+    
+              
+
+              if ( luotTruoc.some(p => p[0] === part1) &&
+                    luotTruoc.some(p => p[0] === part2)) 
+                    {
+                    if (luot1.some(participant => participant[0] === part1) &&  luot2.some(participant => participant[0] === part2)) {
+                      stt1oTren = true;
+                    } 
+                    else if (luot1.some(participant => participant[0] === part2) &&  luot2.some(participant => participant[0] === part1))
+                    { stt1oTren = false;} else { return { truoc, sau };}
+
+                } else { return { truoc, sau };} ;
+              } else { return { truoc, sau };} ;
+
+
+                if (participants[stt][1] > participants[stt + 1][1]) {
+
+                   stt1oTren
+                  ? (truoc = 'win', sau = 'lose')
+                  : (truoc = 'lose', sau = 'win');
+                } else if (participants[stt][1] < participants[stt + 1][1]) {
+                   stt1oTren
+                    ? (truoc = 'lose', sau = 'win') 
+                    : (truoc = 'win', sau = 'lose');
+                }
+              
+              return { truoc, sau };
+            }
 
     // Vòng lặp từng round (nhưng để tạo match, k cần tạo round)
     for (
@@ -2406,6 +2452,7 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
     ) {
 
         const participants = arrayParticipants.matches[roundIndex].participants
+        let countLoopStt = 0;
         stt = 0;  
 
         for (
@@ -2414,7 +2461,6 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
             matchIndex++
         ) {
 
-          
 
            const matchLeft = (boxTeamWidth + gapColumns) * roundIndex;
 
@@ -2431,7 +2477,10 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
               
           }
 
-            // match.style.transform = `translate(${matchLeft}px,${translateYvalue}px)`;
+           
+          // đoạn code winlose mới
+          
+          
 
             bracketHTML += `<div class="bracket-match" style="
             position : absolute;
@@ -2469,6 +2518,13 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
             
 
             if (roundIndex!= 0){
+              
+              const luotTruoc = arrayParticipants.matches[roundIndex - 1].participants.slice(stt + countLoopStt,stt + countLoopStt+4);
+         
+              
+          const {truoc,sau} = checkKetQua(participants,luotTruoc,stt);
+
+          
 
             // const rect = match.getBoundingClientRect();
 
@@ -2478,12 +2534,7 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
 
 
             bracketHTML +=` <svg xmlns="http://www.w3.org/2000/svg" 
-            class="connector${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                  ? participants[stt][1] > participants[stt+1][1]
-                      ? ' win'
-                      : ' lose'
-                  : ''
-              }"
+            class="connector ${truoc}"
             style="position : absolute;
             top: ${middlteOfMatch}px;
             left: ${(matchLeft - gapColumns)}px;
@@ -2498,23 +2549,18 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
                 L ${gapColumns/2-connectorConnerRadius} ${connectorStrokeWidth/2} 
                 Q ${gapColumns/2} ${connectorStrokeWidth/2} ${gapColumns/2} ${connectorStrokeWidth/2 + connectorConnerRadius} 
                 L ${gapColumns/2}  ${(oldgapRows+ boxTeamHeight)/2 + connectorStrokeWidth/2}
-                ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                  ? participants[stt][1] > participants[stt+1][1]
-                      ? `L ${gapColumns} ${(oldgapRows+ boxTeamHeight )/2 + connectorStrokeWidth/2}`
-                      : ''
-                  : `L ${gapColumns} ${(oldgapRows+ boxTeamHeight )/2 + connectorStrokeWidth/2}`
-              }
+
+                ${(truoc === '' && sau === '') || (truoc === 'win' && sau === 'lose')
+                  ? `L ${gapColumns} ${(oldgapRows + boxTeamHeight) / 2 + connectorStrokeWidth / 2}`
+                  : ''
+                }
+
                 " stroke-width="${connectorStrokeWidth}"  vector-effect="non-scaling-stroke"></path>
               </svg>
 
               <svg xmlns="http://www.w3.org/2000/svg"
               
-              class="connector${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                ? participants[stt][1] > participants[stt+1][1]
-                    ? ' lose'
-                    : ' win'
-                : ''
-            }" 
+              class="connector ${sau}" 
             style="position : absolute;
             top: ${middlteOfMatch}px;
             left: ${(matchLeft - gapColumns)}px;
@@ -2529,12 +2575,13 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
                 L ${gapColumns/2-connectorConnerRadius} ${connectorStrokeWidth/2} 
                 Q ${gapColumns/2} ${connectorStrokeWidth/2} ${gapColumns/2} ${connectorStrokeWidth/2 + connectorConnerRadius} 
                 L ${gapColumns/2}  ${(oldgapRows+ boxTeamHeight)/2 + connectorStrokeWidth/2}
-                ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                ? participants[stt][1] > participants[stt+1][1]
-                    ? ''
-                    : `L ${gapColumns} ${(oldgapRows+ boxTeamHeight )/2 + connectorStrokeWidth/2}`
-                : ''
-            }
+                
+                ${(truoc === 'lose' && sau === 'win')
+                  ? `L ${gapColumns} ${(oldgapRows+ boxTeamHeight )/2 + connectorStrokeWidth/2}`
+                  : ''
+                }
+                
+                
                 "  stroke-width="${connectorStrokeWidth}"  vector-effect="non-scaling-stroke"></path>
               </svg>
 
@@ -2542,7 +2589,7 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
             `;
 
             }
-
+            countLoopStt += 2;
             stt += 2;
 
             if (matchIndex < currentNumberOfMatches - 1) {
@@ -2562,9 +2609,10 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
                    position: absolute;
                     top: ${currentRoundTop}px;
                     height: ${boxTeamHeight}px;
-                    width : ${boxTeamWidth}px;
-                    transform: translate(${matchLeft+gapColumns+boxTeamWidth}px,${translateYvalue}px)"><div class="champ-card">🏆<span>Vô địch</span>
-                    </div></div>`;
+                    width: fit-content;
+                    min-width: ${boxTeamWidth}px;
+                    transform: translate(${matchLeft+gapColumns+boxTeamWidth}px,${translateYvalue}px)"><div class="champ-card"><span>🏆 Vô địch</span>
+                    ${champion?`<span>${tenDai?champion.replace(' - ', '<br>') :champion}</span>`:''} </div></div>`;
                   
                 } 
                
@@ -2588,7 +2636,7 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
   
     // để bracket ngang
      if (numberOfMatches<4) {
-      stt = 0;
+      
       currentNumberOfMatches = numberOfMatches;
 
       currentGapHangNgang = gapHangNgang;
@@ -2603,6 +2651,7 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
     ) {
 
       const participants = arrayParticipants.matches[roundIndex].participants
+      countLoopStt = 0;
       stt = 0;
 
       const matchTop= KhoangCachTopRound + (boxTeamHeight+gapHangDoc)*(totalRounds-roundIndex);
@@ -2630,13 +2679,9 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
 
            const matchLeft = khoangCachBenTraiRound + (boxTeamWidth + currentGapHangNgang) * matchIndex;
 
-          //  console.log(matchLeft, matchIndex);
-
           // cái để hiện bán kết, chung kết
            
        
-
-            // match.style.transform = `translate(${matchLeft}px,${translateYvalue}px)`;
 
             bracketHTML_2 += `<div class="bracket-match" style="
             position : absolute;
@@ -2675,20 +2720,21 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
 
             if (roundIndex!= 0){
 
-            // const rect = match.getBoundingClientRect();
+            const luotTruoc = arrayParticipants.matches[roundIndex - 1].participants.slice(stt + countLoopStt,stt + countLoopStt+4);
+            
+         
+  
+              
+          const {truoc,sau} = checkKetQua(participants,luotTruoc,stt);
+      
 
-            // const currentMatchLeft = rect.left;
             const middlteOfMatch = matchLeft + boxTeamWidth/2;
               const widthConnector = oldGapHangNgang+ boxTeamWidth + connectorStrokeWidth/2;
               const pathToMidConnector = (oldGapHangNgang+ boxTeamWidth)/2 + connectorStrokeWidth/2;
+              
 
             bracketHTML_2 +=` <svg xmlns="http://www.w3.org/2000/svg" 
-            class="connector${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                  ? participants[stt][1] > participants[stt+1][1]
-                      ? ' win'
-                      : ' lose'
-                  : ''
-              }"
+            class="connector ${truoc}"
             style="position : absolute;
             top:  ${matchTop + boxTeamHeight }px;
             left: ${(middlteOfMatch)}px;
@@ -2706,23 +2752,17 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
                 Q  ${connectorStrokeWidth/2} ${gapHangDoc/2}   ${connectorStrokeWidth/2 + connectorConnerRadius}  ${gapHangDoc/2}
                 L  ${pathToMidConnector} ${gapHangDoc/2} 
 
-                ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                  ? participants[stt][1] > participants[stt+1][1]
-                      ? `L ${pathToMidConnector} 0`
-                      : ''
-                  : `L ${pathToMidConnector} 0`
-              }
+                ${(truoc === '' && sau === '') || (truoc === 'win' && sau === 'lose')
+                  ? `L ${pathToMidConnector} 0`
+                  : ''
+                }
+
                 " stroke-width="${connectorStrokeWidth}"  vector-effect="non-scaling-stroke"></path>
               </svg>
 
 
               <svg xmlns="http://www.w3.org/2000/svg" 
-            class="connector${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                  ? participants[stt][1] > participants[stt+1][1]
-                      ? ' lose'
-                      : ' win'
-                  : ''
-              }"
+            class="connector ${sau}"
             style="position : absolute;
             top:  ${matchTop + boxTeamHeight }px;
             left: ${(middlteOfMatch)}px;
@@ -2730,7 +2770,7 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
             height: ${gapHangDoc}px;
             width : ${widthConnector}px;
 
-            transform: translateX(-${(oldGapHangNgang+ boxTeamWidth - connectorStrokeWidth)/2}px) scaleX(-1);;"
+            transform: translateX(-${(oldGapHangNgang+ boxTeamWidth - connectorStrokeWidth)/2}px) scaleX(-1);"
             preserveAspectRatio="none"
 
             viewBox="0 0 ${widthConnector} ${gapHangDoc}">
@@ -2740,12 +2780,11 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
                 Q  ${connectorStrokeWidth/2} ${gapHangDoc/2}   ${connectorStrokeWidth/2 + connectorConnerRadius}  ${gapHangDoc/2}
                 L  ${pathToMidConnector} ${gapHangDoc/2} 
 
-                ${participants[stt]?.[1] != null && participants[stt+1]?.[1] != null
-                  ? participants[stt][1] > participants[stt+1][1]
-                      ? ''
-                      : `L ${pathToMidConnector} 0`
+                   ${(truoc === 'lose' && sau === 'win')
+                  ? `L ${pathToMidConnector} 0`
                   : ''
-              }
+                }
+
                 " stroke-width="${connectorStrokeWidth}"  vector-effect="non-scaling-stroke"></path>
               </svg>
 
@@ -2755,7 +2794,7 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
 
            
             }
-
+            countLoopStt += 2;
             stt += 2;
            
             // tính chiều cao container
@@ -2771,12 +2810,12 @@ function createTournamentBracket(arrayParticipants,boxTeamHeight = 80 ,tenDai=fa
                    position: absolute;
                    
                     height: ${boxTeamHeight}px;
-                    width : ${boxTeamWidth}px;
-                    transform: translate(${matchLeft}px,${KhoangCachTopRound}px)"><div class="champ-card">🏆<span>Vô địch</span>
-                    </div></div>`;
+                    width: fit-content;
+                    min-width: ${boxTeamWidth}px;
+                    transform: translate(${matchLeft}px,${KhoangCachTopRound}px)"><div class="champ-card"><span>🏆 Vô địch</span>
+                    ${champion?`<span>${tenDai?champion.replace(' - ', '<br>') :champion}</span>`:''}</div></div>`;
                   
                 } 
-               
 
                
                
@@ -2826,22 +2865,45 @@ return [[bracketHTML, heigtOfContainer, widthOfContainer],
 
 /* ============ GSAP panel ============ */
 let current = 0;
-function goTo(index,tenDai=false,move = true){
-  if(index===current) return;
+let clickBangCode = false;
+let skipMove1 = false;
+let skipHien2 = false;
+function goTo(index,tenDai=false){
+  if(index===current) 
+  {
+   
+    return
+  };
+
+  
   current = index;
+
+  hideChampion();
+  
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', i===index));
 
+   if (!skipMove1) {
+    !clickBangCode? gsap.timeline().to(trackEl, {x:`-${index*100}vw`, duration:.65, ease:'power3.inOut'})
+    .to(viewport, {scrollTop: 0,duration: 0.65,ease: 'power3.inOut'},"<")
+    .call(updateBangDauScrollBars)
+    :gsap.timeline().set(trackEl, {x:`-${index*100}vw`})
+    .call(updateBangDauScrollBars);
+    } 
+    clickBangCode = false;
 
- move? gsap.timeline().to(trackEl, {x:`-${index*100}vw`, duration:.65, ease:'power3.inOut'})
- .to(viewport, {scrollTop: 0,duration: 0.65,ease: 'power3.inOut'},"<")
- .call(updateBangDauScrollBars)
- :gsap.timeline().set(trackEl, {x:`-${index*100}vw`})
- .call(updateBangDauScrollBars);
 
- hienChampion(index,tenDai);
+const tab = document.querySelectorAll('.tab')[index];
+const hienChamp = tab?.dataset.hienChamp;
 
-
+if (!skipHien2 
+// && hienChamp === 'true'
+) {
+  hienChampion(index, tenDai);
 }
+
+skipHien2 = false;
+
+};
 
 
  let championAni;
@@ -2898,16 +2960,30 @@ nameEl.innerHTML = lines
       duration: 0.5
     }
   )
-  .from(championSplit.chars, {
+  .fromTo(
+  championSplit.chars,
+  {
     y: -100,
     opacity: 0,
-    rotation: 'random(-80, 80)',
+    rotation: 'random(-80, 80)'
+  },
+  {
+    y: 0,
+    opacity: 1,
+    rotation: 0,
     stagger: tenDai ? 0.03 : 0.07,
     duration: 0.8,
     ease: 'back.out(1.7)',
     clearProps: 'transform'
-  }, 0.3);
+  },
+  0.3
+)
+.call(() => {
+    championSplit?.revert();
+    championSplit = null;
+  });
 
+tab.dataset.hienChamp = 'false';
 });
 
   
@@ -2919,9 +2995,7 @@ window.addEventListener('resize', ()=>{ gsap.set(trackEl, {x:`-${current*100}vw`
 
 let hideChampionAni;
 
-viewport.addEventListener('click', (e) => {
-  
-  console.log('test')
+function hideChampion() {
   const champContainer = viewport.querySelector('.champion-container');
 
   hideChampionAni?.kill();
@@ -2934,6 +3008,12 @@ viewport.addEventListener('click', (e) => {
     .set(champContainer, {
       display: 'none'
     });
+}
+
+viewport.addEventListener('click', (e) => {
+  
+  hideChampion();
+  
 });
 
 
@@ -2952,8 +3032,8 @@ viewport.addEventListener('click', (e) => {
 //   touchStartX = null;
 // });
 window.addEventListener('keydown', e=>{
-  if(e.key==='ArrowRight' && current < TOURNAMENTS.length-1) goTo(current+1);
-  if(e.key==='ArrowLeft' && current > 0) goTo(current-1);
+  if(e.key==='ArrowRight' && current < TOURNAMENTS.length-1) goTo(current+1,true);
+  if(e.key==='ArrowLeft' && current > 0) goTo(current-1,true);
 });
 
 
@@ -3112,6 +3192,9 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
   const logo = document.querySelector('.logo-wrap');
       logo.addEventListener('click', () => {
         resetScene();
+          document.querySelectorAll('.tab').forEach(tab => {
+          tab.dataset.hienChamp = 'true';
+        });
     });
 
    const appShell = document.querySelector('.app-shell');
@@ -3136,7 +3219,7 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
 
     // appShell.style.display='none';
 
-
+    skipHien2 = true;
     // Hiện nội dung được chọn
     if (sportType === 'football') {
       // appShell.style.display = '';
@@ -3145,7 +3228,10 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
         el.style.display = '';
         });
 
-        goTo(Number(bongDa[0].getAttribute('data-index')),false);
+        current = -1
+        clickBangCode = true;
+        bongDa[0]?.click();
+        
 
         pickleball.forEach(el => {
         el.style.display = 'none';
@@ -3164,59 +3250,56 @@ tl2.fromTo(ball,{y:0},{y:-250 ,duration: .8, yoyo:true,repeat:-1 ,ease: "power2.
         pickleball.forEach(el => {
         el.style.display = '';
     });
-    goTo(Number(pickleball[0].getAttribute('data-index')),false);
-    hienChampion(Number(pickleball[0].getAttribute('data-index')))
+    current = -1
+    clickBangCode = true;
+   pickleball[1]?.click();
+    
     }
 
 
-            // // 2. Chuẩn bị nội dung phòng tương ứng
-            // const icon = document.getElementById('sport-icon');
-            // const title = document.getElementById('sport-title');
-            // const roomContent = document.getElementById('room-content');
-            
-            // // Xóa các class nền cũ
-            // roomContent.classList.remove('bg-football', 'bg-pickleball', 'bg-gray-100');
-
-            // if (sportType === 'football') {
-            //     icon.textContent = '⚽';
-            //     title.textContent = 'Chào mừng đến với Sân Bóng đá';
-            //     roomContent.classList.add('bg-football');
-            // } else if (sportType === 'pickleball') {
-            //     icon.textContent = '🏓';
-            //     title.textContent = 'Chào mừng đến với Sân Pickleball';
-            //     roomContent.classList.add('bg-pickleball');
-            // }
 
             // 3. Kích hoạt hiệu ứng trượt cửa Zig-Zag
             setTimeout(() => {
                 document.getElementById('door-left').classList.add('open');
                 document.getElementById('door-right').classList.add('open');
                 
-                // Hiển thị nội dung bên trong phòng với hiệu ứng scale in
-                // appShell.classList.add('revealed');
-                // closeButton.classList.add('revealed');
+            
             }, 300); // Chờ 300ms sau khi UI ẩn đi mới mở cửa
+
+//SAU Khi mở cửa mới chạy animation
+                  skipMove1= true;    
+    if (sportType === 'football') {
+      
+        current = -1
+
+        bongDa[0]?.click(); 
+
+    }
+
+    if (sportType === 'pickleball') {
+        
+    current = -1
+
+   pickleball[1]?.click();
+    
+    }
+
         }
 
         function resetScene() {
-            // Trượt cửa đóng lại
+       
             document.getElementById('door-left').classList.remove('open');
             document.getElementById('door-right').classList.remove('open');
            
-            // Ẩn nội dung phòng
-          // closeButton.classList.remove('revealed');
-
-           
-
-            // Đợi cửa đóng xong thì hiển thị lại các nút bấm ban đầu
+       
             setTimeout(() => {
-              //  appShell.classList.remove('revealed');
+           
                 document.getElementById('ui-layer').classList.remove('hidden-ui');
                 const viewport = document.querySelector('.viewport');
                 viewport.scrollTop = 0;
             }, 1200); 
 
-             
+  
         }
 
 
