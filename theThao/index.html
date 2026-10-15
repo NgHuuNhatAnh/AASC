@@ -2896,7 +2896,7 @@ const tab = document.querySelectorAll('.tab')[index];
 const hienChamp = tab?.dataset.hienChamp;
 
 if (!skipHien2 
-// && hienChamp === 'true'
+&& hienChamp === 'true'
 ) {
   hienChampion(index, tenDai);
 }
