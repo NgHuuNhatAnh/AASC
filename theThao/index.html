@@ -503,6 +503,13 @@ section.schedule-block {
     font-weight:700;
      margin:0 0 16px;}
 
+
+
+  h3.table-name {
+    font-size: var(--fontSize2);
+    margin-bottom: 25px;
+  }
+
   .rules-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; max-width:760px;}
   .rules-list li{
     display:flex; 
@@ -971,27 +978,27 @@ section.schedule-block {
 
 
 /* slider  */
-#image-slider {
+.image-slider {
      position: relative;
 
-    width: 100%;
-    height: 700px !important;
+    width: 500px;
+    height: 300px ;
 
     overflow: hidden;
 
-    background: red;
-
+  background: none;
     z-index: 9999;
+    border-radius: 10px;
 }
 
 @media (max-width: 450px) {
-    #image-slider {
+    .image-slider {
         height: 300px !important;
     }
 }
 
 /* Tất cả ảnh nằm chồng lên nhau */
-#image-slider img {
+.image-slider img {
     position: absolute;
 
     inset: 0;
@@ -1050,6 +1057,16 @@ section.schedule-block {
 .slider-next {
     right: 20px;
 }
+
+/* google map */
+.google-map {
+   width: 500px;
+    height: 300px ;
+border-radius: 10px;
+  box-shadow: 0 4px 12px black;
+}
+
+
 
 /* cho icon vot bong pickle ball  */
 .vot-bong-pickleball{
@@ -1287,7 +1304,7 @@ text-shadow:
 
 
 <!-- đoạn mở cửa style="display:none;"  -->
-<div class="scene" id="main-scene" >
+<div class="scene" id="main-scene">
         
         <!-- Không gian bên trong (Sau khi mở cửa) -->
        
@@ -2294,6 +2311,30 @@ const roundsHTML = createTournamentBracket(cat.rounds, cat.tenDai ? 140 : undefi
 
 <div class="seperate-block"></div>
 
+<section  class="block vua-pha-luoi">
+  <h2 class="table-name">TRAO GIẢI - LIÊN HOAN</h2>
+  <h3 class="table-name">Nhà hàng Bia Thanh Loan - CS3 Số 126 Ngõ 1 Phú Viên, Long Biên</h2> 
+  <div class="grid-container">
+<div class="image-slider">
+    <button class="slider-btn slider-prev" id="slider-prev">
+        ‹
+    </button>
+      <button class="slider-btn slider-next" id="slider-next">
+        ›
+    </button>
+  
+      <img src="https://www.biathanhloan.vn/Uploads/0937605fbd8dcf373c540e7b8503c477/files/1IOCVORPF_70JTNG.jpg" alt="Bia Thanh Loan">
+      <img src="https://www.biathanhloan.vn/Uploads/0937605fbd8dcf373c540e7b8503c477/files/734A46EA-69DA-4DFC-96C2-96090D48C043%20(2).jpg" alt="Bia Thanh Loan">
+      <img src="https://www.biathanhloan.vn/Uploads/0937605fbd8dcf373c540e7b8503c477/files/00B3C491-5328-40F9-9C2C-389190ACD36F%20(1).jpg" alt="Bia Thanh Loan">
+      <img src="https://36foods.vn/wp-content/uploads/2025/03/bia-thanh-loan-san-ho-2.jpg" alt="Bia Thanh Loan">
+
+      
+  </div>
+
+  <iframe class="google-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.8886160421016!2d105.8684444!3d21.037142299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab915241f3d7%3A0xdfa579a208469df4!2zQmlhIFRoYW5oIExvYW4gLSBDczMgc-G7kSAxMjYgbmfDtSAxIFBow7ogVmnDqm4sIExvbmcgQmnDqm4!5e0!3m2!1sen!2s!4v1792729863883!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+</section>
+<div class="seperate-block"></div>
 
 
     <section id="tournament-block-${cat.id}" class="block tournament-block">
@@ -3181,100 +3222,97 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
    
 
-// ScrollTrigger chỉ xử lý pin
-
 
 });
 // đoạn dưới cho image slider 
-// document.addEventListener('DOMContentLoaded', () => {
-//     const slider = document.querySelector('#image-slider');
-//     if (!slider) return;
-//     const images = slider.querySelectorAll('img');
-//     const prevBtn = slider.querySelector('#slider-prev');
-//     const nextBtn = slider.querySelector('#slider-next');
-//     let currentIndex = 0;
-//     let autoSlide;
-//     // =========================
-//     // Khởi tạo
-//     // =========================
-//     gsap.set(images, {
-//         xPercent: 0,
-//         opacity: 0
-//     });
-//     gsap.set(images[0], {
-//         xPercent: 0,
-//         opacity: 1
-//     });
-//     // =========================
-//     // Chuyển ảnh
-//     // =========================
-//     function showSlide(newIndex, direction = 1) {
-//         // vòng lại
-//         if (newIndex >= images.length) {
-//             newIndex = 0;
-//         }
-//         if (newIndex < 0) {
-//             newIndex = images.length - 1;
-//         }
-//         if (newIndex === currentIndex) return;
-//         const currentImage = images[currentIndex];
-//         const nextImage = images[newIndex];
-//         // Dừng animation đang chạy nếu người dùng bấm liên tục
-//         gsap.killTweensOf([currentImage, nextImage]);
-//         // Ảnh mới nằm ngoài màn hình
-//         gsap.set(nextImage, {
-//             xPercent: direction > 0 ? 100 : -100,
-//             opacity: 1
-//         });
-//         // Ảnh hiện tại trượt ra
-//         gsap.to(currentImage, {
-//             xPercent: direction > 0 ? -100 : 100,
-//             duration: 0.8,
-//             ease: "power2.inOut"
-//         });
-//         // Ảnh mới trượt vào
-//         gsap.to(nextImage, {
-//             xPercent: 0,
-//             duration: 0.8,
-//             ease: "power2.inOut"
-//         });
-//         currentIndex = newIndex;
-//     }
-//     // =========================
-//     // Next
-//     // =========================
-//     function nextSlide() {
-//         showSlide(currentIndex + 1, 1);
-//         resetAutoSlide();
-//     }
-//     // =========================
-//     // Previous
-//     // =========================
-//     function prevSlide() {
-//         showSlide(currentIndex - 1, -1);
-//         resetAutoSlide();
-//     }
-//     // =========================
-//     // Auto 5 giây
-//     // =========================
-//     function resetAutoSlide() {
-//         clearTimeout(autoSlide);
-//         autoSlide = setTimeout(() => {
-//             showSlide(currentIndex + 1, 1);
-//             resetAutoSlide();
-//         }, 5000);
-//     }
-//     // =========================
-//     // Button
-//     // =========================
-//     nextBtn.addEventListener('click', nextSlide);
-//     prevBtn.addEventListener('click', prevSlide);
-//     // =========================
-//     // Start
-//     // =========================
-//     resetAutoSlide();
 
-// });
+document.addEventListener('DOMContentLoaded', () => {
+    const sliders = document.querySelectorAll('.image-slider');
+    if (!sliders.length) return;
+
+    sliders.forEach(slider => {
+        const images = slider.querySelectorAll('img');
+        const prevBtn = slider.querySelector('.slider-prev');
+        const nextBtn = slider.querySelector('.slider-next');
+
+        if (!images.length || !prevBtn || !nextBtn) return;
+
+        let currentIndex = 0;
+        let autoSlide;
+
+        // Khởi tạo
+        gsap.set(images, {
+            xPercent: 0,
+            opacity: 0
+        });
+
+        gsap.set(images[0], {
+            xPercent: 0,
+            opacity: 1
+        });
+
+        // Chuyển ảnh
+        function showSlide(newIndex, direction = 1) {
+            if (newIndex >= images.length) newIndex = 0;
+            if (newIndex < 0) newIndex = images.length - 1;
+            if (newIndex === currentIndex) return;
+
+            const currentImage = images[currentIndex];
+            const nextImage = images[newIndex];
+
+            gsap.killTweensOf([currentImage, nextImage]);
+            
+            const tl = gsap.timeline();
+
+            tl.set(nextImage, {
+                xPercent: direction > 0 ? 100 : -100,
+                opacity: 1
+            })
+            .to(currentImage, {
+                xPercent: direction > 0 ? -100 : 100,
+                duration: 0.8,
+                ease: 'power2.inOut'
+            })
+            .to(nextImage, {
+                xPercent: 0,
+                duration: 0.8,
+                ease: 'power2.inOut'
+            },"<");
+
+            currentIndex = newIndex;
+        }
+
+        // Next
+        function nextSlide() {
+            showSlide(currentIndex + 1, 1);
+            resetAutoSlide();
+        }
+
+        // Previous
+        function prevSlide() {
+            showSlide(currentIndex - 1, -1);
+            resetAutoSlide();
+        }
+
+        // Tự chuyển ảnh sau 5 giây
+        function resetAutoSlide() {
+            clearTimeout(autoSlide);
+
+            autoSlide = setTimeout(() => {
+                showSlide(currentIndex + 1, 1);
+                resetAutoSlide();
+            }, 5000);
+        }
+
+        // Button
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        // Start
+        resetAutoSlide();
+    });
+});
+
 
 // đoạn cho icon 
 document.addEventListener('DOMContentLoaded', () => {
