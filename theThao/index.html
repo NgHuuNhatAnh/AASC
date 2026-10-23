@@ -1304,7 +1304,7 @@ text-shadow:
 
 
 <!-- đoạn mở cửa style="display:none;"  -->
-<div class="scene" id="main-scene">
+<div class="scene" id="main-scene" >
         
         <!-- Không gian bên trong (Sau khi mở cửa) -->
        
@@ -3239,7 +3239,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let currentIndex = 0;
         let autoSlide;
-
+        let tl = null
         // Khởi tạo
         gsap.set(images, {
             xPercent: 0,
@@ -3252,35 +3252,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Chuyển ảnh
-        function showSlide(newIndex, direction = 1) {
-            if (newIndex >= images.length) newIndex = 0;
-            if (newIndex < 0) newIndex = images.length - 1;
-            if (newIndex === currentIndex) return;
+       function showSlide(newIndex, direction = 1) {
+    if (newIndex >= images.length) newIndex = 0;
+    if (newIndex < 0) newIndex = images.length - 1;
+    if (newIndex === currentIndex) return;
 
-            const currentImage = images[currentIndex];
-            const nextImage = images[newIndex];
+    const currentImage = images[currentIndex];
+    const nextImage = images[newIndex];
 
-            gsap.killTweensOf([currentImage, nextImage]);
-            
-            const tl = gsap.timeline();
-
-            tl.set(nextImage, {
+    if (tl && tl.isActive()) {
+        // Timeline đang chạy: nối animation mới vào cuối
+        tl.call(() => {
+            gsap.set(nextImage, {
                 xPercent: direction > 0 ? 100 : -100,
                 opacity: 1
-            })
-            .to(currentImage, {
-                xPercent: direction > 0 ? -100 : 100,
-                duration: 0.8,
-                ease: 'power2.inOut'
-            })
-            .to(nextImage, {
-                xPercent: 0,
-                duration: 0.8,
-                ease: 'power2.inOut'
-            },"<");
+            });
+        });
 
-            currentIndex = newIndex;
-        }
+        tl.to(currentImage, {
+            xPercent: direction > 0 ? -100 : 100,
+            duration: 0.8,
+            ease: 'power2.inOut'
+        });
+
+
+        tl.to(nextImage, {
+            xPercent: 0,
+            duration: 0.8,
+            ease: 'power2.inOut'
+        }, '<');
+
+    } else {
+        // Không có timeline đang chạy: tạo timeline mới
+        tl = gsap.timeline({
+            onComplete: () => {
+                tl = null;
+            }
+        });
+
+        tl.set(currentImage, {
+            xPercent: 0,
+            opacity: 1
+        })
+        .set(nextImage, {
+            xPercent: direction > 0 ? 100 : -100,
+            opacity: 1
+        })
+        .to(currentImage, {
+            xPercent: direction > 0 ? -100 : 100,
+            duration: 0.8,
+            ease: 'power2.inOut'
+        })
+        .to(nextImage, {
+            xPercent: 0,
+            duration: 0.8,
+            ease: 'power2.inOut'
+        }, '<');
+    }
+
+    currentIndex = newIndex;
+}
 
         // Next
         function nextSlide() {
